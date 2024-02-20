@@ -15,4 +15,6 @@ public interface UserService {
     void updateUser(UserEntity user, Long userid);
 
     void deleteUseryId(Long userId);
+
+    public int getCount();
 }

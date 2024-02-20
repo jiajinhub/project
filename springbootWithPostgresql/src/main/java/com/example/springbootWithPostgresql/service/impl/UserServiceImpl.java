@@ -58,4 +58,12 @@ public class UserServiceImpl implements UserService {
         else
             throw new RuntimeException("user not found.");
     }
+
+    public int getCount(){
+        int count = 0;
+
+        count = userRepository.getCount();
+
+        return count;
+    }
 }
