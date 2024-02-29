@@ -1,0 +1,68 @@
+package com.example.springbootWithPostgresql.service.impl;
+
+import com.example.springbootWithPostgresql.entity.AccountEntity;
+import com.example.springbootWithPostgresql.entity.UserEntity;
+import com.example.springbootWithPostgresql.repository.AccRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class AccServiceImpl {
+
+    @Autowired
+    private AccRepo accRepo;
+
+
+    public List<AccountEntity> getAllUser() {
+        return accRepo.findAll();
+    }
+
+
+    public AccountEntity getUserById(Long userId) {
+        Optional<AccountEntity> userOpt = accRepo.findById(userId);
+        if(userOpt.isPresent())
+            return userOpt.get();
+        else
+            throw new RuntimeException("user not found.");
+    }
+
+
+    public void saveUser(AccountEntity user) {
+        AccountEntity userDetail = accRepo.save(user);
+        System.out.println("user saved to db with userId : " + userDetail.getUserId());
+    }
+
+    public void updateUser(AccountEntity user, Long userId) {
+        Optional<AccountEntity> userDetailOpt = accRepo.findById(userId);
+        if(userDetailOpt.isPresent()){
+            AccountEntity userDetail = userDetailOpt.get();
+            if(user.getEmail() != null || user.getEmail().isEmpty())
+                userDetail.setEmail(user.getEmail());
+            if(user.getPassword() != null || user.getPassword().isEmpty())
+                userDetail.setPassword(user.getPassword());
+            accRepo.save(userDetail);
+        }else{
+            throw new RuntimeException("user not found.");
+        }
+    }
+
+    public void deleteUseryId(Long userId) {
+        Optional<AccountEntity> userOpt = accRepo.findById(userId);
+        if(userOpt.isPresent())
+            accRepo.deleteById(userId);
+        else
+            throw new RuntimeException("user not found.");
+    }
+
+
+    public int getCount(){
+        int count = 0;
+
+        count = accRepo.getCount();
+
+        return count;
+    }
+}
