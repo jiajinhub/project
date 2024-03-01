@@ -1,7 +1,6 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
-import com.example.springbootWithPostgresql.entity.UserEntity;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,7 @@ public class AccServiceImpl {
         return affectedData;
     }
 
-    public void deleteUseryId(Long userId) {
+    public void deleteUserId(Long userId) {
         Optional<AccountEntity> userOpt = accRepo.findById(userId);
         if(userOpt.isPresent())
             accRepo.deleteById(userId);

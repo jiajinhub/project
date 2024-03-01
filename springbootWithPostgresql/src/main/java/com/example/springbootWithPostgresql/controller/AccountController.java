@@ -36,14 +36,16 @@ public class AccountController {
         return accService.getUserById(requestBody.get("userID"));
     }
 
-    @RequestMapping("update")
+    @RequestMapping("updateAccount")
     public AccountEntity update(@RequestBody AccountEntity update){
         AccountEntity affectedRow;
         affectedRow = accService.updateUser(update);
         return affectedRow;
     }
 
-    @RequestMapping("delete")
-
+    @RequestMapping("deleteAccount")
+    public void deleteAccount(@RequestBody Map<String, Long> requestBody){
+        accService.deleteUserId(requestBody.get("userID"));
+    }
 
 }
