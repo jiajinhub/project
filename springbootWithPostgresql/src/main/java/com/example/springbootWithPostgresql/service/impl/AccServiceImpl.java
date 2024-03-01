@@ -35,18 +35,20 @@ public class AccServiceImpl {
         System.out.println("user saved to db with userId : " + userDetail.getUserId());
     }
 
-    public void updateUser(AccountEntity user, Long userId) {
-        Optional<AccountEntity> userDetailOpt = accRepo.findById(userId);
+    public AccountEntity updateUser(AccountEntity user) {
+        AccountEntity affectedData;
+        Optional<AccountEntity> userDetailOpt = accRepo.findById(user.getUserId());
         if(userDetailOpt.isPresent()){
             AccountEntity userDetail = userDetailOpt.get();
             if(user.getEmail() != null || user.getEmail().isEmpty())
                 userDetail.setEmail(user.getEmail());
             if(user.getPassword() != null || user.getPassword().isEmpty())
                 userDetail.setPassword(user.getPassword());
-            accRepo.save(userDetail);
+            affectedData = accRepo.save(userDetail);
         }else{
             throw new RuntimeException("user not found.");
         }
+        return affectedData;
     }
 
     public void deleteUseryId(Long userId) {

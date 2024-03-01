@@ -36,4 +36,14 @@ public class AccountController {
         return accService.getUserById(requestBody.get("userID"));
     }
 
+    @RequestMapping("update")
+    public AccountEntity update(@RequestBody AccountEntity update){
+        AccountEntity affectedRow;
+        affectedRow = accService.updateUser(update);
+        return affectedRow;
+    }
+
+    @RequestMapping("delete")
+
+
 }
