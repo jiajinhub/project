@@ -18,7 +18,7 @@ public class AccountController {
     @Autowired
     AccServiceImpl accService;
 
-    @RequestMapping("Retrieve")
+    @RequestMapping(value = "retrieve", method = RequestMethod.GET)
     public List<AccountEntity> getAllAccount(){
         List<AccountEntity> users = accService.getAllUser();
         System.out.println("users : "+users);
@@ -36,7 +36,7 @@ public class AccountController {
         return accService.getUserById(requestBody.get("userID"));
     }
 
-    @RequestMapping("updateAccount")
+    @PostMapping("updateAccount")
     public AccountEntity update(@RequestBody AccountEntity update){
         AccountEntity affectedRow;
         affectedRow = accService.updateUser(update);
@@ -46,6 +46,11 @@ public class AccountController {
     @RequestMapping("deleteAccount")
     public void deleteAccount(@RequestBody Map<String, Long> requestBody){
         accService.deleteUserId(requestBody.get("userID"));
+    }
+
+    @GetMapping("testCount")
+    public int testCount(){
+        return accService.getCount();
     }
 
 }

@@ -13,3 +13,15 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gradproj28@gmail.com
+    password: asdk qfxb xsrn wbfp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
