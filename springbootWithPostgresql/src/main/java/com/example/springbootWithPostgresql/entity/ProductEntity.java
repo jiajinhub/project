@@ -1,15 +1,23 @@
 package com.example.springbootWithPostgresql.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "product", schema = "public")
 public class ProductEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int productId;
+
+    @Column
     private String name;
+
+    @Column
     private Date expiryDate;
+
+    @Column
     private int listId;
 
     public int getProductId() {
