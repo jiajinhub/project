@@ -8,6 +8,7 @@ const sass = require('sass');
 
 const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
+const environment = require('./environment.js');
 
 const ENV = 'development';
 
@@ -101,6 +102,9 @@ module.exports = async options =>
       new WebpackNotifierPlugin({
         title: 'Jhip FE',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
+      }),
+      new webpack.DefinePlugin({
+        BACKEND_SERVER_API_URL: JSON.stringify(environment.BACKEND_BASE_URL),
       }),
     ].filter(Boolean),
   });
