@@ -2,12 +2,14 @@ import axios from 'axios';
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { serializeAxiosError } from './reducer.utils';
+import { API_GET_ACCOUNT_BY_ID } from 'app/config/constants/api-endpoints';
 
 const initialState = {
   ribbonEnv: '',
   inProduction: true,
   isOpenAPIEnabled: false,
 };
+const apiUrl = 'account';
 
 export type ApplicationProfileState = Readonly<typeof initialState>;
 

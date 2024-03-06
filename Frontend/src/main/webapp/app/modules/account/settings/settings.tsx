@@ -6,14 +6,17 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
+import { getAccountById } from './userDetails.reducer';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const successMessage = useAppSelector(state => state.settings.successMessage);
+  const user = useAppSelector(state => state.userDetails);
 
   useEffect(() => {
-    dispatch(getSession());
+    // dispatch(getSession());
+    dispatch(getAccountById(1));
     return () => {
       dispatch(reset());
     };
@@ -41,7 +44,7 @@ export const SettingsPage = () => {
           <h2 id="settings-title">
             User settings for [<strong>{account.login}</strong>]
           </h2>
-          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
+          {/* <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
               name="firstName"
               label="First Name"
@@ -82,7 +85,17 @@ export const SettingsPage = () => {
             <Button color="primary" type="submit" data-cy="submit">
               Save
             </Button>
-          </ValidatedForm>
+          </ValidatedForm> */}
+
+          <Row>
+          User ID: {user.userId}
+          </Row>
+          <Row>
+          Email: {user.email}
+          </Row>
+          <Row>
+          Password: {user.password}
+          </Row>
         </Col>
       </Row>
     </div>
