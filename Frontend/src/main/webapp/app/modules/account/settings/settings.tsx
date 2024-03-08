@@ -91,9 +91,7 @@ export const SettingsPage = () => {
           </Row>
           <Row>{user.email}</Row>
           <br/>
-          <Row>
-            <a href="">Change Password</a>
-          </Row>
+          <Row>Change Password</Row>
         </Col>
       </Row>
     </div>
