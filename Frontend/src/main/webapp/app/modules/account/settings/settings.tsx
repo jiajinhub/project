@@ -42,7 +42,7 @@ export const SettingsPage = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
-            User settings for [<strong>{account.login}</strong>]
+            Settings
           </h2>
           {/* <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
@@ -87,14 +87,12 @@ export const SettingsPage = () => {
             </Button>
           </ValidatedForm> */}
 
-          <Row>
-          User ID: {user.userId}
+          <Row> Email Address
           </Row>
+          <Row>{user.email}</Row>
+          <br/>
           <Row>
-          Email: {user.email}
-          </Row>
-          <Row>
-          Password: {user.password}
+            <a href="">Change Password</a>
           </Row>
         </Col>
       </Row>
