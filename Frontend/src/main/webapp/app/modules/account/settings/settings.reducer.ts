@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getSession } from 'app/shared/reducers/authentication';
+//import { getSession } from 'app/shared/reducers/authentication';
 import { AppThunk } from 'app/config/store';
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 const initialState = {
@@ -20,7 +20,7 @@ const apiUrl = 'account';
 export const saveAccountSettings: (account: any) => AppThunk = account => async dispatch => {
   await dispatch(updateAccount(account));
 
-  dispatch(getSession());
+  //dispatch(getSession());
 };
 
 export const updateAccount = createAsyncThunk('settings/update_account', async (account: any) => axios.post<any>(apiUrl, account), {

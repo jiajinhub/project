@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
+//import { getSession } from 'app/shared/reducers/authentication';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { savePassword, reset } from './password.reducer';
 
@@ -14,7 +14,7 @@ export const PasswordPage = () => {
 
   useEffect(() => {
     dispatch(reset());
-    dispatch(getSession());
+    //dispatch(getSession());
     return () => {
       dispatch(reset());
     };

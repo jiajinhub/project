@@ -7,13 +7,13 @@ import { type FieldError, useForm } from 'react-hook-form';
 export interface ILoginModalProps {
   showModal: boolean;
   loginError: boolean;
-  handleLogin: (username: string, password: string, rememberMe: boolean) => void;
+  handleLogin: (email: string, password: string, rememberMe: boolean) => void;
   handleClose: () => void;
 }
 
 const LoginModal = (props: ILoginModalProps) => {
-  const login = ({ username, password, rememberMe }) => {
-    props.handleLogin(username, password, rememberMe);
+  const login = ({ email, password, rememberMe }) => {
+    props.handleLogin(email, password, rememberMe);
   };
 
   const {
@@ -45,16 +45,16 @@ const LoginModal = (props: ILoginModalProps) => {
             </Col>
             <Col md="12">
               <ValidatedField
-                name="username"
-                label="Username"
-                placeholder="Your username"
+                name="email"
+                label="Email Address"
+                placeholder="Your email address (e.g xxx@gmail.com)"
                 required
                 autoFocus
-                data-cy="username"
-                validate={{ required: 'Username cannot be empty!' }}
+                data-cy="email"
+                validate={{ required: 'Email Address cannot be empty!' }}
                 register={register}
-                error={errors.username as FieldError}
-                isTouched={touchedFields.username}
+                error={errors.email as FieldError}
+                isTouched={touchedFields.email}
               />
               <ValidatedField
                 name="password"
@@ -68,7 +68,7 @@ const LoginModal = (props: ILoginModalProps) => {
                 error={errors.password as FieldError}
                 isTouched={touchedFields.password}
               />
-              <ValidatedField name="rememberMe" type="checkbox" check label="Remember me" value={true} register={register} />
+              {/* <ValidatedField name="rememberMe" type="checkbox" check label="Remember me" value={true} register={register} /> */}
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>

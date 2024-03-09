@@ -1,6 +1,6 @@
 import './home.scss';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Row, Col, Alert } from 'reactstrap';
@@ -8,7 +8,14 @@ import { Row, Col, Alert } from 'reactstrap';
 import { useAppSelector } from 'app/config/store';
 
 export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
+  // const account = useAppSelector(state => state.authentication.account);
+  const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
+
+  useEffect(() => {
+    //setShowModal(true);
+    //dispatch(getAccount({ controller })); for debug remove last
+    console.log('🚀 ~ Home ~ isAuthenticated:', isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <Row>
@@ -18,9 +25,9 @@ export const Home = () => {
       <Col md="9">
         <h1 className="display-4">Welcome, Java Hipster!</h1>
         <p className="lead">This is your homepage</p>
-        {account?.login ? (
+        {isAuthenticated ? (
           <div>
-            <Alert color="success">You are logged in as user &quot;{account.login}&quot;.</Alert>
+            <Alert color="success">You are logged in</Alert>
           </div>
         ) : (
           <div>

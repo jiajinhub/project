@@ -4,13 +4,15 @@ import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
+//import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 import { getAccountById } from './userDetails.reducer';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
-  const account = useAppSelector(state => state.authentication.account);
+  //const account = useAppSelector(state => state.authentication.account);
+  const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
+  const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const successMessage = useAppSelector(state => state.settings.successMessage);
   const user = useAppSelector(state => state.userDetails);
 
@@ -31,7 +33,7 @@ export const SettingsPage = () => {
   const handleValidSubmit = values => {
     dispatch(
       saveAccountSettings({
-        ...account,
+        ...isAuthenticated,
         ...values,
       }),
     );
@@ -42,7 +44,7 @@ export const SettingsPage = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
-            User settings for [<strong>{account.login}</strong>]
+            User settings for [<strong>{loginUserDetails.email}</strong>]
           </h2>
           {/* <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
@@ -87,15 +89,9 @@ export const SettingsPage = () => {
             </Button>
           </ValidatedForm> */}
 
-          <Row>
-          User ID: {user.userId}
-          </Row>
-          <Row>
-          Email: {user.email}
-          </Row>
-          <Row>
-          Password: {user.password}
-          </Row>
+          <Row>User ID: {user.userId}</Row>
+          <Row>Email: {user.email}</Row>
+          <Row>Password: {user.password}</Row>
         </Col>
       </Row>
     </div>
