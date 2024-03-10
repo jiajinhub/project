@@ -1,6 +1,7 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 
+import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.repository.ProdRepo;
 import jdk.jfr.Enabled;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ProdService {
@@ -19,6 +21,9 @@ public class ProdService {
     @Autowired
     EmailService emailService;
 
+    public List<ProductEntity> getAllUser() {
+        return prodRepo.findAll();
+    }
     @Scheduled(fixedRate = 60000)
     public void sendEmail(){
 
