@@ -2,7 +2,6 @@ package com.example.springbootWithPostgresql.controller;
 
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
-import com.example.springbootWithPostgresql.entity.UserEntity;
 import com.example.springbootWithPostgresql.service.impl.AccServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -92,6 +92,8 @@ export const SettingsPage = () => {
           <Row>{user.email}</Row>
           <br/>
           <Row>Change Password</Row>
+          <br/><br/>
+          temporarily adding a toggle button for theme: 
         </Col>
       </Row>
     </div>
