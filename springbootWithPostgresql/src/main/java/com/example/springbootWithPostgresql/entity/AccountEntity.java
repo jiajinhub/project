@@ -2,6 +2,7 @@ package com.example.springbootWithPostgresql.entity;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account", schema = "public")
@@ -50,4 +51,20 @@ public class AccountEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    // to help with test cases and comparing same records
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountEntity that = (AccountEntity) o;
+        return Objects.equals(userId, that.userId) && Objects.equals(email, that.email) && Objects.equals(password, that.password);
+    }
+
+    // to help with test cases and comparing same records
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, email, password);
+    }
+
 }
