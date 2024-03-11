@@ -58,7 +58,6 @@ public class AccServiceImpl {
             throw new RuntimeException("user not found.");
     }
 
-
     public int getCount(){
         int count = 0;
 
@@ -66,4 +65,9 @@ public class AccServiceImpl {
 
         return count;
     }
+
+    public AccountEntity getAccountByEmail(String email){
+        return accRepo.getAccountByEmail(email);
+    }
+
 }

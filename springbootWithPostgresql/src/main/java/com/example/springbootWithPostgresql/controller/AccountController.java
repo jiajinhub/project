@@ -1,9 +1,11 @@
 package com.example.springbootWithPostgresql.controller;
 
-
 import com.example.springbootWithPostgresql.entity.AccountEntity;
+import com.example.springbootWithPostgresql.entity.AccountRequestEntity;
 import com.example.springbootWithPostgresql.service.impl.AccServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,4 +54,26 @@ public class AccountController {
         return accService.getCount();
     }
 
+    //@PostMapping("authenticate")
+    //public void authorize(String Username, String password) {
+
+    //if(Username == db.username && password == db.password){
+    //return ok
+    //}
+        //return accService.getCount();
+    //}
+
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AccountEntity> authorize(@RequestBody AccountRequestEntity accountRequest) {
+                String email = accountRequest.getEmail();
+        String pass = accountRequest.getPassword();
+        //AccountEntity account = accService.getUserById(Long.parseLong(username));
+        AccountEntity account = accService.getAccountByEmail(email);
+        if(account!=null && pass.equals(account.getPassword())){
+            return ResponseEntity.ok(account);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountEntity());
+        }
+    }
 }

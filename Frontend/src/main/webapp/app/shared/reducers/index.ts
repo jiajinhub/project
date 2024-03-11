@@ -10,12 +10,14 @@ import settings from 'app/modules/account/settings/settings.reducer';
 import passwordReset from 'app/modules/account/password-reset/password-reset.reducer';
 import entitiesReducers from 'app/entities/reducers';
 import applicationProfile from './application-profile';
-import authentication from './authentication';
-import userDetails from 'app/modules/account/settings/userDetails.reducer'
+//import authentication from './authentication';
+import account from '../../modules/login/login.reducer';
+import userDetails from 'app/modules/account/settings/userDetails.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const rootReducer: ReducersMapObject = {
-  authentication,
+  //authentication,
+  account,
   applicationProfile,
   administration,
   userManagement,
