@@ -1,39 +1,43 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 //import { getSession } from 'app/shared/reducers/authentication';
 import { AppThunk } from 'app/config/store';
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
-import { API_GET_ACCOUNT_BY_ID } from 'app/config/constants/api-endpoints';
+import { API_URL, API_GET_ACCOUNT_BY_ID } from 'app/config/constants/api-endpoints';
 
 const userState = {
   userId: null,
   email: null,
 };
 
-// Actions
-const apiUrl = 'account';
-
 export const viewAccount: (userID) => AppThunk = userID => async dispatch => {
   await dispatch(getAccountById(userID));
   //dispatch(getSession());
 };
 
-export const getAccountById = createAsyncThunk(
-  API_GET_ACCOUNT_BY_ID,
-  async (userID: any) =>
-    axios
-      .create({
-        baseURL: 'http://localhost:8080/', // Base URL of your Java backend
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .post<any>(`${apiUrl}/${API_GET_ACCOUNT_BY_ID}`, { userID }),
-  {
-    serializeError: serializeAxiosError,
-  },
-);
+export type UserReducerType = {
+  userID?: number,
+  controller?: AbortController;
+};
+
+
+export const getAccountById = createAsyncThunk('account/authenticate', async ({ userID, controller }: UserReducerType, thunkAPI: any) => {
+  //await thunkAPI.dispatch(closeMessage());
+
+  const response: AxiosResponse<any> = await axios.post<any>(`${API_URL}${API_GET_ACCOUNT_BY_ID}`, userID, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: controller.signal,
+  });
+
+  if (response?.status === 200) {
+    return response;
+  } else {
+    //await thunkAPI.dispatch(errorMessage({ message: response?.data?.error?.description }));
+    return thunkAPI.rejectWithValue('Error calling authenticate');
+  }
+});
 
 export const UserDetailsSlice = createSlice({
   name: 'userDetails',

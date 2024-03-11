@@ -20,7 +20,7 @@ class AccountUnitTests {
     }
 
     @Test
-    void givenUserExists_whenUserIsRetrieved_thenReturnUser(){
+    void givenUserExists_whenUserIsRetrieved_thenReturnUser() {
         AccountEntity user = accService.getUserById(1L);
         System.out.println(user.toString());
         System.out.println(accService.getUserById(1L).toString());
@@ -28,11 +28,8 @@ class AccountUnitTests {
     }
 
     @Test
-    void givenUserDoesntExist_whenNonExistingUserIdIsRetrieved_thenReturnRunTimeException(){
+    void givenUserDoesntExist_whenNonExistingUserIdIsRetrieved_thenReturnRunTimeException() {
         assertThrows(RuntimeException.class, () -> accService.getUserById(9L));
     }
-
-
-
 
 }

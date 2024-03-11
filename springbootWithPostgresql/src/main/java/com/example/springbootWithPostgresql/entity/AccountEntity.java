@@ -52,19 +52,20 @@ public class AccountEntity {
         this.password = password;
     }
 
-    // to help with test cases and comparing same records
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AccountEntity that = (AccountEntity) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(email, that.email) && Objects.equals(password, that.password);
+        if (o == this)
+            return true;
+        if (!(o instanceof AccountEntity)) {
+            return false;
+        }
+        AccountEntity accountEntity = (AccountEntity) o;
+        return Objects.equals(userId, accountEntity.userId) && Objects.equals(email, accountEntity.email) && Objects.equals(password, accountEntity.password);
     }
 
-    // to help with test cases and comparing same records
     @Override
     public int hashCode() {
         return Objects.hash(userId, email, password);
     }
-
+    
 }

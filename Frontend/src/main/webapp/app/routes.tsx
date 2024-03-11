@@ -34,7 +34,6 @@ const AppRoutes = () => {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="logout" element={<Logout />} />
-        <Route path="settings" element={<Settings />} />
         <Route path="account">
           <Route
             path="*"
