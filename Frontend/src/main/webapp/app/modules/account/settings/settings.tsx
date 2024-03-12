@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import React, { useEffect, useState} from 'react';
+import { Col, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-//import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
-import { getAccountById } from './userDetails.reducer';
+import Switch from '../../../shared/common/toggle-switch';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
-  //const account = useAppSelector(state => state.authentication.account);
   const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
   const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const successMessage = useAppSelector(state => state.settings.successMessage);
-  const user = useAppSelector(state => state.userDetails);
+ // const user = useAppSelector(state => state.userDetails);
+
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
 
   useEffect(() => {
-    // dispatch(getSession());
     return () => {
       dispatch(reset());
     };
@@ -28,15 +31,6 @@ export const SettingsPage = () => {
       toast.success(successMessage);
     }
   }, [successMessage]);
-
-  const handleValidSubmit = values => {
-    dispatch(
-      saveAccountSettings({
-        ...isAuthenticated,
-        ...values,
-      }),
-    );
-  };
 
   return (
     <div>
@@ -92,6 +86,11 @@ export const SettingsPage = () => {
 
           <br/><br/>
           <Row>Change Password</Row>
+          <div className={isDarkMode ? 'dark-mode' : 'light-mode'}>
+      <h1>Switch Example</h1>
+      <Switch isOn={isDarkMode} handleToggle={handleToggle} />
+      <p>Dark Mode: {isDarkMode ? 'On' : 'Off'}</p>
+    </div>
         </Col>
       </Row>
     </div>
