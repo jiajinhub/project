@@ -9,7 +9,7 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int productId;
+    private Long productId;
 
     @Column
     private String name;
@@ -20,11 +20,11 @@ public class ProductEntity {
     @Column
     private int listId;
 
-    public int getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
