@@ -18,7 +18,6 @@ export const SettingsPage = () => {
 
   useEffect(() => {
     // dispatch(getSession());
-    dispatch(getAccountById(1));
     return () => {
       dispatch(reset());
     };
@@ -44,7 +43,7 @@ export const SettingsPage = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
-            User settings for [<strong>{loginUserDetails.email}</strong>]
+            Settings
           </h2>
           {/* <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
@@ -88,10 +87,11 @@ export const SettingsPage = () => {
               Save
             </Button>
           </ValidatedForm> */}
+          <Row>Email: </Row>
+          <Row>{loginUserDetails.email}</Row>
 
-          <Row>User ID: {user.userId}</Row>
-          <Row>Email: {user.email}</Row>
-          <Row>Password: {user.password}</Row>
+          <br/><br/>
+          <Row>Change Password</Row>
         </Col>
       </Row>
     </div>
