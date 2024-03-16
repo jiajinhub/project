@@ -31,7 +31,7 @@ public class ProductController {
         prodService.deleteProd(requestBody.get("userID"));
     }
 
-    @RequestMapping(value="updateAccount", method = RequestMethod.POST)
+    @RequestMapping(value="updateProduct", method = RequestMethod.POST)
     public ProductEntity update(@RequestBody ProductEntity updateData){
         ProductEntity affectedRow;
         affectedRow = prodService.updateProd(updateData);
