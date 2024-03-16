@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { saveAccountSettings, reset } from './settings.reducer';
-import Switch from '../../../shared/common/toggle-switch';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -12,12 +11,6 @@ export const SettingsPage = () => {
   const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const successMessage = useAppSelector(state => state.settings.successMessage);
  // const user = useAppSelector(state => state.userDetails);
-
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const handleToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
 
   useEffect(() => {
@@ -33,7 +26,7 @@ export const SettingsPage = () => {
   }, [successMessage]);
 
   return (
-    <div>
+    <div className="component">
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
@@ -86,11 +79,6 @@ export const SettingsPage = () => {
 
           <br/><br/>
           <Row>Change Password</Row>
-          <div className={isDarkMode ? 'dark-mode' : 'light-mode'}>
-      <h1>Switch Example</h1>
-      <Switch isOn={isDarkMode} handleToggle={handleToggle} />
-      <p>Dark Mode: {isDarkMode ? 'On' : 'Off'}</p>
-    </div>
         </Col>
       </Row>
     </div>

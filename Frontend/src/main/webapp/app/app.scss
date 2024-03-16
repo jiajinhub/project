@@ -4,9 +4,27 @@
 // Import Bootstrap source files from node_modules
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch/dist/simplex/bootswatch';
-body {
-  margin: 0;
+:root{
+  --body_background: #F3F3FF;
+  --body_color: black;
 }
+
+[data-theme="dark"]{
+  --body_background: #14110F;
+  --body_color: white;
+}
+
+[data-theme="light"]{
+  --body_background: #F3F3FF;
+  --body_color: black;
+}
+
+body, .component, .jh-card{
+  margin: 0;
+  background-color: var(--body_background);
+  color: var(--body_color);
+}
+
 
 a {
   color: #533f03;
@@ -21,6 +39,7 @@ a {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
+  transition: all 0.2 ease-in-out;
 }
 
 .app-container {
@@ -383,3 +402,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+

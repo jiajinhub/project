@@ -2,9 +2,13 @@ import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
 
 import { NavDropdown } from './menu-components';
+import Switch from 'app/shared/common/toggle-theme/toggle-switch';
 
 const accountMenuItemsAuthenticated = () => (
   <>
+    <MenuItem icon="cog" data-cy="theme">
+      <Switch />
+    </MenuItem>
     <MenuItem icon="wrench" to="/account/settings" data-cy="settings">
       Settings
     </MenuItem>
