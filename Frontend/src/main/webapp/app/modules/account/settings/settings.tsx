@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import React, { useEffect, useState} from 'react';
+import { Col, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-//import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
-import { getAccountById } from './userDetails.reducer';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
-  //const account = useAppSelector(state => state.authentication.account);
   const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
   const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const successMessage = useAppSelector(state => state.settings.successMessage);
-  const user = useAppSelector(state => state.userDetails);
+ // const user = useAppSelector(state => state.userDetails);
+
 
   useEffect(() => {
-    // dispatch(getSession());
     return () => {
       dispatch(reset());
     };
@@ -29,17 +25,8 @@ export const SettingsPage = () => {
     }
   }, [successMessage]);
 
-  const handleValidSubmit = values => {
-    dispatch(
-      saveAccountSettings({
-        ...isAuthenticated,
-        ...values,
-      }),
-    );
-  };
-
   return (
-    <div>
+    <div className="component">
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">

@@ -5,6 +5,22 @@ $header-color-hover: darken($header-color, 20%);
 /* ==========================================================================
 Development Ribbon
 ========================================================================== */
+
+:root{
+  --header_background: #34312D;
+  --header_color: black;
+}
+
+[data-theme="dark"]{
+  --header-color: #fff;
+  --header-color-secondary: #bbb;
+}
+
+[data-theme="light"]{
+  --header_background: #34312D;
+  --header_color: black;
+}
+
 .ribbon {
   background-color: rgba(170, 0, 0, 0.5);
   left: -3.5em;
@@ -48,7 +64,7 @@ Navbar styles
 
 .navbar-version {
   font-size: 0.65em;
-  color: $header-color-secondary;
+  color: var(--header-color-secondary);
   padding: 0 0 0 10px;
 }
 
@@ -69,7 +85,7 @@ Navbar styles
 .brand-title {
   font-size: 1.25rem;
   margin-left: 0.25rem;
-  color: $header-color;
+  color: var(--header-color);
   &:hover {
     color: $header-color-hover;
     text-decoration: none;
