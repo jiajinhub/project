@@ -13,6 +13,7 @@ import applicationProfile from './application-profile';
 //import authentication from './authentication';
 import account from '../../modules/login/login.reducer';
 import userDetails from 'app/modules/account/settings/userDetails.reducer';
+import product from '../../modules/product/create-product.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const rootReducer: ReducersMapObject = {
@@ -28,6 +29,7 @@ const rootReducer: ReducersMapObject = {
   settings,
   loadingBar,
   userDetails,
+  product,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   ...entitiesReducers,
 };
