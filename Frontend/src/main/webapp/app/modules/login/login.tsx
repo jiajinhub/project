@@ -34,8 +34,8 @@ export const Login = () => {
     //for debug remove last
     //userId: 1, email: 'example1@example.com', password: 'password124'
     const auth: AccountDataType = {
-      email: 'example1@example.com', //email
-      password: 'password124', //password
+      email: email, //email
+      password: password, //password
     };
     console.log('🚀 ~ handleLogin ~ auth:', auth);
     dispatch(authenticate({ auth, controller }));

@@ -29,12 +29,12 @@ const LoginModal = (props: ILoginModalProps) => {
   };
 
   return (
-    <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false}>
+    <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false} >
       <Form onSubmit={handleLoginSubmit}>
-        <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose}>
+        <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose} className='component'>
           Sign in
         </ModalHeader>
-        <ModalBody>
+        <ModalBody className='component'>
           <Row>
             <Col md="12">
               {loginError ? (
@@ -81,7 +81,7 @@ const LoginModal = (props: ILoginModalProps) => {
             <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Register a new account</Link>
           </Alert>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className='component'>
           <Button color="secondary" onClick={handleClose} tabIndex={1}>
             Cancel
           </Button>{' '}

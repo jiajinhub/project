@@ -8,12 +8,22 @@ export const Logout = () => {
   //const logoutUrl = useAppSelector(state => state.authentication.logoutUrl);
   const dispatch = useAppDispatch();
 
+  
+  const setLightMode = () => {
+    document.querySelector("body").setAttribute('data-theme','light');
+    document.querySelector("nav").setAttribute('data-bs-theme','light');
+    document.querySelector("nav").setAttribute('className', 'bg-light');
+    document.querySelector("nav").setAttribute('class', 'bg-light navbar navbar-expand-md navbar-light fixed-top');
+    // localStorage.setItem("selectedTheme", "light");
+  }
+
   useLayoutEffect(() => {
     //dispatch(logout());
     //if (logoutUrl) {
     // window.location.href = logoutUrl;
     //}
     dispatch(reset());
+    setLightMode();
   });
 
   return (

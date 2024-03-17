@@ -25,7 +25,6 @@ body, .component, .jh-card{
   color: var(--body_color);
 }
 
-
 a {
   color: #533f03;
   font-weight: bold;
@@ -339,6 +338,7 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 .switch-container {
   display: flex;
   align-items: center;
+  padding: 0px;
 }
 
 .switch {
