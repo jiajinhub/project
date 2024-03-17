@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:9000", "http://localhost:9001"})
 @RequestMapping("/product")
 public class ProductController {
     @Autowired

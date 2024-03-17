@@ -4,6 +4,7 @@ package com.example.springbootWithPostgresql.service.impl;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.repository.ProdRepo;
 import jdk.jfr.Enabled;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,10 @@ public class ProdService {
         return prodRepo.findAll();
     }
 
-    public void insertProd(ProductEntity prod) {
+    public ProductEntity insertProd(ProductEntity prod) {
         ProductEntity response = prodRepo.save(prod);
         System.out.println("prod saved to db with prodId : " + response.getProductId());
+        return response;
     }
 
     public ProductEntity updateProd(ProductEntity prod) {

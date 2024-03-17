@@ -3,7 +3,8 @@ import { Row } from 'reactstrap';
 
 interface FormInputTextAreaProps {
   value: string;
-  onChange: (value: string) => void;
+  name: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   rows?: number;
   cols?: number;
@@ -11,15 +12,22 @@ interface FormInputTextAreaProps {
 }
 
 const FormInputTextArea = (props: FormInputTextAreaProps) => {
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    props.onChange(event.target.value);
-  };
+  // const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  //   props.onChange(event.target.value);
+  // };
 
   return (
     <label>
       {props.label}
       <Row>
-        <textarea value={props.value} onChange={handleChange} placeholder={props.placeholder} rows={props.rows} cols={props.cols} />
+        <textarea
+          value={props.value}
+          onChange={props.onChange}
+          placeholder={props.placeholder}
+          rows={props.rows}
+          cols={props.cols}
+          name={props.name}
+        />
       </Row>
     </label>
   );

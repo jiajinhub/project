@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Row } from 'reactstrap';
 
 interface Option {
@@ -9,8 +9,9 @@ interface Option {
 interface FormInputDDLProps {
   label: string;
   value: string;
+  name: string;
   options: Option[];
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const FormInputDDL = (props: FormInputDDLProps) => {
@@ -18,7 +19,7 @@ const FormInputDDL = (props: FormInputDDLProps) => {
     <label>
       {props.label}
       <Row>
-        <select value={props.value} onChange={props.onChange}>
+        <select value={props.value} onChange={props.onChange} name={props.name}>
           {props.options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}

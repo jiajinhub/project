@@ -1,80 +1,121 @@
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import FormInputButton from 'app/shared/common/form-input-button';
 import CustomDatePicker from 'app/shared/common/form-input-datepicker';
 import FormInputDDL from 'app/shared/common/form-input-ddl';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputTextArea from 'app/shared/common/form-input-textArea';
-import React, { useState } from 'react';
-import { Button, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Row } from 'reactstrap';
+import { CreateProductDataType, CreateProductReducerType, createProduct } from './create-product.reducer';
 
 export const CreateProduct = () => {
-  //for ddl
+  //TODO: Do code table for this category ***************************
+  //for ddl Category
   const options = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
+    { value: 'Food', label: 'Food' },
+    { value: 'Soap and Detergent', label: 'Soap and Detergent' },
+    { value: 'Fruits', label: 'Fruits' },
+    { value: 'Drinks', label: 'Drinks' },
   ];
 
-  const [value, setValue] = React.useState('fruit');
+  const dispatch = useAppDispatch();
+  const controller = new AbortController();
+  const isCreated = useAppSelector(state => state.product.isCreated);
+  const [value, setValue] = React.useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    category: '',
+    price: '',
+    quantity: '',
+    expiryDate: null,
+    description: '',
+    nutriGrade: '',
+    listId: 1, //hardcode currently, need to wait for grocery list to complete********************
+  });
 
-  const handleChange = event => {
-    setValue(event.target.value);
+  //handle change for textbox and textarea
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  //for textbox
-  const [name, setName] = useState('');
-  const handleNameChange = (value: string) => {
-    setName(value);
-  };
-  const [price, setPrice] = useState('');
-  const handlePriceChange = (value: string) => {
-    setPrice(value);
-  };
-  const [qty, setQty] = useState('');
-  const handleQtyChange = (value: string) => {
-    setQty(value);
+  //handle change for ddl select
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const category = e.target.value;
+    setFormData(prevState => ({
+      ...prevState,
+      category,
+    }));
   };
 
-  //for datepicker
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+  //handle datepicker change
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+    setFormData(prevState => ({
+      ...prevState,
+      expiryDate: date,
+    }));
   };
 
-  //for textarea
-  const [text, setText] = useState('');
-
-  const handleChangetextarea = (value: string) => {
-    setText(value);
+  //handle submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('handle submit button clicked!'); //for debug remove last
+    console.log('Wat is in formData: ', formData); //for debug remove last
+    dispatch(createProduct({ data: formData as CreateProductDataType, controller }));
   };
 
-  //button
-  const handleButtonClick = () => {
-    console.log('create button clicked!');
+  useEffect(() => {
+    if (isCreated) {
+      console.log('product is created successfully!');
+    }
+  }, [isCreated]);
+
+  //for debug remove last
+  //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
+  const customStyle: React.CSSProperties = {
+    backgroundColor: 'blue',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
   };
 
   return (
     <div>
       <h1>Add Inventory</h1>
-      <Row>
-        <FormInputText label="Title" value={name} onChange={handleNameChange} placeholder={'Name'} />
-        <FormInputDDL label="Select an option" options={options} value={value} onChange={handleChange} />
-      </Row>
-      <Row>
-        <FormInputText label="Price" value={price} onChange={handlePriceChange} placeholder={'$SGD'} />
-        <FormInputText label="Quantity" value={qty} onChange={handleQtyChange} />
-      </Row>
-      <Row>
-        <CustomDatePicker
-          label={'ExpiryDate'}
-          selectedDate={selectedDate}
-          onChange={handleDateChange}
-          dateFormat="dd/MM/yyyy"
-          placeholderText="Select a date"
-        />
-        <FormInputTextArea label={'Remarks'} value={text} onChange={handleChangetextarea} placeholder="Enter text..." />
-        <FormInputButton type={'button'} id={'cpButton'} label={'create'} onButtonClick={handleButtonClick} />
-      </Row>
+      <form onSubmit={handleSubmit}>
+        <Row>
+          <FormInputText label="Title" value={formData.name} onChange={handleChange} placeholder={'Name'} name={'name'} />
+          <FormInputDDL label="Category" options={options} value={value} onChange={handleSelectChange} name={'category'} />
+        </Row>
+        <Row>
+          <FormInputText label="Price" value={formData.price} onChange={handleChange} placeholder={'$SGD'} name={'price'} />
+          <FormInputText label="Quantity" value={formData.quantity} onChange={handleChange} name={'quantity'} />
+        </Row>
+        <FormInputText label="NutriGrade" value={formData.nutriGrade} onChange={handleChange} name={'nutriGrade'} />
+        <Row>
+          <CustomDatePicker
+            label={'ExpiryDate'}
+            selectedDate={formData.expiryDate}
+            onChange={handleDateChange}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="Select a date"
+            name={'expiryDate'}
+          />
+          <FormInputTextArea
+            label={'Remarks'}
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Short Description..."
+            name={'description'}
+          />
+          <FormInputButton type={'submit'} id={'submitButton'} label={'create'} btnStyle={customStyle} />
+        </Row>
+      </form>
     </div>
   );
 };

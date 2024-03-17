@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Row } from 'reactstrap';
@@ -9,6 +9,7 @@ interface DatepickerProps {
   dateFormat?: string;
   minDate?: Date;
   maxDate?: Date;
+  name: string;
   placeholderText?: string;
   label: string;
 }
@@ -20,6 +21,7 @@ const CustomDatePicker: React.FC<DatepickerProps> = ({
   dateFormat = 'dd/MM/yyyy',
   minDate,
   maxDate,
+  name,
   placeholderText = 'Select a date',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +38,7 @@ const CustomDatePicker: React.FC<DatepickerProps> = ({
   return (
     <label>
       {label}
+      <br />
       <DatePicker
         selected={selectedDate}
         onChange={onChange}
@@ -46,6 +49,7 @@ const CustomDatePicker: React.FC<DatepickerProps> = ({
         onFocus={toggleDatepicker}
         onBlur={toggleDatepicker}
         open={isOpen}
+        name={name}
       />
       {/* <button onClick={handleTodayClick}>Today</button> */}
     </label>
