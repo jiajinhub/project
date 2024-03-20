@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row, Col, Form } from 'reactstrap';
 import { useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { UserDataType, getAccountById } from 'app/modules/login/login.reducer';
 
 export interface IToggleThemeProps {
   showModal: boolean;
@@ -10,6 +12,12 @@ export interface IToggleThemeProps {
 }
 
 const ThemeUpdateModal = (props: IToggleThemeProps) => {
+  const dispatch = useAppDispatch();
+  const controller = new AbortController();
+  const loginUserDetails = useAppSelector(state => state.account.loginUserDetails)
+  const updatedDetails = useAppSelector(state => state.settings.updatedDetails)
+  const updateErr = useAppSelector(state => state.settings.error)
+  const closeModal = useAppSelector(state => state.settings.closeModal)
   const updateTheme = ({id, email, password, hasdarktheme }) => {
     props.handleUpdate(id, email, password, hasdarktheme);
   };
@@ -19,13 +27,33 @@ const ThemeUpdateModal = (props: IToggleThemeProps) => {
   } = useForm({ mode: 'onTouched' });
 
   const { updateError, handleClose } = props;
-
+  const userID: UserDataType = {
+    userID: loginUserDetails.userId
+  }
+  
   const handleUpdateSubmit = e => {
     handleSubmit(updateTheme)(e);
   };
 
+  useEffect(() => {
+    if (updatedDetails && !updateErr && closeModal) {
+      console.log("TRIGGERED theme modal")
+      handleClose();
+      console.log(updatedDetails);
+      console.log(updateErr);
+      console.log(closeModal);
+
+      dispatch(getAccountById({userID, controller}));
+    }
+  }, [updatedDetails]);
+
+  // useEffect(() => {
+  //   dispatch(reset());
+  // });
+
+
   return (
-    <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="theme-page" autoFocus={false} >
+    <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="theme-page" autoFocus={false}>
       <Form onSubmit={handleUpdateSubmit}>
         <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose} className='component'>
          Confirm deletion

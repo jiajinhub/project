@@ -7,7 +7,7 @@ import axios, { AxiosResponse } from 'axios';
 const initialState = {
   loading: 0 as number,
   error: false,
-  loginUserDetails: {} as string,
+  updatedDetails: {} as string,
   closeModal: false as boolean,
 };
 
@@ -47,7 +47,7 @@ export const updateAcc = createAsyncThunk(
 );
 
 export const AccountUpdateSlice = createSlice({
-  name: 'account',
+  name: 'settings',
   initialState: initialState as UpdateAccountState,
   reducers: {
     reset() {
@@ -63,10 +63,11 @@ export const AccountUpdateSlice = createSlice({
       })
       .addCase(updateAcc.fulfilled, (state, action) => {
         const data = action.payload.data;
-        state.loginUserDetails = data;
+        state.updatedDetails = data;
         state.loading -= 1;
         state.error = false;
         state.closeModal = true;
+        
       })
       .addMatcher(isPending(updateAcc), state => {
         state.loading += 1;
