@@ -1,9 +1,9 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect} from 'react';
 import { Col, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { saveAccountSettings, reset } from './settings.reducer';
+import { reset } from './settings.reducer';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();

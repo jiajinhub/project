@@ -1,35 +1,54 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-//import { getSession } from 'app/shared/reducers/authentication';
-import { AppThunk } from 'app/config/store';
+import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
+import { API_UPDATE_ACCOUNT, API_URL } from 'app/config/constants/api-endpoints';
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import axios, { AxiosResponse } from 'axios';
+
+// Initial state
 const initialState = {
-  loading: false,
-  errorMessage: null,
-  successMessage: null,
-  updateSuccess: false,
-  updateFailure: false,
+  loading: 0 as number,
+  error: false,
+  updatedDetails: {} as string,
+  closeModal: false as boolean,
 };
 
-export type SettingsState = Readonly<typeof initialState>;
+// Data type
+export type UpdateAccountState = Readonly<typeof initialState>;
+export type UpdateAccountDataType = {
+  userId: number;
+  email: string;
+  password: string;
+  hasdarktheme: string;
+};
+export type UpdateAccountReducerType = {
+  data?: UpdateAccountDataType;
+  controller?: AbortController;
+};
 
 // Actions
-const apiUrl = 'account';
+export const updateAcc = createAsyncThunk(
+  'account/updateAccount',
+  async ({ data, controller }: UpdateAccountReducerType, thunkAPI: any) => {
+    //await thunkAPI.dispatch(closeMessage());
 
-export const saveAccountSettings: (account: any) => AppThunk = account => async dispatch => {
-  await dispatch(updateAccount(account));
+    const response: AxiosResponse<any> = await axios.post<any>(`${API_URL}${API_UPDATE_ACCOUNT}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
 
-  //dispatch(getSession());
-};
+    if (response?.status === 200) {
+      return response;
+    } else {
+      //await thunkAPI.dispatch(errorMessage({ message: response?.data?.error?.description }));
+      return thunkAPI.rejectWithValue('Error calling updateAccount');
+    }
+  },
+);
 
-export const updateAccount = createAsyncThunk('settings/update_account', async (account: any) => axios.post<any>(apiUrl, account), {
-  serializeError: serializeAxiosError,
-});
-
-export const SettingsSlice = createSlice({
+export const AccountUpdateSlice = createSlice({
   name: 'settings',
-  initialState: initialState as SettingsState,
+  initialState: initialState as UpdateAccountState,
   reducers: {
     reset() {
       return initialState;
@@ -37,26 +56,28 @@ export const SettingsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(updateAccount.pending, state => {
-        state.loading = true;
-        state.errorMessage = null;
-        state.updateSuccess = false;
+      .addCase(updateAcc.rejected, (state, action) => {
+        state.loading -= 1;
+        state.error = true;
+        state.closeModal = false;
       })
-      .addCase(updateAccount.rejected, state => {
-        state.loading = false;
-        state.updateSuccess = false;
-        state.updateFailure = true;
+      .addCase(updateAcc.fulfilled, (state, action) => {
+        const data = action.payload.data;
+        state.updatedDetails = data;
+        state.loading -= 1;
+        state.error = false;
+        state.closeModal = true;
+        
       })
-      .addCase(updateAccount.fulfilled, state => {
-        state.loading = false;
-        state.updateSuccess = true;
-        state.updateFailure = false;
-        state.successMessage = 'Settings saved!';
+      .addMatcher(isPending(updateAcc), state => {
+        state.loading += 1;
+        state.error = true;
+        state.closeModal = false;
       });
   },
 });
 
-export const { reset } = SettingsSlice.actions;
+export const { reset } = AccountUpdateSlice.actions;
 
 // Reducer
-export default SettingsSlice.reducer;
+export default AccountUpdateSlice.reducer;

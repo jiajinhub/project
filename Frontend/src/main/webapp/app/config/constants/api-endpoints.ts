@@ -5,6 +5,7 @@ export const API_URL = BACKEND_SERVER_API_URL;
 export const API_GET_ACCOUNT = 'account/retrieve';
 export const API_POST_ACCOUNT_AUTHENTICATE = 'account/authenticate';
 export const API_GET_ACCOUNT_BY_ID = 'account/retrieveById';
+export const API_UPDATE_ACCOUNT = 'account/updateAccount'
 
 //Product
 export const API_CREATE_PRODUCT = 'product/insert';
