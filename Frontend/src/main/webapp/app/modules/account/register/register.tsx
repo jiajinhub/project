@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from 'app/config/store';
-import { reset } from './register.reducer';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { RegisterDataType, insertAccount, reset } from './register.reducer';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputButton from 'app/shared/common/form-input-button';
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const controller = new AbortController();
+  const registrationSuccess = useAppSelector(state => state.register.registrationSuccess);
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -47,13 +48,27 @@ export const RegisterPage = () => {
         ...prevFormData,
         password: prevFormData.newPassword,
       }));
+      const data: RegisterDataType = {
+        userId: '',
+        email: formData.email, //email
+        password: formData.password, //password
+        hasdarktheme: formData.hasdarktheme,
+      };
       //dispatch first then success then nagivate to login
+      dispatch(insertAccount({ data, controller }));
       // window.location.href = '/login'; ///navigate to login
       //OR do another success page then ask user to click
     } else {
       toast.error('resubmit your password combination does not match please try again!');
     }
   };
+
+  //after register success, navigate to /login
+  useEffect(() => {
+    if (registrationSuccess) {
+      window.location.href = '/login';
+    }
+  }, [registrationSuccess]);
 
   //for debug remove last
   //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
@@ -62,7 +77,7 @@ export const RegisterPage = () => {
     color: 'white',
     border: 'none',
     borderRadius: '5px',
-    padding: '10px 20px',
+    padding: '5px 5px',
     cursor: 'pointer',
   };
 
@@ -70,15 +85,16 @@ export const RegisterPage = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <h1>Create Account</h1>
-        <br />
+        <p></p>
         <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
-        <br />
+        <p></p>
         <FormInputText value={formData.newPassword} onChange={handleChange} placeholder={'New Password'} name={'newPassword'} />
-        <br />
-        <FormInputText value={formData.reTypePassword} onChange={handleChange} placeholder={'reTypePassword'} name={'reTypePassword'} />
-        <br />
+        <p></p>
+        <FormInputText value={formData.reTypePassword} onChange={handleChange} placeholder={'Retype Password'} name={'reTypePassword'} />
+        <p></p>
         <FormInputButton type={'submit'} id={'submitButton'} label={'Sign Up'} btnStyle={customStyle} />
       </form>
+      <FormInputButton type={'link'} id={'linktoLogin'} label={'Already have an account? Log In Here!'} link={'/login'} />
     </div>
   );
 };
