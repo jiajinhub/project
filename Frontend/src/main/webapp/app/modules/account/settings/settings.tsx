@@ -1,16 +1,44 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { reset } from './settings.reducer';
+import { UpdateAccountDataType, reset, updateAcc } from './settings.reducer';
+import ChangePasswordModal from './change-password-modal';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
-  const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
   const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const successMessage = useAppSelector(state => state.settings.successMessage);
- // const user = useAppSelector(state => state.userDetails);
+  const controller = new AbortController();
+  const err = useAppSelector(state => state.settings.error);
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = useAppSelector(state => state.settings.closeModal);
+
+  useEffect(() => {
+    if (!closeModal) setShowModal(true);
+    else setShowModal(false);
+  }, [closeModal])
+
+  const handleUpdate = (userId, email, password, hasdarktheme) => {
+    const user: UpdateAccountDataType = {
+      userId: userId,
+      email: email,
+      password: password,
+      hasdarktheme: hasdarktheme
+    };
+    console.log('🚀 ~ handleUpdate ~ updateuser:', user);
+    dispatch(updateAcc({ data: user, controller }))
+  };
+  
+  const handleClose = () => {
+    setShowModal(false);
+    dispatch(reset());
+  };
+
+  const openModalFromSettings = () => {
+    setShowModal(true);
+  }
 
 
   useEffect(() => {
@@ -77,10 +105,18 @@ export const SettingsPage = () => {
           <Row>Email: </Row>
           <Row>{loginUserDetails.email}</Row>
 
-          <br/><br/>
-          <Row>Change Password</Row>
+          <br /><br />
+          <Row><a href="#" onClick={openModalFromSettings}>Change Password</a></Row>
         </Col>
       </Row>
+      {showModal ? (
+        <ChangePasswordModal
+          showModal={showModal}
+          handleUpdate={() => handleUpdate(loginUserDetails.userId, loginUserDetails.email, loginUserDetails.password, loginUserDetails.hasdarktheme)}
+          handleClose={handleClose}
+          updateError={err}
+        />
+      ) : null}
     </div>
   );
 };

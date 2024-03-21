@@ -1,11 +1,9 @@
 // Switch.js
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Label } from 'reactstrap';
 import ThemeUpdateModal from './toggle-theme-confirm-modal';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { UpdateAccountDataType, reset, updateAcc } from '../settings.reducer';
-import { useNavigate } from 'react-router-dom';
-import { getAccount } from 'app/modules/login/login.reducer';
 
 
 const Switch = () => {
@@ -13,7 +11,6 @@ const Switch = () => {
   const err = useAppSelector(state => state.settings.error);
   const [showModal, setShowModal] = useState(false);
   const controller = new AbortController();
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
