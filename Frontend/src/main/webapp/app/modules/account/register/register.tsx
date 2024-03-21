@@ -48,14 +48,8 @@ export const RegisterPage = () => {
         ...prevFormData,
         password: prevFormData.newPassword,
       }));
-      const data: RegisterDataType = {
-        userId: '',
-        email: formData.email, //email
-        password: formData.password, //password
-        hasdarktheme: formData.hasdarktheme,
-      };
       //dispatch first then success then nagivate to login
-      dispatch(insertAccount({ data, controller }));
+
       // window.location.href = '/login'; ///navigate to login
       //OR do another success page then ask user to click
     } else {
@@ -64,11 +58,24 @@ export const RegisterPage = () => {
   };
 
   //after register success, navigate to /login
+  // useEffect(() => {
+  //   if (registrationSuccess) {
+  //     window.location.href = '/login';
+  //   }
+  // }, [registrationSuccess]);
+
   useEffect(() => {
-    if (registrationSuccess) {
-      window.location.href = '/login';
+    console.log('Wat is in formData.password after change: ', formData.password); //for debug remove last
+    if (formData.password != '') {
+      const data: RegisterDataType = {
+        userId: '',
+        email: formData.email,
+        password: formData.password,
+        hasdarktheme: formData.hasdarktheme,
+      };
+      dispatch(insertAccount({ data, controller }));
     }
-  }, [registrationSuccess]);
+  }, [formData.password]);
 
   //for debug remove last
   //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
