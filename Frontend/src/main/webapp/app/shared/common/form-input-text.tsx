@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 import { Row } from 'reactstrap';
 
 interface FormInputTextProps {
-  label: string;
+  label?: string;
   value: string;
   name: string;
   placeholder?: string;
