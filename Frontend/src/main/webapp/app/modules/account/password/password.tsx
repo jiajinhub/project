@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { updateAcc, reset, UpdateAccountDataType } from '../settings/settings.reducer';
+import { updateAcc, reset, UpdateAccountDataType } from '../password/password.reducer';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserDataType, getAccountById } from 'app/modules/login/login.reducer';
 import { useForm } from 'react-hook-form';
@@ -14,10 +14,9 @@ export const PasswordPage = () => {
   const dispatch = useAppDispatch();
   const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
   const controller = new AbortController();
-  const updatedDetails = useAppSelector(state => state.settings.updatedDetails)
-  const updateErr = useAppSelector(state => state.settings.error)
-  const closeModal = useAppSelector(state => state.settings.closeModal)
-  const { reset: resetForm, handleSubmit } = useForm();
+  const updatedDetails = useAppSelector(state => state.password.updatedDetails)
+  const updateErr = useAppSelector(state => state.password.error)
+  const [isFormSubmitted, setFormIsSubmitted] = useState(false);
 
 
   // const handleValidSubmit = ({ newPassword }) => {
@@ -46,16 +45,15 @@ export const PasswordPage = () => {
   }
 
   useEffect(() => {
-    if (updatedDetails && !updateErr && closeModal) {
+    if (updatedDetails && !updateErr && isFormSubmitted) {
       console.log("TRIGGERED password update")
       console.log(updatedDetails);
       console.log(updateErr);
-      console.log(closeModal);
 
       dispatch(getAccountById({userID, controller}));
 
-      toast.success('Your password has been updated successfully!')      
-      resetForm();
+      toast.success('Your password has been updated successfully!');
+      setFormIsSubmitted(false);      
     }
   }, [updatedDetails]);
 
@@ -80,6 +78,8 @@ export const PasswordPage = () => {
     if (currentPassword === loginUserDetails.password) {
       if (newPassword === confirmPassword) {
         handleUpdate(newPassword);
+        setFormIsSubmitted(true);      
+
       }
       else toast.error('Your new passwords are mismatched. Please re-enter your new password.')
     }

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 import { API_UPDATE_ACCOUNT, API_URL } from 'app/config/constants/api-endpoints';
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios, { AxiosResponse } from 'axios';
 
 // Initial state

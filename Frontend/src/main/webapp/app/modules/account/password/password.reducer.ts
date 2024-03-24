@@ -1,36 +1,54 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 import { API_UPDATE_ACCOUNT, API_URL } from 'app/config/constants/api-endpoints';
+import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import axios, { AxiosResponse } from 'axios';
 
+// Initial state
 const initialState = {
-  loading: false,
-  errorMessage: null,
-  successMessage: null,
-  updateSuccess: false,
-  updateFailure: false,
+  loading: 0 as number,
+  error: false,
+  updatedDetails: {} as string,
+  successMessage: '' as string,
 };
 
-export type PasswordState = Readonly<typeof initialState>;
-
-
-interface IPassword {
-  currentPassword: string;
-  newPassword: string;
-}
+// Data type
+export type UpdateAccountState = Readonly<typeof initialState>;
+export type UpdateAccountDataType = {
+  userId: number;
+  email: string;
+  password: string;
+  hasdarktheme: string;
+};
+export type UpdateAccountReducerType = {
+  data?: UpdateAccountDataType;
+  controller?: AbortController;
+};
 
 // Actions
+export const updateAcc = createAsyncThunk(
+  'account/updateAccount',
+  async ({ data, controller }: UpdateAccountReducerType, thunkAPI: any) => {
+    //await thunkAPI.dispatch(closeMessage());
 
-export const savePassword = createAsyncThunk(
-  'password/update_password',
-  async (password: IPassword) => axios.post(`${API_URL}/${API_UPDATE_ACCOUNT}`, password),
-  { serializeError: serializeAxiosError },
+    const response: AxiosResponse<any> = await axios.post<any>(`${API_URL}${API_UPDATE_ACCOUNT}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    if (response?.status === 200) {
+      return response;
+    } else {
+      //await thunkAPI.dispatch(errorMessage({ message: response?.data?.error?.description }));
+      return thunkAPI.rejectWithValue('Error calling updateAccount');
+    }
+  },
 );
 
 export const PasswordSlice = createSlice({
-  name: 'password',
-  initialState: initialState as PasswordState,
+  name: 'settings',
+  initialState: initialState as UpdateAccountState,
   reducers: {
     reset() {
       return initialState;
@@ -38,22 +56,21 @@ export const PasswordSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(savePassword.pending, state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loading = true;
+      .addCase(updateAcc.rejected, (state, action) => {
+        state.loading -= 1;
+        state.error = true;
       })
-      .addCase(savePassword.rejected, state => {
-        state.loading = false;
-        state.updateSuccess = false;
-        state.updateFailure = true;
-        state.errorMessage = 'An error has occurred! The password could not be changed.';
+      .addCase(updateAcc.fulfilled, (state, action) => {
+        const data = action.payload.data;
+        state.updatedDetails = data;
+        state.loading -= 1;
+        state.error = false;
+        state.successMessage = action.payload.message;
+        
       })
-      .addCase(savePassword.fulfilled, state => {
-        state.loading = false;
-        state.updateSuccess = true;
-        state.updateFailure = false;
-        state.successMessage = 'Password changed!';
+      .addMatcher(isPending(updateAcc), state => {
+        state.loading += 1;
+        state.error = true;
       });
   },
 });
