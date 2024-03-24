@@ -4,13 +4,13 @@ import { Route } from 'react-router-dom';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Settings from './settings/settings';
-import Password from './password/password';
+import { PasswordPage } from './password/password';
 
 const AccountRoutes = () => (
   <div>
     <ErrorBoundaryRoutes>
       <Route path="settings" element={<Settings />} />
-      <Route path="password" element={<Password />} />
+      <Route path="password" element={<PasswordPage/>} />
     </ErrorBoundaryRoutes>
   </div>
 );
