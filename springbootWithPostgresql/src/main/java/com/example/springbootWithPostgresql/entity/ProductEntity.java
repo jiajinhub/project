@@ -9,7 +9,7 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long productId;
+    private int productId;
 
     @Column
     private String name;
@@ -35,7 +35,7 @@ public class ProductEntity {
     @Column
     private String category;
 
-   public ProductEntity(Long productId, String name, Date expiryDate, int listId, int quantity, String nutriGrade, String description, String price, String category) {
+   public ProductEntity(int productId, String name, Date expiryDate, int listId, int quantity, String nutriGrade, String description, String price, String category) {
         this.productId = productId;
         this.name = name;
         this.expiryDate = expiryDate;
@@ -51,11 +51,11 @@ public class ProductEntity {
 
     }
 
-    public Long getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
