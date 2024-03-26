@@ -8,3 +8,7 @@ export const API_GET_ACCOUNT_BY_ID = 'account/retrieveById';
 
 //Product
 export const API_CREATE_PRODUCT = 'product/insert';
+export const API_VIEW_PRODUCT = 'product/retrieve';
+export const API_DELETE_PRODUCT = 'product/delete';
+
+
