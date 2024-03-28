@@ -1,6 +1,6 @@
 import './home.scss';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, createRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import { Row, Col, Alert, Button } from 'reactstrap';
@@ -9,6 +9,7 @@ import { API_URL } from 'app/config/constants/api-endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'app/config/constants/icon.js'
 import Modal from './Modal';
+import Card from './Card';
 
 export const Home = () => {
   const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
@@ -74,7 +75,13 @@ export const Home = () => {
   }
 
   if (!userEmail) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+          <h4>
+            You are currently logged out. Please sign back in!
+          </h4>
+      </div>
+    );
   }
 
   return (
@@ -92,36 +99,16 @@ export const Home = () => {
       </div>
       {userLists ? (
         <div className="cardGrid">
-          {userLists.map((listItem) => (
-           <div className={`groceryListCards ${listItem.expiredProductCount > 0 ? 'expired' : null} ${listItem.expiredProductCount == 0 && listItem.expiringProductCount > 0 ? 'warning' : null}`} key={listItem.list_id}>
-             <div className="groceryListCardsDetails cardHeader"><h3>{listItem.name}</h3></div>
-             <div className="groceryListCardsDetails">
-              <h4>Total Items: {listItem.productCount}</h4>
-              <h4>Total Expired: {listItem.expiredProductCount}</h4>
-              <h4>Total Expiring: {listItem.expiringProductCount}</h4>
-             </div>
-           </div>
-          ))
-         }
-        </div>
+            {userLists.map((listItem) => (
+              <Card listItem={listItem} refresh={fetchUserData} key={listItem.list_id}/>
+            ))}
+          </div>
       ) : (
         <div>
           <Alert color="warning">
-            If you want to
-            <span>&nbsp;</span>
-            <Link to="/login" className="alert-link">
-              sign in
-            </Link>
-            , you can try the default accounts:
-            <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;) <br />- User (login=&quot;user&quot; and
-            password=&quot;user&quot;).
-          </Alert>
-
-          <Alert color="warning">
-            You don&apos;t have an account yet?&nbsp;
-            <Link to="/account/register" className="alert-link">
-              Register a new account
-            </Link>
+            <h3>
+              You do not have any list yet! Create something and make everyone's life happier! :D
+            </h3>
           </Alert>
         </div>
       )}

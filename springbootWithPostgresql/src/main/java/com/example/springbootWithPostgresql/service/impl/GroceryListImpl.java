@@ -55,4 +55,11 @@ public class GroceryListImpl {
     public int getListCount() {
         return groceryListRepo.getTotalLists();
     }
+
+    public void deleteUserList(Long userID, Long listID) {
+        GroceryListEntity toDelete = new GroceryListEntity();
+        toDelete.setUser_id(userID);
+        toDelete.setList_id(listID);
+        groceryListRepo.delete(toDelete);
+    }
 }

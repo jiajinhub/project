@@ -58,7 +58,7 @@ public class ProdService {
     }
 
 
-    @Scheduled(fixedRate = 60000)
+//    @Scheduled(fixedRate = 60000)
     public void sendEmail(){
 
         Date currentDate = new Date(System.currentTimeMillis());

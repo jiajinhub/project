@@ -20,4 +20,7 @@ public class ListServiceImpl {
         return listRepo.getListDetailsByID(listID);
     }
 
+    public void deleteList (Long listID) {
+        listRepo.deleteById(listID);
+    }
 }

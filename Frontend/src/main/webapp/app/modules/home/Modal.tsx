@@ -22,8 +22,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
     setDescription('');
   };
 
-  console.log('isopen: ' + isOpen);
-
   return (
     <div className={`modal ${isOpen ? 'display-block' : 'display-none'}`}>
     <div className="modal-main">
