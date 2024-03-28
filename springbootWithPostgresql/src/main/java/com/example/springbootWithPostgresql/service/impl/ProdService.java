@@ -1,6 +1,7 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 
+import com.example.springbootWithPostgresql.entity.ExpiryNotify;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.repository.ProdRepo;
 import jdk.jfr.Enabled;
@@ -58,7 +59,7 @@ public class ProdService {
     }
 
 
-    @Scheduled(fixedRate = 60000)
+    //@Scheduled(fixedRate = 60000)
     public void sendEmail(){
 
         Date currentDate = new Date(System.currentTimeMillis());
@@ -70,6 +71,24 @@ public class ProdService {
         String text = "This is a test email from batch. "  + formattedDate;
         emailService.sendSimpleMessage(to, subject, text);
         System.out.println("Successfully send " + formattedDate);
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void sendExpiryNotificationEmail(){
+        Date currentDate = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+        String formattedDate = dateFormat.format(currentDate);
+
+        List<ExpiryNotify> notifyList = prodRepo.getExpiryNotificationBatch();
+
+
+        for(ExpiryNotify list: notifyList){
+            String to = list.getEmail();
+            String subject = "The product will expire today";
+            String text = "Hi "+ list.getUser() +"These product will be expired today please use it befoer it expired " +
+                            list.getProdName()+ " u have " + list.getQuantity();
+            emailService.sendSimpleMessage(to, subject, text);
+        }
     }
 
 
