@@ -5,6 +5,8 @@ import com.example.springbootWithPostgresql.repository.ListRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ListServiceImpl {
 
@@ -22,5 +24,17 @@ public class ListServiceImpl {
 
     public void deleteList (Long listID) {
         listRepo.deleteById(listID);
+    }
+
+    public boolean updateList (Long listID, String name, String description) {
+        Optional<ListDetailEntity> toUpdate = listRepo.findById(listID);
+        if (toUpdate.isPresent()) {
+            ListDetailEntity toUpdateList = toUpdate.get();
+            toUpdateList.setName(name);
+            toUpdateList.setDescription(description);
+            listRepo.save(toUpdateList);
+            return false;
+        }
+        return true;
     }
 }

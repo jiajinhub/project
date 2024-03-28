@@ -7,7 +7,7 @@ import { Row, Col, Alert, Button } from 'reactstrap';
 import { useAppSelector } from 'app/config/store';
 import { API_URL } from 'app/config/constants/api-endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import 'app/config/constants/icon.js'
+import 'app/config/constants/icon.js';
 import Modal from './Modal';
 import Card from './Card';
 
@@ -23,7 +23,7 @@ export const Home = () => {
     setShowModal(!showModal);
   };
 
-  const handleAddList = async (user, name, description) => {
+  const handleList = async (user, name, description) => {
     try {
       const getResponse = await axios.get('http://localhost:8080/dashboard/addList', {
         params: { userID: user, name, description }, headers: {'Content-Type': 'application/json'}
@@ -95,7 +95,7 @@ export const Home = () => {
         </div>
       </div>
       <div>
-        <Modal isOpen={showModal} onClose={toggleModal} onSubmit={handleAddList} />
+        <Modal toUpdate={false} name={''} description={''} isOpen={showModal} onClose={toggleModal} onSubmit={handleList} />
       </div>
       {userLists ? (
         <div className="cardGrid">

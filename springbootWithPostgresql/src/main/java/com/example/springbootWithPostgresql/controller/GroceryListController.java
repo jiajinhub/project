@@ -94,4 +94,23 @@ public class GroceryListController {
         }
     }
 
+    @RequestMapping("/updateList")
+    public ResponseEntity<Map<String,Object>> updateList (
+            @RequestParam("listID") Long listID,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description
+    ) {
+        try {
+            boolean somethingWrong = ListService.updateList(listID, name, description);
+            if (somethingWrong) {
+                System.out.println("somethingWrong");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Dashboard updateList Error: " + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
