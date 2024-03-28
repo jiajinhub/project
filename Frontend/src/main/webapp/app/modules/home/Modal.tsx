@@ -4,25 +4,26 @@ import { useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ModalProps {
+  toUpdate: boolean;
+  name: string;
+  description: string;
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (user, name, description) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+const Modal: React.FC<ModalProps> = ({ toUpdate, name, description, isOpen, onClose, onSubmit }) => {
+  const [newName, setName] = useState(name);
+  const [newDescription, setDescription] = useState(description);
   const user = useAppSelector(state => state.userDetails.userId);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     console.log(user, name, description);
     e.preventDefault();
-    onSubmit(user, name, description);
+    onSubmit(user, newName, newDescription);
     setName('');
     setDescription('');
   };
-
-  console.log('isopen: ' + isOpen);
 
   return (
     <div className={`modal ${isOpen ? 'display-block' : 'display-none'}`}>
@@ -36,11 +37,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
       <div className="inputFieldsMain">
         <form onSubmit={handleSubmit}>
           <div className="inputFields">
-          <input type="text" id="name" placeholder="Title" value={name} onChange={(e) => setName(e.target.value)} required />
-          <textarea id="description" value={description} placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
+          <input type="text" id="name" placeholder="Title" value={newName} onChange={(e) => setName(e.target.value)} required />
+          <textarea id="description" value={newDescription} placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
           </div>
           <div>
-            <button type="submit" className="button">Create</button>
+            {toUpdate ? (
+              <button type="submit" className="button">Update</button>
+            ) : (
+              <button type="submit" className="button">Create</button>
+            )}
           </div>
         </form>
       </div>

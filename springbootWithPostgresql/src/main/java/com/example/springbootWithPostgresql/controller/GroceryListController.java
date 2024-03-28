@@ -79,4 +79,38 @@ public class GroceryListController {
         }
     }
 
+    @RequestMapping("/deleteUserList")
+    public ResponseEntity<Map<String, Object>> deleteUserList (
+            @RequestParam("userID") Long userID,
+            @RequestParam("listID") Long listID
+    ) {
+        try {
+            GroceryListService.deleteUserList(userID, listID);
+            ListService.deleteList(listID);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Dashboard deleteUserList Error: " + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping("/updateList")
+    public ResponseEntity<Map<String,Object>> updateList (
+            @RequestParam("listID") Long listID,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description
+    ) {
+        try {
+            boolean somethingWrong = ListService.updateList(listID, name, description);
+            if (somethingWrong) {
+                System.out.println("somethingWrong");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Dashboard updateList Error: " + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
