@@ -1,7 +1,10 @@
 #  will run automatically each time someone pushes a change to the repository
 name: run-when-commits-happen
 run-name: ${{ github.actor }} pushed
-on: [push]
+on:
+  push:
+    branches:
+      - '*'
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
