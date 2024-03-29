@@ -1,0 +1,17 @@
+#  will run automatically each time someone pushes a change to the repository
+name: Run on Push
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Add your build, test, or deployment steps here
