@@ -13,6 +13,8 @@ import EntitiesRoutes from 'app/entities/routes';
 import {Product} from './modules/product/prod';
 // import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
+import View from './modules/product/view';
+import Update from './modules/product/update';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import Settings from 'app/modules/account/settings/settings';
@@ -38,6 +40,8 @@ const AppRoutes = () => {
         <Route path="logout" element={<Logout />} />
         <Route path="create-product" element={<CreateProduct />} />
         <Route path="product" element={<Product />} />
+        <Route path="/view/:productId" element={<View />} />
+        <Route path="/update/:productId" element={<Update />} />
         <Route path="account">
           <Route
             path="*"

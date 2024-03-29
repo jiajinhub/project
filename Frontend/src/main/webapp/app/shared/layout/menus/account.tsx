@@ -25,6 +25,9 @@ const accountMenuItems = () => (
     <MenuItem icon="user-plus" to="/account/register" data-cy="register">
       Register
     </MenuItem>
+    <MenuItem icon="user-plus" to="/product" data-cy="product">
+      Product
+    </MenuItem>
   </>
 );
 
