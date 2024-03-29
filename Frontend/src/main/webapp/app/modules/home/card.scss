@@ -1,0 +1,63 @@
+.expired {
+  border-left-style: solid;
+  border-left-color: red;
+  border-left-width: thick;
+}
+
+.warning {
+  border-left-style: solid;
+  border-left-color: yellow;
+  border-left-width: thick;
+}
+
+.welcomeTexts {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  width: 80%;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.cardMenuIcon {
+  padding-top: 2px;
+}
+
+.groceryListCardsDetails {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.groceryListCards {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  display: flex;
+  min-height: 200px;
+  width: 250px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cardMenu {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  z-index: 100;
+}
+
+.cardMenuItem {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #eee;
+  }
+}
