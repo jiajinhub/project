@@ -9,6 +9,7 @@ export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const controller = new AbortController();
   const registrationSuccess = useAppSelector(state => state.register.registrationSuccess);
+  //const [manualDispatch, setManualDispatch] = useState(false); //use this to pass thru without dispatch
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -48,21 +49,25 @@ export const RegisterPage = () => {
         ...prevFormData,
         password: prevFormData.newPassword,
       }));
-      //dispatch first then success then nagivate to login
-
-      // window.location.href = '/login'; ///navigate to login
-      //OR do another success page then ask user to click
     } else {
       toast.error('resubmit your password combination does not match please try again!');
     }
   };
 
+  //actual
   //after register success, navigate to /login
   // useEffect(() => {
   //   if (registrationSuccess) {
   //     window.location.href = '/login';
   //   }
   // }, [registrationSuccess]);
+
+  //manual for debug remove last
+  // useEffect(() => {
+  //   if (manualDispatch) {
+  //     window.location.href = '/login';
+  //   }
+  // }, [manualDispatch]);
 
   useEffect(() => {
     console.log('Wat is in formData.password after change: ', formData.password); //for debug remove last
@@ -73,7 +78,9 @@ export const RegisterPage = () => {
         password: formData.password,
         hasdarktheme: formData.hasdarktheme,
       };
-      dispatch(insertAccount({ data, controller }));
+      console.log('dispatch and success'); //for debug remove last
+      //setManualDispatch(true); //for debug remove last
+      //dispatch(insertAccount({ data, controller })); // actual
     }
   }, [formData.password]);
 
