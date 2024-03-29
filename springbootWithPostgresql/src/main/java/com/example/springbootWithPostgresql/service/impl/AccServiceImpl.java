@@ -40,11 +40,12 @@ public class AccServiceImpl {
         Optional<AccountEntity> userDetailOpt = accRepo.findById(user.getUserId());
         if(userDetailOpt.isPresent()){
             AccountEntity userDetail = userDetailOpt.get();
-            if(user.getEmail() != null || user.getEmail().isEmpty())
-                userDetail.setEmail(user.getEmail());
-            if(user.getPassword() != null || user.getPassword().isEmpty())
-                userDetail.setPassword(user.getPassword());
-            affectedData = accRepo.save(userDetail);
+            if(userDetail.getEmail().isEmpty())
+                user.setEmail(userDetail.getEmail());
+            if(user.getPassword().isEmpty())
+                user.setPassword(userDetail.getPassword());
+            user.setHasdarktheme(user.getHasdarktheme());
+            affectedData = accRepo.save(user);
         }else{
             throw new RuntimeException("user not found.");
         }

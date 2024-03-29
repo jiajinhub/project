@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 import { API_UPDATE_ACCOUNT, API_URL } from 'app/config/constants/api-endpoints';
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios, { AxiosResponse } from 'axios';
 
 // Initial state
@@ -9,6 +8,7 @@ const initialState = {
   error: false,
   updatedDetails: {} as string,
   closeModal: false as boolean,
+  successMessage: '' as string,
 };
 
 // Data type
@@ -67,6 +67,7 @@ export const AccountUpdateSlice = createSlice({
         state.loading -= 1;
         state.error = false;
         state.closeModal = true;
+        state.successMessage = action.payload.message;
         
       })
       .addMatcher(isPending(updateAcc), state => {

@@ -56,7 +56,7 @@ const ThemeUpdateModal = (props: IToggleThemeProps) => {
     <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="theme-page" autoFocus={false}>
       <Form onSubmit={handleUpdateSubmit}>
         <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose} className='component'>
-         Confirm deletion
+         Confirm change theme
         </ModalHeader>
         <ModalBody className='component'>
           <Row>
