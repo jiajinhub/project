@@ -74,7 +74,6 @@ public class AccountController {
         //return accService.getCount();
     //}
 
-
     @PostMapping("/authenticate")
     public ResponseEntity<AccountEntity> authorize(@RequestBody AccountRequestEntity accountRequest) {
                 String email = accountRequest.getEmail();
