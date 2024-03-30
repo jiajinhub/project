@@ -38,11 +38,22 @@ public class AccountController {
         return accService.getUserById(requestBody.get("userID"));
     }
 
-    @PostMapping("updateAccount")
-    public AccountEntity update(@RequestBody AccountEntity update){
-        AccountEntity affectedRow;
-        affectedRow = accService.updateUser(update);
-        return affectedRow;
+    // @PostMapping("updateAccount")
+    // public AccountEntity update(@RequestBody AccountEntity update){
+    //     AccountEntity affectedRow;
+    //     affectedRow = accService.updateUser(update);
+    //     return affectedRow;
+    // }
+
+
+    @PostMapping("/updateAccount/password")
+    public AccountEntity updatePassword(@RequestBody AccountEntity user) {
+        return accService.updatePassword(user);
+    }
+
+    @PostMapping("/updateAccount/theme")
+    public AccountEntity updateTheme(@RequestBody AccountEntity user) {
+        return accService.updateTheme(user);
     }
 
 //    @RequestMapping(value = "insert", method = RequestMethod.POST)
@@ -69,7 +80,6 @@ public class AccountController {
     //}
         //return accService.getCount();
     //}
-
 
     @PostMapping("/authenticate")
     public ResponseEntity<AccountEntity> authorize(@RequestBody AccountRequestEntity accountRequest) {

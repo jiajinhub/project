@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
-import { API_UPDATE_ACCOUNT, API_URL } from 'app/config/constants/api-endpoints';
+import { API_UPDATE_PASSWORD, API_URL } from 'app/config/constants/api-endpoints';
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios, { AxiosResponse } from 'axios';
 
@@ -26,11 +26,11 @@ export type UpdateAccountReducerType = {
 
 // Actions
 export const updateAcc = createAsyncThunk(
-  'account/updateAccount',
+  'account/updateAccount/password',
   async ({ data, controller }: UpdateAccountReducerType, thunkAPI: any) => {
     //await thunkAPI.dispatch(closeMessage());
 
-    const response: AxiosResponse<any> = await axios.post<any>(`${API_URL}${API_UPDATE_ACCOUNT}`, data, {
+    const response: AxiosResponse<any> = await axios.post<any>(`${API_URL}${API_UPDATE_PASSWORD}`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
