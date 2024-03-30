@@ -7,55 +7,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
 
-:root{
-  --body_background: #F3F3FF;
+:root {
+  --body_background: #f3f3ff;
   --body_color: black;
 }
 
-[data-theme="dark"]{
-  --body_background: #14110F;
+[data-theme='dark'] {
+  --body_background: #14110f;
   --body_color: white;
 }
 
-[data-theme="light"]{
-  --body_background: #F3F3FF;
+[data-theme='light'] {
+  --body_background: #f3f3ff;
   --body_color: black;
 }
 
 .banner {
-  font-family: "Libre Barcode 39 Text", system-ui;
+  font-family: 'Libre Barcode 39 Text', system-ui;
   font-weight: 400;
   font-style: normal;
 }
 
 h1 {
-  font-family: "Athiti", sans-serif;
+  font-family: 'Athiti', sans-serif;
   font-weight: 700;
   font-size: 40px;
   font-style: normal;
 }
 
 h2 {
-  font-family: "Athiti", sans-serif;
+  font-family: 'Athiti', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
 h3 {
-  font-family: "Athiti", sans-serif;
+  font-family: 'Athiti', sans-serif;
   font-weight: 500;
   font-size: 25px;
   font-style: normal;
 }
 
-h4, p {
-  font-family: "Athiti", sans-serif;
+h4,
+p {
+  font-family: 'Athiti', sans-serif;
   font-weight: 401;
   font-size: 20px;
   font-style: normal;
 }
 
-body, .component, .jh-card- {
+body,
+.component,
+.jh-card- {
   margin: 0;
   background-color: var(--body_background);
   color: var(--body_color);
@@ -369,7 +372,6 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
 
-
 /* styles.css */
 .switch-container {
   display: flex;
@@ -439,3 +441,71 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/* ==========================================================================
+CSS for Landing/Log In Page/Sign Up Page/Forgot Password Page
+========================================================================== */
+
+//container
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  height: 100vh; /* Full height of the viewport */
+}
+
+/* Left Background */
+.left {
+position: absolute;
+width: 720px;
+height: 1024px;
+// left: px;
+top: 0px;
+background: #CBC5A3;
+padding-top: 63px;
+}
+
+/* Right Background */
+.right {
+position: absolute;
+width: 720px;
+height: 1024px;
+left: 950px;
+// right: 20px;
+top: 0px;
+background: #ffffff;
+padding-top: 63px;
+}
+
+/* Grocery Image */
+.image-container {
+  position: absolute;
+  width: 605px;
+  height: 512px;
+  left: 38px;
+  top: 432px;
+}
+
+/* Grocery Tracker */
+.groceryTracker-font {
+  position: absolute;
+  width: 483px;
+  height: 240px;
+  left: 110px;
+  top: 200px;
+  font-family: 'Libre Barcode 39 Text';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 120px;
+  line-height: 120px;
+
+  color: #000000;
+}
+
+.btn-green {
+  background-color: Green; /* Color name without quotes */
+  color: white; /* Color name without quotes */
+  border-radius: 5px; /* No quotes needed */
+  padding: 5px 5px; /* No quotes needed */
+  margin-left: 10px;
+  width: 450px;
+  cursor: pointer; /* No quotes needed */
+}

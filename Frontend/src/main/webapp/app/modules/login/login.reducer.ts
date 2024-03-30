@@ -4,7 +4,7 @@ import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios, { AxiosResponse } from 'axios';
 
 // Initial state
-const initialState = {
+export const initialState = {
   loading: 0 as number,
   loginFailed: false as boolean,
   loginSuccess: false as boolean,
