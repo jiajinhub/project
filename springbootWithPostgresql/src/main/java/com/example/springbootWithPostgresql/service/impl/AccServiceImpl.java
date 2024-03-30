@@ -1,8 +1,8 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
-import com.example.springbootWithPostgresql.pattern.UpdateUserTemplate.UpdatePassword;
-import com.example.springbootWithPostgresql.pattern.UpdateUserTemplate.UpdateTheme;
+import com.example.springbootWithPostgresql.pattern.template.UpdateUserTemplate.UpdatePassword;
+import com.example.springbootWithPostgresql.pattern.template.UpdateUserTemplate.UpdateTheme;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

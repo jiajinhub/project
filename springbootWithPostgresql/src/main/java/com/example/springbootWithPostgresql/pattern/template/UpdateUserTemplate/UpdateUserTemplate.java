@@ -1,4 +1,4 @@
-package com.example.springbootWithPostgresql.pattern.UpdateUserTemplate;
+package com.example.springbootWithPostgresql.pattern.template.UpdateUserTemplate;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
 import com.example.springbootWithPostgresql.repository.AccRepo;
