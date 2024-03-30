@@ -2,6 +2,7 @@ package com.example.springbootWithPostgresql.controller;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
 import com.example.springbootWithPostgresql.entity.AccountRequestEntity;
+import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.service.impl.AccServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,12 @@ public class AccountController {
     @PostMapping("/updateAccount/theme")
     public AccountEntity updateTheme(@RequestBody AccountEntity user) {
         return accService.updateTheme(user);
+    }
+
+//    @RequestMapping(value = "insert", method = RequestMethod.POST)
+    @PostMapping("insertAccount")
+    public void insertAccount(@RequestBody AccountEntity request){
+        accService.insertAcc(request);
     }
 
     @RequestMapping("deleteAccount")
