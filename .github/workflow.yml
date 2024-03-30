@@ -1,4 +1,3 @@
-#  will run automatically each time someone pushes a change to the repository
 name: pipeline-workflow
 on: [push]
 
