@@ -16,6 +16,7 @@ interface FormInputButtonProps {
 
 const FormInputButton = (props: FormInputButtonProps) => {
   return (
+    <div className="pad-02">
     <Row>
       {props.type === 'link' && (
         <Link to={props.link} id={props.id} className={`btn ${props.className ? props.className : ''}`} style={props.btnStyle}>
@@ -25,7 +26,7 @@ const FormInputButton = (props: FormInputButtonProps) => {
       {(props.type === 'button' || props.type === 'submit') && (
         <button
           type={props.type}
-          className={`btn ${props.className ? props.className : ''}`}
+          className={`${props.className ? props.className : ''}`}
           id={props.id}
           name={props.name}
           onClick={props.onButtonClick}
@@ -35,6 +36,7 @@ const FormInputButton = (props: FormInputButtonProps) => {
         </button>
       )}
     </Row>
+    </div>
   );
 };
 

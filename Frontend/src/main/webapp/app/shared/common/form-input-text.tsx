@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 import { Row } from 'reactstrap';
 
 interface FormInputTextProps {
-  label: string;
+  label?: string;
   value: string;
   name: string;
   placeholder?: string;
@@ -16,12 +16,16 @@ const FormInputText = (props: FormInputTextProps) => {
   // };
 
   return (
-    <label>
-      {props.label}
-      <Row>
-        <input type="text" value={props.value} onChange={props.onChange} placeholder={props.placeholder} name={props.name} />
-      </Row>
-    </label>
+    <div className="pad-02">
+      <label>
+        {props.label}
+        <Row>
+          <div className="pad-03">
+            <input type="text" value={props.value} onChange={props.onChange} placeholder={props.placeholder} name={props.name} />
+          </div>
+        </Row>
+      </label>
+    </div>
   );
 };
 

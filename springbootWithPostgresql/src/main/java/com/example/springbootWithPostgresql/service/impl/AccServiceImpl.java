@@ -1,6 +1,7 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
+import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,12 @@ public class AccServiceImpl {
 
     public AccountEntity getAccountByEmail(String email){
         return accRepo.getAccountByEmail(email);
+    }
+
+    public AccountEntity insertAcc(AccountEntity acc) {
+        AccountEntity response = accRepo.save(acc);
+        System.out.println("account saved to db with userId : " + response.getUserId());
+        return response;
     }
 
 }
