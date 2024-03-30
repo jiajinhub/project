@@ -19,7 +19,7 @@ jobs:
           cache: maven
 
       - name: Change directory
-        run: cd springbootwithPostGresql  # Change this to the path where your pom.xml is located
+        run: cd springbootWithPostgresql  # Change this to the path where your pom.xml is located
         
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
