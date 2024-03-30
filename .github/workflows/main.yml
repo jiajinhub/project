@@ -22,8 +22,10 @@ jobs:
         run: cd springbootWithPostgresql  # Change this to the path where your pom.xml is located
         
       - name: Build with Maven
+        working-directory: springbootWithPostgresql
         run: mvn --batch-mode --update-snapshots verify
 
       # Run tests
       - name: Run Java Tests
+        working-directory: springbootWithPostgresql
         run: mvn test
