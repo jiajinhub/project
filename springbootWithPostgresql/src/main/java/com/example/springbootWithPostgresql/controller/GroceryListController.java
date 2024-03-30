@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:9001")
+@CrossOrigin(origins = {"http://localhost:9000", "http://localhost:9001"})
 @RequestMapping("/dashboard")
 public class GroceryListController {
 

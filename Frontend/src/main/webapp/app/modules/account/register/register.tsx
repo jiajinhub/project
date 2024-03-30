@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Row, Col, Alert, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { handleRegister, reset } from './register.reducer';
+import { RegisterDataType, insertAccount, reset } from './register.reducer';
+import FormInputText from 'app/shared/common/form-input-text';
+import FormInputButton from 'app/shared/common/form-input-button';
 
 export const RegisterPage = () => {
-  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
+  const controller = new AbortController();
+  const registrationSuccess = useAppSelector(state => state.register.registrationSuccess);
+  //const [manualDispatch, setManualDispatch] = useState(false); //use this to pass thru without dispatch
+
+  const [formData, setFormData] = useState({
+    userId: '',
+    email: '',
+    password: '',
+    hasdarktheme: false, //hardcode to default, upon user signup is on light theme
+    newPassword: '',
+    reTypePassword: '',
+  });
 
   useEffect(
     () => () => {
@@ -19,105 +27,88 @@ export const RegisterPage = () => {
     [],
   );
 
-  const handleValidSubmit = ({ username, email, firstPassword }) => {
-    dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: 'en' }));
+  //handle change for textbox and textarea
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const updatePassword = event => setPassword(event.target.value);
+  //handle submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('handle submit button clicked!'); //for debug remove last
+    console.log('Wat is in formData: ', formData); //for debug remove last
 
-  const successMessage = useAppSelector(state => state.register.successMessage);
+    //check if newpassword and retypepassword is same else reject
+    if (formData.newPassword === formData.reTypePassword) {
+      toast.success('registered successfully!!!!');
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        password: prevFormData.newPassword,
+      }));
+    } else {
+      toast.error('resubmit your password combination does not match please try again!');
+    }
+  };
+
+  //actual
+  //after register success, navigate to /login
+  // useEffect(() => {
+  //   if (registrationSuccess) {
+  //     window.location.href = '/login';
+  //   }
+  // }, [registrationSuccess]);
+
+  //manual for debug remove last
+  // useEffect(() => {
+  //   if (manualDispatch) {
+  //     window.location.href = '/login';
+  //   }
+  // }, [manualDispatch]);
 
   useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
+    console.log('Wat is in formData.password after change: ', formData.password); //for debug remove last
+    if (formData.password != '') {
+      const data: RegisterDataType = {
+        userId: '',
+        email: formData.email,
+        password: formData.password,
+        hasdarktheme: formData.hasdarktheme,
+      };
+      console.log('dispatch and success'); //for debug remove last
+      //setManualDispatch(true); //for debug remove last
+      //dispatch(insertAccount({ data, controller })); // actual
     }
-  }, [successMessage]);
+  }, [formData.password]);
+
+  //for debug remove last
+  //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
+  const customStyle: React.CSSProperties = {
+    backgroundColor: 'Green',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '5px 5px',
+    cursor: 'pointer',
+  };
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h1 id="register-title" data-cy="registerTitle">
-            Registration
-          </h1>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
-            <ValidatedField
-              name="username"
-              label="Username"
-              placeholder="Your username"
-              validate={{
-                required: { value: true, message: 'Your username is required.' },
-                pattern: {
-                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
-                  message: 'Your username is invalid.',
-                },
-                minLength: { value: 1, message: 'Your username is required to be at least 1 character.' },
-                maxLength: { value: 50, message: 'Your username cannot be longer than 50 characters.' },
-              }}
-              data-cy="username"
-            />
-            <ValidatedField
-              name="email"
-              label="Email"
-              placeholder="Your email"
-              type="email"
-              validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
-              }}
-              data-cy="email"
-            />
-            <ValidatedField
-              name="firstPassword"
-              label="New password"
-              placeholder="New password"
-              type="password"
-              onChange={updatePassword}
-              validate={{
-                required: { value: true, message: 'Your password is required.' },
-                minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
-                maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
-              }}
-              data-cy="firstPassword"
-            />
-            <PasswordStrengthBar password={password} />
-            <ValidatedField
-              name="secondPassword"
-              label="New password confirmation"
-              placeholder="Confirm the new password"
-              type="password"
-              validate={{
-                required: { value: true, message: 'Your confirmation password is required.' },
-                minLength: { value: 4, message: 'Your confirmation password is required to be at least 4 characters.' },
-                maxLength: { value: 50, message: 'Your confirmation password cannot be longer than 50 characters.' },
-                validate: v => v === password || 'The password and its confirmation do not match!',
-              }}
-              data-cy="secondPassword"
-            />
-            <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Register
-            </Button>
-          </ValidatedForm>
-          <p>&nbsp;</p>
-          <Alert color="warning">
-            <span>If you want to </span>
-            <Link to="/login" className="alert-link">
-              sign in
-            </Link>
-            <span>
-              , you can try the default accounts:
-              <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;) <br />- User (login=&quot;user&quot; and
-              password=&quot;user&quot;).
-            </span>
-          </Alert>
-        </Col>
-      </Row>
+      <form onSubmit={handleSubmit}>
+        <h1>Create Account</h1>
+        <p></p>
+        <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
+        <p></p>
+        <FormInputText value={formData.newPassword} onChange={handleChange} placeholder={'New Password'} name={'newPassword'} />
+        <p></p>
+        <FormInputText value={formData.reTypePassword} onChange={handleChange} placeholder={'Retype Password'} name={'reTypePassword'} />
+        <p></p>
+        <FormInputButton type={'submit'} id={'submitButton'} label={'Sign Up'} btnStyle={customStyle} />
+      </form>
+      <FormInputButton type={'link'} id={'linktoLogin'} label={'Already have an account? Log In Here!'} link={'/login'} />
     </div>
   );
 };

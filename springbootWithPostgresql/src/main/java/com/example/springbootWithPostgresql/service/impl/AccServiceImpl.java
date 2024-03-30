@@ -93,4 +93,10 @@ public class AccServiceImpl {
         return accRepo.getAccountByEmail(email);
     }
 
+    public AccountEntity insertAcc(AccountEntity acc) {
+        AccountEntity response = accRepo.save(acc);
+        System.out.println("account saved to db with userId : " + response.getUserId());
+        return response;
+    }
+
 }

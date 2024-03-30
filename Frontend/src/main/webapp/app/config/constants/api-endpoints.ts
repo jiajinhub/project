@@ -8,6 +8,7 @@ export const API_GET_ACCOUNT_BY_ID = 'account/retrieveById';
 export const API_UPDATE_THEME = 'account/updateAccount/theme';
 export const API_UPDATE_PASSWORD = 'account/updateAccount/password'
 
+export const API_INSERT_ACCOUNT = 'account/insertAccount';
 
 //Product
 export const API_CREATE_PRODUCT = 'product/insert';

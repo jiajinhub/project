@@ -4,7 +4,7 @@ import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios, { AxiosResponse } from 'axios';
 
 // Initial state
-const initialState = {
+export const initialState = {
   loading: 0 as number,
   loginFailed: false as boolean,
   loginSuccess: false as boolean,
@@ -25,10 +25,12 @@ const initialState = {
 
 // Data type
 export type AccountState = Readonly<typeof initialState>;
+
 export type AccountDataType = {
   email: string;
   password: string;
 };
+
 export type AccountReducerType = {
   auth?: AccountDataType;
   controller?: AbortController;
@@ -36,13 +38,12 @@ export type AccountReducerType = {
 
 export type UserDataType = {
   userID: number;
-}
-
-export type UserReducerType = {
-  userID?: UserDataType,
-  controller?: AbortController;
 };
 
+export type UserReducerType = {
+  userID?: UserDataType;
+  controller?: AbortController;
+};
 
 // Actions
 export const getAccount = createAsyncThunk(
@@ -84,7 +85,6 @@ export const authenticate = createAsyncThunk('account/authenticate', async ({ au
   }
 });
 
-
 export const getAccountById = createAsyncThunk('account/retrieveById', async ({ userID, controller }: UserReducerType, thunkAPI: any) => {
   //await thunkAPI.dispatch(closeMessage());
 
@@ -102,7 +102,6 @@ export const getAccountById = createAsyncThunk('account/retrieveById', async ({ 
     return thunkAPI.rejectWithValue('Error calling getAccountById');
   }
 });
-
 
 export const AuthenticationSlice = createSlice({
   name: 'account',
@@ -125,7 +124,6 @@ export const AuthenticationSlice = createSlice({
       })
       .addCase(getAccountById.rejected, (state, action) => {
         state.loading -= 1;
-
       })
       .addCase(getAccountById.fulfilled, (state, action) => {
         state.loginUserDetails = action.payload.data;
@@ -148,8 +146,7 @@ export const AuthenticationSlice = createSlice({
       })
       .addMatcher(isPending(getAccount, authenticate), state => {
         state.loading += 1;
-      })
-      ;
+      });
   },
 });
 
