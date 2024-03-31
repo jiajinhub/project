@@ -34,7 +34,7 @@ jobs:
 
       # create artifacts after job run
       - name: Create artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: Application Build
           path: .github/workflows # specify an existing dir
