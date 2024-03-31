@@ -2,7 +2,7 @@ name: pipeline-workflow
 on:
   push:
     branches:
-      - main
+      - 'main'
 
 jobs:   
   build-and-test-maven:
