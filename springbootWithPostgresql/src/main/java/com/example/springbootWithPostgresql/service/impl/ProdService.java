@@ -5,11 +5,16 @@ import com.example.springbootWithPostgresql.entity.ExpiryNotify;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.repository.ProdRepo;
 import jdk.jfr.Enabled;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -92,5 +97,57 @@ public class ProdService {
         }
     }
 
+    public byte[] createExcel(Long listId){
+        // Create a workbook
+        Workbook workbook = new XSSFWorkbook();
+
+        // Create a sheet
+        Sheet sheet = workbook.createSheet("Products");
+
+        // Create header row
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Product ID");
+        headerRow.createCell(1).setCellValue("Name");
+        headerRow.createCell(2).setCellValue("Expiry Date");
+        headerRow.createCell(3).setCellValue("List ID");
+        headerRow.createCell(4).setCellValue("Quantity");
+        headerRow.createCell(5).setCellValue("Nutri Grade");
+        headerRow.createCell(6).setCellValue("Description");
+        headerRow.createCell(7).setCellValue("Price");
+        headerRow.createCell(8).setCellValue("Category");
+
+        List<ProductEntity> products = prodRepo.getAllByListId(listId);
+
+        try {
+            // Populate data rows
+            int rowNum = 1;
+            for (ProductEntity product : products) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(product.getProductId());
+                row.createCell(1).setCellValue(product.getName());
+                row.createCell(2).setCellValue(product.getExpiryDate().toString());
+                row.createCell(3).setCellValue(product.getListId());
+                row.createCell(4).setCellValue(product.getQuantity());
+                row.createCell(5).setCellValue(product.getNutriGrade());
+                row.createCell(6).setCellValue(product.getDescription());
+                row.createCell(7).setCellValue(product.getPrice());
+                row.createCell(8).setCellValue(product.getCategory());
+            }
+
+            // Write the workbook content to a ByteArrayOutputStream
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            workbook.close();
+            return outputStream.toByteArray();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public List<ProductEntity> forTest() {
+        return prodRepo.getAllByListId( 1L );
+    }
 
 }

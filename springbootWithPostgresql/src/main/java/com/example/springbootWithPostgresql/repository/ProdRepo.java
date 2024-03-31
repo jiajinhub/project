@@ -17,4 +17,5 @@ public interface ProdRepo extends JpaRepository<ProductEntity, Long> {
             "and p.expiry_date = CURRENT_DATE; --email, name, item name, quantity, list name", nativeQuery = true)
     List<ExpiryNotify> getExpiryNotificationBatch();
 
+    List<ProductEntity> getAllByListId(Long listId);
 }
