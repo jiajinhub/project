@@ -37,6 +37,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Application Build
-          path: .github/workflows # specify an existing dir
+          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
+
+
           
 
