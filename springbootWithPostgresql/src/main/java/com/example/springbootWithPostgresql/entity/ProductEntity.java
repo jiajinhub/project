@@ -17,8 +17,8 @@ public class ProductEntity {
     @Column
     private Date expiryDate;
 
-    @Column
-    private int listId;
+    @Column(name = "list_id")
+    private Long listId;
 
     @Column
     private int quantity;
@@ -35,7 +35,7 @@ public class ProductEntity {
     @Column
     private String category;
 
-   public ProductEntity(Long productId, String name, Date expiryDate, int listId, int quantity, String nutriGrade, String description, String price, String category) {
+   public ProductEntity(Long productId, String name, Date expiryDate, Long listId, int quantity, String nutriGrade, String description, String price, String category) {
         this.productId = productId;
         this.name = name;
         this.expiryDate = expiryDate;
@@ -75,11 +75,11 @@ public class ProductEntity {
         this.expiryDate = expiryDate;
     }
 
-    public int getListId() {
+    public Long getListId() {
         return listId;
     }
 
-    public void setListId(int listId) {
+    public void setListId(Long listId) {
         this.listId = listId;
     }
 

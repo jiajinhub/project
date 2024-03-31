@@ -4,6 +4,9 @@ import com.example.springbootWithPostgresql.entity.AccountEntity;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.service.impl.ProdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +40,24 @@ public class ProductController {
         ProductEntity affectedRow;
         affectedRow = prodService.updateProd(updateData);
         return affectedRow;
+    }
+
+    @RequestMapping(value="ExportExcel", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> exportExcel(@RequestBody Map<String, Long> requestBody ){
+
+        byte[] excelBytes = prodService.createExcel(requestBody.get("listId"));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "test.xlsx");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excelBytes);
+    }
+
+    @RequestMapping(value="test", method = RequestMethod.GET)
+    public List<ProductEntity> forTest(){
+        return prodService.forTest();
     }
 }
