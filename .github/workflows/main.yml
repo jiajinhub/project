@@ -34,7 +34,7 @@ jobs:
 
       # create artifacts after job run
       - name: Create artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Application Build
           path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
