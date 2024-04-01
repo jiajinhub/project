@@ -73,6 +73,7 @@ export const Product = () => {
                 <th>Name</th><th>Category</th>
                 <th>Quantity</th><th>Price [SGD]</th>
                 <th>Expiry Date</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

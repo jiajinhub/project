@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ProductEntity getProdById(@PathVariable int productId){
+    public ProductEntity getProdById(@PathVariable Long productId){
         System.out.println(prodService.getProdById(productId));
         return prodService.getProdById(productId);
     }

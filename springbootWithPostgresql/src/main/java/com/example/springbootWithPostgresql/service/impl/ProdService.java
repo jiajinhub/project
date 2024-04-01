@@ -88,7 +88,7 @@ public class ProdService {
         System.out.println("Successfully send " + formattedDate);
     }
 
-    public ProductEntity getProdById(int prodId) {
+    public ProductEntity getProdById(Long prodId) {
         Optional<ProductEntity> prodOpt = prodRepo.findById(prodId);
         if(prodOpt.isPresent())
             return prodOpt.get();
