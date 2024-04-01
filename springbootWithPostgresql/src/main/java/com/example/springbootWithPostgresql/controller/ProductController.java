@@ -42,7 +42,7 @@ public class ProductController {
         return affectedRow;
     }
 
-    @RequestMapping(value="ExportExcel", method = RequestMethod.GET)
+    @RequestMapping(value="ExportExcel", method = RequestMethod.POST)
     public ResponseEntity<byte[]> exportExcel(@RequestBody Map<String, Long> requestBody ){
 
         byte[] excelBytes = prodService.createExcel(requestBody.get("listId"));
