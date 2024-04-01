@@ -84,6 +84,39 @@ export const Home = () => {
     );
   }
 
+  const exportExcel = async (listId: number) => {
+    try {
+      const requestBody = { listId }; // Create the request body object
+      const response = await axios.post('http://localhost:8080/product/ExportExcel', requestBody, {
+        responseType: 'arraybuffer', // Specify the response type as arraybuffer
+      });
+
+      // Create a blob from the response data
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a link element to download the file
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'exported_excel.xlsx');
+      document.body.appendChild(link);
+
+      // Trigger the download
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      console.log('Excel exported successfully');
+    } catch (error) {
+      console.error('Error exporting Excel:', error);
+      setError(error);
+    }
+  };
+
   return (
     <Row>
       <h1 className="welcomeTexts">Welcome, {userEmail}!</h1>
@@ -92,7 +125,13 @@ export const Home = () => {
         <div className="addListButton" onClick={toggleModal}>
           <FontAwesomeIcon icon="plus"/>
           <h4 className="addListText">New List</h4>
-        </div>
+        </div >
+      </div>
+      <div className="no-style-div" >
+        <button onClick={() => exportExcel(1)}>
+              Export Excel
+        </button>
+        <div style={{ height: '20px' }}></div>
       </div>
       <div>
         <Modal toUpdate={false} name={''} description={''} isOpen={showModal} onClose={toggleModal} onSubmit={handleList} />
