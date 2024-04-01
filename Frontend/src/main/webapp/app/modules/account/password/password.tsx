@@ -4,47 +4,99 @@ import { Row, Col, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-//import { getSession } from 'app/shared/reducers/authentication';
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
-import { savePassword, reset } from './password.reducer';
+import { updateAcc, reset, UpdateAccountDataType } from '../password/password.reducer';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserDataType, getAccountById } from 'app/modules/login/login.reducer';
+import { useForm } from 'react-hook-form';
 
 export const PasswordPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
+  const loginUserDetails = useAppSelector(state => state.account.loginUserDetails);
+  const controller = new AbortController();
+  const updatedDetails = useAppSelector(state => state.password.updatedDetails)
+  const updateErr = useAppSelector(state => state.password.error)
+  const [isFormSubmitted, setFormIsSubmitted] = useState(false);
+
+
+  // const handleValidSubmit = ({ newPassword }) => {
+  //   dispatch(savePassword({ newPassword }));
+  // };
+
+  // const handleValidSubmit = (e) => {
+  //   e.preventDefault();
+  //   const formData = getValues(); // Assuming getValues returns an object with form field values
+
+  //   // Check if the new password is the same as the existing password
+  //   if (newPassword === password) {
+  //     // Passwords match, proceed with form submission
+  //     setPasswordsMatch(true);
+  //     // Call your update function here
+  //     // updatePassword(newPassword);
+  //   } else {
+  //     // Passwords don't match, display error
+  //     setPasswordsMatch(false);
+  //   }
+  // };
+
+
+  const userID: UserDataType = {
+    userID: loginUserDetails.userId
+  }
 
   useEffect(() => {
-    dispatch(reset());
-    //dispatch(getSession());
-    return () => {
-      dispatch(reset());
-    };
-  }, []);
+    if (updatedDetails && !updateErr && isFormSubmitted) {
+      console.log("TRIGGERED password update")
+      console.log(updatedDetails);
+      console.log(updateErr);
 
-  const handleValidSubmit = ({ currentPassword, newPassword }) => {
-    dispatch(savePassword({ currentPassword, newPassword }));
+      dispatch(getAccountById({userID, controller}));
+
+      toast.success('Your password has been updated successfully!');
+      setFormIsSubmitted(false);      
+    }
+  }, [updatedDetails]);
+
+
+  const handleUpdate = (password) => {
+    const user: UpdateAccountDataType = {
+      userId: loginUserDetails.userId,
+      email: loginUserDetails.email,
+      password: password,
+      hasdarktheme: loginUserDetails.hasdarktheme
+    };
+    console.log('🚀 ~ handleUpdate ~ updateuser:', user);
+    dispatch(updateAcc({ data: user, controller }))
   };
+
+  const handleValidSubmit = (data) => {
+    const currentPassword = data.currentPassword;
+    const newPassword = data.newPassword;
+    const confirmPassword = data.confirmPassword;
+
+
+    if (currentPassword === loginUserDetails.password) {
+      if (newPassword === confirmPassword) {
+        handleUpdate(newPassword);
+        setFormIsSubmitted(true);      
+
+      }
+      else toast.error('Your new passwords are mismatched. Please re-enter your new password.')
+    }
+    else {
+      toast.error('Current password is incorrect.')
+    }
+  }
 
   const updatePassword = event => setPassword(event.target.value);
 
-  const account = useAppSelector(state => state.authentication.account);
-  const successMessage = useAppSelector(state => state.password.successMessage);
-  const errorMessage = useAppSelector(state => state.password.errorMessage);
-
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
-    } else if (errorMessage) {
-      toast.error(errorMessage);
-    }
-    dispatch(reset());
-  }, [successMessage, errorMessage]);
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="password-title">
-            Password for [<strong>{account.login}</strong>]
+            <strong>Change Password</strong>
           </h2>
           <ValidatedForm id="password-form" onSubmit={handleValidSubmit}>
             <ValidatedField
@@ -70,7 +122,6 @@ export const PasswordPage = () => {
               onChange={updatePassword}
               data-cy="newPassword"
             />
-            <PasswordStrengthBar password={password} />
             <ValidatedField
               name="confirmPassword"
               label="New password confirmation"
@@ -90,8 +141,16 @@ export const PasswordPage = () => {
           </ValidatedForm>
         </Col>
       </Row>
+      {/* for reset password if have time */}
+      {/* <br/>
+      <Row className="justify-content-center">
+        <Col md="8">
+          <Link to={'/account/reset/request'} id={'linktoreset'}>
+            Forgot Your Password?
+          </Link>
+        </Col>
+      </Row> */}
     </div>
   );
 };
 
-export default PasswordPage;

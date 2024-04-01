@@ -2,15 +2,19 @@ import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
 
 import { NavDropdown } from './menu-components';
+import Switch from 'app/modules/account/settings/toggle-theme/toggle-switch';
 
 const accountMenuItemsAuthenticated = () => (
   <>
+    <MenuItem icon="moon" data-cy="theme">
+      <Switch />
+    </MenuItem>
     <MenuItem icon="wrench" to="/account/settings" data-cy="settings">
       Settings
     </MenuItem>
-    <MenuItem icon="lock" to="/account/password" data-cy="passwordItem">
+    {/* <MenuItem icon="lock" to="/account/password" data-cy="passwordItem">
       Password
-    </MenuItem>
+    </MenuItem> */}
     <MenuItem icon="sign-out-alt" to="/logout" data-cy="logout">
       Sign out
     </MenuItem>

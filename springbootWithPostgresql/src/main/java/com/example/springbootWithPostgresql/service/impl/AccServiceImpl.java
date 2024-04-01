@@ -1,6 +1,8 @@
 package com.example.springbootWithPostgresql.service.impl;
 
 import com.example.springbootWithPostgresql.entity.AccountEntity;
+import com.example.springbootWithPostgresql.pattern.template.UpdateUserTemplate.UpdatePassword;
+import com.example.springbootWithPostgresql.pattern.template.UpdateUserTemplate.UpdateTheme;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,17 @@ public class AccServiceImpl {
 
     @Autowired
     private AccRepo accRepo;
+
+    @Autowired
+    private UpdatePassword updatePassword;
+
+    @Autowired
+    private UpdateTheme updateTheme;
+
+    public AccServiceImpl(UpdatePassword updatePassword, UpdateTheme updateTheme) {
+        this.updatePassword = updatePassword;
+        this.updateTheme = updateTheme;
+    }
 
 
     public List<AccountEntity> getAllUser() {
@@ -34,20 +47,30 @@ public class AccServiceImpl {
         System.out.println("user saved to db with userId : " + userDetail.getUserId());
     }
 
-    public AccountEntity updateUser(AccountEntity user) {
-        AccountEntity affectedData;
-        Optional<AccountEntity> userDetailOpt = accRepo.findById(user.getUserId());
-        if(userDetailOpt.isPresent()){
-            AccountEntity userDetail = userDetailOpt.get();
-            if(user.getEmail() != null || user.getEmail().isEmpty())
-                userDetail.setEmail(user.getEmail());
-            if(user.getPassword() != null || user.getPassword().isEmpty())
-                userDetail.setPassword(user.getPassword());
-            affectedData = accRepo.save(userDetail);
-        }else{
-            throw new RuntimeException("user not found.");
-        }
-        return affectedData;
+    // public AccountEntity updateUser(AccountEntity user) {
+    //     AccountEntity affectedData;
+    //     Optional<AccountEntity> userDetailOpt = accRepo.findById(user.getUserId());
+    //     if(userDetailOpt.isPresent()){
+    //         AccountEntity userDetail = userDetailOpt.get();
+    //         if(userDetail.getEmail().isEmpty())
+    //             user.setEmail(userDetail.getEmail());
+    //         if(user.getPassword().isEmpty())
+    //             user.setPassword(userDetail.getPassword());
+    //         user.setHasdarktheme(user.getHasdarktheme());
+    //         affectedData = accRepo.save(user);
+    //     }else{
+    //         throw new RuntimeException("user not found.");
+    //     }
+    //     return affectedData;
+    // }
+
+
+    public AccountEntity updatePassword(AccountEntity user) {
+        return updatePassword.updateUser(user);
+    }
+
+    public AccountEntity updateTheme(AccountEntity user) {
+        return updateTheme.updateUser(user);
     }
 
     public void deleteUserId(Long userId) {
@@ -68,6 +91,12 @@ public class AccServiceImpl {
 
     public AccountEntity getAccountByEmail(String email){
         return accRepo.getAccountByEmail(email);
+    }
+
+    public AccountEntity insertAcc(AccountEntity acc) {
+        AccountEntity response = accRepo.save(acc);
+        System.out.println("account saved to db with userId : " + response.getUserId());
+        return response;
     }
 
 }

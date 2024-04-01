@@ -1,4 +1,4 @@
 package com.example.springbootWithPostgresql.service;
 
-public class AccountService {
+public class GroceryListService {
 }

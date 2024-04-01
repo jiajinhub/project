@@ -18,10 +18,14 @@ public class AccountEntity {
     @Column
     private String password;
 
-    public AccountEntity(Long id, String name, String password) {
+    @Column
+    private Boolean hasdarktheme;
+
+    public AccountEntity(Long id, String name, String password, Boolean hasdarktheme) {
         this.userId = id;
         this.email = name;
         this.password = password;
+        this.hasdarktheme = hasdarktheme;
     }
 
     public AccountEntity() {
@@ -52,20 +56,24 @@ public class AccountEntity {
         this.password = password;
     }
 
+    public Boolean getHasdarktheme() {
+        return hasdarktheme;
+    }
+
+    public void setHasdarktheme(Boolean hasdarktheme) {
+        this.hasdarktheme = hasdarktheme;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof AccountEntity)) {
-            return false;
-        }
-        AccountEntity accountEntity = (AccountEntity) o;
-        return Objects.equals(userId, accountEntity.userId) && Objects.equals(email, accountEntity.email) && Objects.equals(password, accountEntity.password);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountEntity account = (AccountEntity) o;
+        return Objects.equals(userId, account.userId) && Objects.equals(email, account.email) && Objects.equals(password, account.password) && Objects.equals(hasdarktheme, account.hasdarktheme);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, password);
+        return Objects.hash(userId, email, password, hasdarktheme);
     }
-    
 }

@@ -4,6 +4,9 @@ import com.example.springbootWithPostgresql.entity.AccountEntity;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
 import com.example.springbootWithPostgresql.service.impl.ProdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +31,7 @@ public class ProductController {
 
     @RequestMapping(value="delete")
     public void deleteProduct(@RequestBody Map<String, Integer> requestBody){
-        prodService.deleteProd(requestBody.get("productId"));
+        prodService.deleteProd(Long.valueOf(requestBody.get("productId")));
     }
 
     @RequestMapping(value="updateProduct", method = RequestMethod.POST)
@@ -44,4 +47,23 @@ public class ProductController {
         return prodService.getProdById(productId);
     }
 
+
+    @RequestMapping(value="ExportExcel", method = RequestMethod.POST)
+    public ResponseEntity<byte[]> exportExcel(@RequestBody Map<String, Long> requestBody ){
+
+        byte[] excelBytes = prodService.createExcel(requestBody.get("listId"));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "test.xlsx");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excelBytes);
+    }
+
+    @RequestMapping(value="test", method = RequestMethod.GET)
+    public List<ProductEntity> forTest(){
+        return prodService.forTest();
+    }
 }
