@@ -6,6 +6,8 @@ import { Row, Col, Table, Modal, ModalBody} from 'reactstrap';
 import { API_VIEW_PRODUCT, API_DELETE_PRODUCT, API_URL } from 'app/config/constants/api-endpoints';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'app/config/constants/icon.js';
+import { faPlus, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 
 export const Product = () => {
 
@@ -17,6 +19,7 @@ export const Product = () => {
   const [open, setOpen] = useState(false);
   const [prod, prodInput] = useState(0);
   const navigate = useNavigate();
+  const [e, edit] = useState('view');
 
   const change = e => {
       setSearch(e.target.value);
@@ -47,6 +50,31 @@ export const Product = () => {
     navigate(`/view/${prodId}`);
   };
 
+  const update = (datedata: string): string => {
+    const dateValue = new Date(datedata);
+    const y = dateValue.getFullYear();
+    const m = ('0' + (dateValue.getMonth() + 1)).slice(-2);
+    const d = ('0' + dateValue.getDate()).slice(-2);
+    return `${y}-${m}-${d}`;
+  }
+
+  const changes = (change: string) => {
+    edit(change);
+  };
+
+  const Item = data.filter(item => {
+    if (e === 'view') {
+      return true;
+    } else if (e === 'after') {
+      const x = new Date(item.expiryDate);
+      return x < new Date();
+    } else if (e === 'before') {
+      const y = new Date(item.expiryDate);
+      return y >= new Date();
+    }
+    return false;
+  });
+
   return (
     <div>
       <Row className="justify-content-center">
@@ -54,17 +82,30 @@ export const Product = () => {
           <h1 id="prodtitle" data-cy="prodTitle">
             Product
           </h1>
+          <div className="d-flex justify-content-between">
+            <div>
+              <button className={`btn btn-outline-secondary m-2 ${e ==='view'?'active':''}`} onClick={() => changes('view')}>All</button>
+              <button className={`btn btn-outline-secondary m-2 ${e ==='after'?'active':''}`} onClick={() => changes('after')}>Expired</button>
+              <button className={`btn btn-outline-secondary m-2 ${e ==='before'?'active':''}`} onClick={() => changes('before')}>Fresh</button>
+            </div>
+            <div>
+              <button className="btn btn-primary mr-2" ><FontAwesomeIcon icon={faShareAlt} className="mr-1" /> Share</button>
+              &nbsp;
+              <Link to='/create-product' className="btn btn-secondary"><FontAwesomeIcon icon={faPlus} /> Add Inventory</Link>
+            </div>
+          </div>
+          <hr/>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="10">
-          <ValidatedForm id="prod" onSubmit={}>
+          <ValidatedForm id="prod" onSubmit={null}>
             <ValidatedField
               id="name"
               name="searchQuery"
-              label="Name"
               onChange={change}
               data-cy="prod"
+              placeHolder="Search..."
             />
           </ValidatedForm>
           <Table className="table">
@@ -77,17 +118,17 @@ export const Product = () => {
               </tr>
             </thead>
             <tbody>
-              {data.filter(item => {
+              {Item.filter(item => {
                 const LC = search.toLowerCase();
                 const name = item.name.toLowerCase();
                 return name.startsWith(LC)
-              }.map((product) => (
+              }).map((product) => (
                 <tr className="prod" key={product.productId} onDoubleClick={() => handleRowDoubleClick(product.productId)}>
                   <td className="p-2">{product.name}</td>
                   <td className="p-2">{product.category}</td>
                   <td className="p-2">{product.quantity}</td>
                   <td className="p-2">{product.price}</td>
-                  <td className="p-2">{product.expiryDate}</td>
+                  <td className="p-2">{update(product.expiryDate)}</td>
                   <td className="p-2"><Link to="#" onClick={()=>handleOpen(product.productId)} className="ms-2"><FontAwesomeIcon icon="trash"/></Link>
                   </td>
                 </tr>
