@@ -9,7 +9,7 @@ jobs:
   build-and-test-maven:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4 # checkout repo
       
       - name: Set up JDK 17
@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Change directory
+      - name: Change Directory
         run: cd springbootWithPostgresql  # Change path to where pom.xml is located
         
       # build with automated run, run checks on code, update dependencies on the fly
@@ -33,12 +33,29 @@ jobs:
         run: mvn test
 
       # create artifacts after job run
-      - name: Create artifacts
+      - name: Create Test Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Application Build
+          name: Test Reports
           path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
 
+  setup-and-push-docker-img:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Docker Image
+        run: docker build -t test-project-e -f .devcontainer/Dockerfile .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker Tag Image
+        run: docker tag test-project-e:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
+          
+      - name: Push Docker Image to Registry
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
 
           
 
