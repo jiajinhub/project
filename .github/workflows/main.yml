@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Docker Image
+        working-directory: .
         run: docker build -t test-project-e -f .devcontainer/Dockerfile .
 
       - name: Log in to Docker Hub
