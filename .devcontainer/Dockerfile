@@ -9,9 +9,3 @@ RUN ["${INSTALL_MAVEN}" = "true" ]; then su vscode -c "umask 0002 && . /usr/loca
 
 ARG NODE_VERSION="20"
 RUN su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1";
-
-# Build your application
-RUN mvn clean package
-
-# Command to run your application
-CMD ["java", "-jar", "springbootWithPostgresql/target/springbootWithPostgresql-0.0.1-SNAPSHOT.jar"]
