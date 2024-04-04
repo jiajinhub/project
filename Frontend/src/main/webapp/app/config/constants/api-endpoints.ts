@@ -15,4 +15,6 @@ export const API_CREATE_PRODUCT = 'product/insert';
 export const API_VIEW_PRODUCT = 'product/retrieve';
 export const API_DELETE_PRODUCT = 'product/delete';
 
+export const API_UPDATE = 'product/updateProduct';
+
 export const API_LIST ='dashboard/retrieveList';

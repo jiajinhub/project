@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-// import DatePicker from 'react-date-picker';
-// import DatePicker from './DatePicker.js';
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { API_LIST, API_URL, API_UPDATE } from 'app/config/constants/api-endpoints';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { Link, useParams  } from 'react-router-dom';
-import {Modal,Button} from 'reactstrap';
-// import { DropdownMenu, DropdownItem, ButtonDropdown} from 'reactstrap';
-// import { Dropdown } from '@thumbtack/thumbprint-react';
-// import NavigateButton from './NavigateButton';
+import { Modal } from 'reactstrap';
 
 export const Update = () => {
 
@@ -24,35 +20,50 @@ export const Update = () => {
   const [ed, setExpiryDate] = useState(null);
   const [ng, setNutriGrade] = useState('');
   const [des, setDescription] = useState('');
-
   const [list, setList] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
-  const [renderCount, setRenderCount] = useState(0);
   const [priceValue, setPriceData] = useState(false);
   const [quantityValue, setQuantityData] = useState(false);
-
+  const [listProd, setProdList] = useState('');
+  const [itemUpdated, setItemUpdated] = useState(false);
+  const [update, updated] = useState(false);
   useEffect(() => {
-    fetchData();
+    item();
   }, []);
 
-  const fetchData = async () => {
+  const item = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/product/${productId}`);
-      const data = await response.json();
-      setData(data);
-      setName(data.name);
-      setPrice(data.price);
-      setCategory(data.category);
-      setQuantity(data.quantity);
-      setExpiryDate(data.expiryDate);
-      setNutriGrade(data.nutriGrade);
-      setDescription(data.description);
-      setSelectedDate(data.expiryDate);
-      setList(data.listId);
+      const val = await fetch(`${API_URL}product/${productId}`);
+      const v1 = await val.json();
+      setData(v1);
+      setName(v1.name);
+      setPrice(v1.price);
+      setCategory(v1.category);
+      setQuantity(v1.quantity);
+      setExpiryDate(v1.expiryDate);
+      setNutriGrade(v1.nutriGrade);
+      setDescription(v1.description);
+      setSelectedDate(v1.expiryDate);
+      setList(v1.listId);
       setPriceData(true);
       setQuantityData(true);
+      const prod = v1.listId;
+       const option = { list_id: prod };
+       const r = await fetch(`${API_URL}${API_LIST}`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(option)
+       });
+       if (!r.ok) {
+         throw new Error('Not ok');
+       }
+       const List = await r.json();
+       const list = List.name;
+        setProdList(list);
     } catch (error) {
-      console.error('Error :', error);
+      console.error('Error', error);
     }
   };
 
@@ -60,40 +71,35 @@ export const Update = () => {
     setopen(true);
   };
 
+  const closeModal = () => {
+    updated(false)
+  };
+
   const close = () => {
     setopen(false);
   };
 
-
-  const handleNameChange = (event) => {
-      setName(event.target.value);
-    };
-
-  const handlePriceChange = (event) => {
+  const prodPrice = (event) => {
     setPrice(event.target.value);
   };
 
-  const handleCategoryChange = (event) => {
+  const prodCat = (event) => {
     setCategory(event.target.value);
   };
 
-  const handleQuantityChange = (event) => {
+  const prodQuantity = (event) => {
     setQuantity(event.target.value);
   };
 
-  const handleEPChange = (event) => {
-    setExpiryDate(event.target.value);
-  };
-
-  const handleNGChange = (event) => {
+  const prodNG = (event) => {
     setNutriGrade(event.target.value);
   };
 
-  const handleDescriptionChange = (event) => {
+  const prodDes = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleDateChange = (date: Date | null) => {
+  const prodDate = (date: Date | null) => {
     setSelectedDate(date);
   };
 
@@ -106,12 +112,13 @@ export const Update = () => {
     data.nutriGrade = ng;
     data.description = des;
     data.expiryDate = selectedDate;
-    axios.post(`http://localhost:8080/product/updateProduct`, data)
-       .then(res => console.log(res);
+    axios.post(`${API_URL}${API_UPDATE}`, data);
     setopen(false);
+    setItemUpdated(true);
+    updated(true);
   };
 
-  const isExpired = (ed) => {
+  const expiry = (ed) => {
     const currentDate = new Date();
     return currentDate > new Date(ed);
   };
@@ -121,7 +128,7 @@ export const Update = () => {
         <Row className="justify-content-center">
           <Col md="8">
               <h2 id="view">
-                {list} / {name} {isExpired(ed) && <span style={{ color: 'red', fontSize: '17px' }}>Expired</span>}
+                {listProd} / {name} {expiry(ed) && <span style={{ color: 'red', fontSize: '17px' }}>Expired</span>}
               </h2>
           </Col>
         </Row>
@@ -130,12 +137,10 @@ export const Update = () => {
             <ValidatedForm id="view" onSubmit={openModal}>
               <label>Category</label>
               <br/>
-              <select value={cat} onChange={handleCategoryChange}>
-                <option>Fruit</option>
-                <option>Food</option>
-                <option>Drink</option>
-                <option>Soap and Detergent</option>
-                <option>Others</option>
+              <select value={cat} onChange={prodCat}>
+                <option>Drinks</option>
+                <option>Household Items</option>
+                <option>Perishable</option>
               </select>
               <br/><br/>
                {priceValue && (
@@ -147,7 +152,7 @@ export const Update = () => {
                 value={price}
                 required
                 validate={{ required: 'please include price', }}
-                onChange={handlePriceChange}
+                onChange={prodPrice}
               />)}
                {quantityValue && (
               <ValidatedField
@@ -156,13 +161,13 @@ export const Update = () => {
                 label="Quantity"
                 data-cy="viewQuantity"
                 value={quantity}
-                onChange={handleQuantityChange}
+                onChange={prodQuantity}
                 validate={{required: 'please include quantity',}}
                 required
               />)}
               <label>Expiry Date </label>
               <br/>
-              <DatePicker id="Expiry Date" selected={selectedDate} onChange={handleDateChange} dateFormat="yyyy-MM-dd"/>
+              <DatePicker id="Expiry Date" selected={selectedDate} onChange={prodDate} dateFormat="yyyy-MM-dd"/>
               <br/><br/>
               <ValidatedField
                 id="viewNG"
@@ -170,7 +175,7 @@ export const Update = () => {
                 label="NutriGrade"
                 data-cy="viewNG"
                 value={ng}
-                onChange={handleNGChange}
+                onChange={prodNG}
               />
               <ValidatedField
                 id="viewDescription"
@@ -178,18 +183,28 @@ export const Update = () => {
                 label="Description / Remarks"
                 data-cy="viewDescription"
                 value={des}
-                onChange={handleDescriptionChange}
+                onChange={prodDes}
               />
-              <Button id="search" className="button">
-                Update
-              </Button>
-              <Modal isOpen={open}>
-                <p>Do you want to save?</p>
-                <button onClick={edit}>Yes</button>
-                <button onClick={close}>No</button>
-              </Modal>
-              &nbsp;
-              <Link to={`/product`} className="btn btn-blue">Cancel</Link>
+              <div style={{ display: 'flex'}}>
+                <button id="search">
+                  Update
+                </button>
+                <Modal isOpen={open}>
+                  <p>Do you want to save?</p>
+                  <button onClick={edit}>Yes</button>
+                  <button onClick={close}>No</button>
+                </Modal>
+                <Modal isOpen={update}>
+                  {itemUpdated &&
+                   <div>
+                     <p style={{ marginLeft: '20px' }}>Updated successfully!</p>
+                     <button onClick={closeModal} style={{ margin: '0 auto', display: 'block', marginBottom: '10px' }}> Ok </button>
+                   </div>}
+                </Modal>
+                <div>
+                  <Link to={`/product`} className="btn btn-secondary" style={{ textDecoration: 'none' border: '1px solid', color: '#000', background: 'transparent', marginLeft: '10px'}}>Cancel</Link>
+                </div>
+              </div>
             </ValidatedForm>
           </Col>
         </Row>
