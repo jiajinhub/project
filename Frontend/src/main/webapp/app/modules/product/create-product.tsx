@@ -12,10 +12,9 @@ export const CreateProduct = () => {
   //TODO: Do code table for this category ***************************
   //for ddl Category
   const options = [
-    { value: 'Food', label: 'Food' },
-    { value: 'Soap and Detergent', label: 'Soap and Detergent' },
-    { value: 'Fruits', label: 'Fruits' },
     { value: 'Drinks', label: 'Drinks' },
+    { value: 'Household Items', label: 'Household Items' },
+    { value: 'Perishable', label: 'Perishable' },
   ];
 
   const dispatch = useAppDispatch();
@@ -76,21 +75,25 @@ export const CreateProduct = () => {
   //for debug remove last
   //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
   const customStyle: React.CSSProperties = {
-    backgroundColor: 'blue',
+    backgroundColor: 'grey',
     color: 'white',
     border: 'none',
     borderRadius: '5px',
-    padding: '10px 20px',
+    padding: '5px 10px',
     cursor: 'pointer',
+    width: 400;
+    height: 40;
+    position: 'absolute',
+    right: '20px',
   };
 
   return (
     <div>
-      <h1>Add Inventory</h1>
+      <h1 style={{ marginLeft: '30px', textAlign: 'left'}}>Add Inventory</h1>
       <form onSubmit={handleSubmit}>
-        <Row>
+        <Row className="justify-content-center">
           <FormInputText label="Title" value={formData.name} onChange={handleChange} placeholder={'Name'} name={'name'} />
-          <FormInputDDL label="Category" options={options} value={value} onChange={handleSelectChange} name={'category'} />
+          <FormInputDDL label="Category" options={options} value={value} onChange={handleSelectChange} name={'category'}/>
         </Row>
         <Row>
           <FormInputText label="Price" value={formData.price} onChange={handleChange} placeholder={'$SGD'} name={'price'} />
@@ -106,13 +109,16 @@ export const CreateProduct = () => {
             placeholderText="Select a date"
             name={'expiryDate'}
           />
-          <FormInputTextArea
-            label={'Remarks'}
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Short Description..."
-            name={'description'}
-          />
+          <div style={{ marginBottom: '10px' }}>
+            <FormInputTextArea
+              label={'Remarks'}
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Short Description..."
+              name={'description'}
+            />
+          </div>
+
           <FormInputButton type={'submit'} id={'submitButton'} label={'create'} btnStyle={customStyle} />
         </Row>
       </form>

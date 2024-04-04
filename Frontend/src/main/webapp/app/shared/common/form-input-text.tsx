@@ -17,9 +17,9 @@ const FormInputText = (props: FormInputTextProps) => {
 
   return (
     <div className="pad-02">
-      <label>
+      <label style={{ marginLeft: '30px' }}>
         {props.label}
-        <Row>
+        <Row style={{ width: '30%'}}>
           <div className="pad-03">
             <input type="text" value={props.value} onChange={props.onChange} placeholder={props.placeholder} name={props.name} />
           </div>

@@ -36,7 +36,7 @@ const CustomDatePicker: React.FC<DatepickerProps> = ({
   //   };
 
   return (
-    <label>
+    <label style={{ marginLeft: '30px' }}>
       {label}
       <br />
       <DatePicker
