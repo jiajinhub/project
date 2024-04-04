@@ -14,7 +14,7 @@ import {Product} from './modules/product/prod';
 // import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import View from './modules/product/view';
-import Update from './modules/product/update';
+import {Update} from './modules/product/update';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import Settings from 'app/modules/account/settings/settings';
