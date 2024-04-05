@@ -11,16 +11,18 @@
 # RUN su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1";
 
 
-FROM openjdk:17-slim
+FROM maven:3.8-openjdk-11-slim
 
-WORKDIR /springbootWithPostgresql
+WORKDIR /app
 
-COPY pom.xml ./
+COPY ./springbootWithPostgresql .
 
 RUN mvn clean package
 
-COPY target/*.jar ./
+WORKDIR /app/target
 
-EXPOSE 8080
+# Expose port 8080 (default Spring Boot port)
+EXPOSE 8080  
 
-CMD ["java", "-jar", "*.jar"]
+# Start the application using the JAR file
+CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"] 
