@@ -45,9 +45,6 @@ jobs:
       - name: check dir
         run: pwd
 
-      - name: check dir2
-      run: pwd
-
       - name: Build Docker Image
         run: docker build . -t test-project-e -f .devcontainer/Dockerfile
 
