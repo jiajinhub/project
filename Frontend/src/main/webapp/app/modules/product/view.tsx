@@ -31,9 +31,19 @@ export const View = () => {
       return `${y}-${m}-${d}`;
   };
 
-  const expiry = (ed) => {
-    const currentDate = new Date();
-    return currentDate > new Date(ed);
+  const getexpiry = (ed) => {
+    const date = new Date();
+    const expire = new Date(ed);
+    const sub = expire.getTime() - date.getTime();
+    const day = Math.floor(sub / (1000 * 60 * 60 * 24));
+
+    if(day < 0){
+      return 'Expired';
+    } else if (day <= 15){
+      return 'Expiring soon';
+    } else {
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -80,13 +90,18 @@ export const View = () => {
 
   }, []);
 
+  const expiryStatus = getexpiry(ed);
+
   return (
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2 id="view" style={{ fontWeight: 500 }}>
-              {prod} / {name} {expiry(ed) && <span style={{ color: 'red', fontSize: '17px' }}>Expired</span>}
-            </h2>
+            <h2 id="view" style={{ display: 'inline-block', fontWeight: 500, marginRight: '20px'}}>
+              {prod} / {name}
+            </h2> {expiryStatus && (
+            <button style={{ borderRadius: '10px',  borderColor: 'red' }} disabled>
+              <span style={{ color: 'red' }}>{expiryStatus === 'Expired' ? 'Expired' : expiryStatus === 'Expiring soon' ? 'Expiring': ''}</span>
+            </button>)}
             <Link to={`/update/${productId}`} style={{display: 'flex', justifyContent: 'flex-end'}}>
               <FontAwesomeIcon icon={faEdit} />
             </Link>
@@ -107,7 +122,7 @@ export const View = () => {
               <p style={{ minHeight: '20px' }}>{ng}</p>
               <p style={{ marginBottom: '4px' }}>Description / Remarks</p>
               <p style={{ minHeight: '20px' }}>{des}</p>
-              <Link to="/product" className="btn" color="primary" style={{justifyContent: 'flex-end'}}>
+              <Link to="/product" className="btn" color="primary"  style={{justifyContent: 'flex-end', display: 'inline-block', border: '1px solid', borderRadius: '5px', marginLeft: '750px'}}>
                 Cancel
               </Link>
             </ValidatedForm>
