@@ -3,9 +3,14 @@ package com.example.springbootWithPostgresql.controller;
 import com.example.springbootWithPostgresql.entity.AccountEntity;
 import com.example.springbootWithPostgresql.entity.AccountRequestEntity;
 import com.example.springbootWithPostgresql.entity.ProductEntity;
+import com.example.springbootWithPostgresql.pattern.strategy.EmailValidationStrategy;
+import com.example.springbootWithPostgresql.pattern.strategy.PasswordValidationStrategy;
+import com.example.springbootWithPostgresql.pattern.strategy.ResponseMessage;
+import com.example.springbootWithPostgresql.pattern.strategy.ValidationStrategy;
 import com.example.springbootWithPostgresql.service.impl.AccServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,9 @@ public class AccountController {
 
     @Autowired
     AccServiceImpl accService;
+
+    private ValidationStrategy passwordValidationStrategy = new PasswordValidationStrategy();
+    private ValidationStrategy emailValidationStrategy = new EmailValidationStrategy();
 
     @RequestMapping(value = "retrieve", method = RequestMethod.GET)
     public List<AccountEntity> getAllAccount(){
@@ -57,10 +65,30 @@ public class AccountController {
     }
 
 //    @RequestMapping(value = "insert", method = RequestMethod.POST)
+//    @PostMapping("insertAccount")
+//    public void insertAccount(@RequestBody AccountEntity request){
+//        accService.insertAcc(request);
+//    }
     @PostMapping("insertAccount")
-    public void insertAccount(@RequestBody AccountEntity request){
-        accService.insertAcc(request);
+    public ResponseEntity<ResponseMessage> insertAccount(@RequestBody AccountEntity request){
+    String pass = request.getPassword();
+    String email = request.getEmail();
+
+    // Validate the password
+    boolean isPasswordValid  = passwordValidationStrategy.validate(pass);
+    if (!isPasswordValid ) {
+//        System.out.println(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage("Invalid password. Password must be at least 8 characters long.")));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage("Invalid password. Password must be at least 8 characters long."));
     }
+    // Validate the email
+    boolean isEmailValid = emailValidationStrategy.validate(email);
+    if (!isEmailValid) {
+        return ResponseEntity.badRequest().body(new ResponseMessage("Invalid email address."));
+    }
+
+    accService.insertAcc(request);
+        return ResponseEntity.ok(new ResponseMessage("Account created successfully."));
+}
 
     @RequestMapping("deleteAccount")
     public void deleteAccount(@RequestBody Map<String, Long> requestBody){
@@ -84,7 +112,7 @@ public class AccountController {
     @PostMapping("/authenticate")
     public ResponseEntity<AccountEntity> authorize(@RequestBody AccountRequestEntity accountRequest) {
                 String email = accountRequest.getEmail();
-        String pass = accountRequest.getPassword();
+                String pass = accountRequest.getPassword();
         //AccountEntity account = accService.getUserById(Long.parseLong(username));
         AccountEntity account = accService.getAccountByEmail(email);
         if(account!=null && pass.equals(account.getPassword())){
