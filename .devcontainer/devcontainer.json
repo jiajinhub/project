@@ -3,7 +3,7 @@
 {
     "name": "project",
     "build": {
-      "dockerfile": ".devcontainer/Dockerfile",
+      "dockerfile": "Dockerfile",
       "args": {
         // Update the VARIANT arg to pick a Java version: 17, 19
         // Append -bullseye or -buster to pin to an OS version.
