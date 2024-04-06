@@ -6,40 +6,41 @@ on:
       - "github_actions" #for debugging/dev purposes in this branch
 
 jobs:
-  # build-and-test-maven:
-  # runs-on: ubuntu-latest
-  # steps:
-  #   - name: Checkout Code
-  #     uses: actions/checkout@v4 # checkout repo
+  build-and-test-maven:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # checkout repo
 
-  #  - name: Set up JDK 17
-  #   uses: actions/setup-java@v4 # setup maven
-  #   with:
-  #    java-version: '17'
-  #    distribution: 'temurin'
-  #    cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4 # setup maven
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-  # - name: Change Directory
-  #   run: cd springbootWithPostgresql  # Change path to where pom.xml is located
+      - name: Change Directory
+        run: cd springbootWithPostgresql  # Change path to where pom.xml is located
 
-  # build with automated run, run checks on code, update dependencies on the fly
-  #- name: Build with Maven
-  #   working-directory: springbootWithPostgresql
-  #  run: mvn --batch-mode --update-snapshots verify
+      #build with automated run, run checks on code, update dependencies on the fly
+      - name: Build with Maven
+        working-directory: springbootWithPostgresql
+        run: mvn --batch-mode --update-snapshots verify
 
-  # Run tests
-  # - name: Run Java Tests
-  #  working-directory: springbootWithPostgresql
-  #  run: mvn test
+      #Run tests
+      - name: Run Java Tests
+        working-directory: springbootWithPostgresql
+        run: mvn test
 
-  # create artifacts after job run
-  # - name: Create Test Artifacts
-  #  uses: actions/upload-artifact@v3
-  # with:
-  #   name: Test Reports
-  #  path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
+      #create artifacts after job run
+      - name: Create Test Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Reports
+          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
 
   setup-and-push-docker-img:
+    needs: build-and-test-maven
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
