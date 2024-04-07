@@ -73,6 +73,16 @@ public class AccountEntity {
     }
 
     @Override
+    public String toString() {
+        return "AccountEntity{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", hasdarktheme=" + hasdarktheme +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(userId, email, password, hasdarktheme);
     }

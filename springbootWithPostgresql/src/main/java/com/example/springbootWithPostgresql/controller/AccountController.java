@@ -100,20 +100,10 @@ public class AccountController {
         return accService.getCount();
     }
 
-    //@PostMapping("authenticate")
-    //public void authorize(String Username, String password) {
-
-    //if(Username == db.username && password == db.password){
-    //return ok
-    //}
-        //return accService.getCount();
-    //}
-
     @PostMapping("/authenticate")
     public ResponseEntity<AccountEntity> authorize(@RequestBody AccountRequestEntity accountRequest) {
                 String email = accountRequest.getEmail();
                 String pass = accountRequest.getPassword();
-        //AccountEntity account = accService.getUserById(Long.parseLong(username));
         AccountEntity account = accService.getAccountByEmail(email);
         if(account!=null && pass.equals(account.getPassword())){
             return ResponseEntity.ok(account);
