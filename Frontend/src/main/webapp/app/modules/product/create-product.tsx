@@ -6,22 +6,30 @@ import FormInputText from 'app/shared/common/form-input-text';
 import FormInputTextArea from 'app/shared/common/form-input-textArea';
 import React, { useEffect, useState } from 'react';
 import { Row } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import { CreateProductDataType, CreateProductReducerType, createProduct } from './create-product.reducer';
 
 export const CreateProduct = () => {
   //TODO: Do code table for this category ***************************
   //for ddl Category
   const options = [
-    { value: 'Food', label: 'Food' },
-    { value: 'Soap and Detergent', label: 'Soap and Detergent' },
-    { value: 'Fruits', label: 'Fruits' },
+    {value: '', label:''},
     { value: 'Drinks', label: 'Drinks' },
+    { value: 'Household Items', label: 'Household Items' },
+    { value: 'Perishable', label: 'Perishable' },
   ];
 
   const dispatch = useAppDispatch();
   const controller = new AbortController();
   const isCreated = useAppSelector(state => state.product.isCreated);
+  const navigate = useNavigate();
   const [value, setValue] = React.useState('');
+  const [e1, setE1] = useState('');
+  const [e2, setE2] = useState('');
+  const [e3, setE3] = useState('');
+  const [e4, setE4] = useState('');
+  const [eN, setEN] = useState('');
+  const [e5, setE5] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -40,6 +48,10 @@ export const CreateProduct = () => {
       ...prevState,
       [name]: value,
     }));
+    setE1('');
+    setE3('');
+    setE4('');
+    setEN('');
   };
 
   //handle change for ddl select
@@ -49,6 +61,7 @@ export const CreateProduct = () => {
       ...prevState,
       category,
     }));
+    setE2('');
   };
 
   //handle datepicker change
@@ -57,14 +70,47 @@ export const CreateProduct = () => {
       ...prevState,
       expiryDate: date,
     }));
+    setE5('');
   };
 
   //handle submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const num = /^[0-9]+$/;
+    if (formData.name.trim() === '') {
+      setE1('Name is required');
+      return;
+    }
+    if (formData.category.trim() === '') {
+      setE2('Category is required');
+      return;
+    }
+    if (formData.price.trim() === '') {
+      setE3('Price is required');
+      return;
+    }
+    if (formData.quantity.trim() === '') {
+      setE4('Quantity is required');
+      return;
+    } else if (!num.test(formData.quantity)) {
+      setEN('Please enter a number');
+      return;
+    }
+    if (formData.expiryDate === null) {
+      setE5('ExpiryDate is required');
+      return;
+    }
+
     console.log('handle submit button clicked!'); //for debug remove last
     console.log('Wat is in formData: ', formData); //for debug remove last
-    dispatch(createProduct({ data: formData as CreateProductDataType, controller }));
+    dispatch(createProduct({ data: formData as CreateProductDataType, controller }))
+    .then(() => {
+      navigate('/product');
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
   };
 
   useEffect(() => {
@@ -76,25 +122,34 @@ export const CreateProduct = () => {
   //for debug remove last
   //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
   const customStyle: React.CSSProperties = {
-    backgroundColor: 'blue',
+    backgroundColor: 'grey',
     color: 'white',
     border: 'none',
     borderRadius: '5px',
-    padding: '10px 20px',
+    padding: '5px 10px',
     cursor: 'pointer',
+    width: 400;
+    height: 40;
+    position: 'absolute',
+    right: '20px',
   };
 
   return (
     <div>
-      <h1>Add Inventory</h1>
+      <h1 style={{ marginLeft: '30px', textAlign: 'left'}}>Add Inventory</h1>
       <form onSubmit={handleSubmit}>
-        <Row>
+        <Row className="justify-content-center">
           <FormInputText label="Title" value={formData.name} onChange={handleChange} placeholder={'Name'} name={'name'} />
-          <FormInputDDL label="Category" options={options} value={value} onChange={handleSelectChange} name={'category'} />
+          {e1 && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '60px'}}>Name is required</div>)}
+          <FormInputDDL label="Category" options={options} value={formData.category} onChange={handleSelectChange} name={'category'}/>
+          {e2 && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '60px'}}>Category is required</div>)}
         </Row>
         <Row>
           <FormInputText label="Price" value={formData.price} onChange={handleChange} placeholder={'$SGD'} name={'price'} />
+          {e3 && (<div style={{ color: 'red',fontSize:'12px',marginLeft: '30px'}}>Price is required</div>)}
           <FormInputText label="Quantity" value={formData.quantity} onChange={handleChange} name={'quantity'} />
+          {e4 && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '30px'}}>Quantity is required</div>)}
+          {eN && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '30px'}}>Please enter a number</div>)}
         </Row>
         <FormInputText label="NutriGrade" value={formData.nutriGrade} onChange={handleChange} name={'nutriGrade'} />
         <Row>
@@ -106,13 +161,17 @@ export const CreateProduct = () => {
             placeholderText="Select a date"
             name={'expiryDate'}
           />
-          <FormInputTextArea
-            label={'Remarks'}
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Short Description..."
-            name={'description'}
-          />
+          {e5 && (<div style={{ color: 'red', fontSize: '12px', marginLeft: '30px'}}>ExpiryDate is required</div>)}
+          <div style={{ marginBottom: '10px' }}>
+            <FormInputTextArea
+              label={'Remarks'}
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Short Description..."
+              name={'description'}
+            />
+          </div>
+
           <FormInputButton type={'submit'} id={'submitButton'} label={'create'} btnStyle={customStyle} />
         </Row>
       </form>

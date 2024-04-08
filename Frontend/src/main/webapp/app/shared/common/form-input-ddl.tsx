@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 interface Option {
   value: string;
@@ -16,18 +16,22 @@ interface FormInputDDLProps {
 
 const FormInputDDL = (props: FormInputDDLProps) => {
   return (
-    <label>
-      {props.label}
-      <Row>
-        <select value={props.value} onChange={props.onChange} name={props.name}>
-          {props.options.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </Row>
-    </label>
+    <div>
+      <label style={{ marginLeft: '30px' }}>
+        {props.label}
+      </label>
+      <div style={{ marginLeft: '40px' }}>
+        <Row style={{ width: '30%'}}>
+            <select value={props.value} onChange={props.onChange} name={props.name}>
+              {props.options.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+        </Row>
+      </div>
+    </div>
   );
 };
 

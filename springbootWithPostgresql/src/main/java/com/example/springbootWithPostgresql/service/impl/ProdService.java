@@ -29,7 +29,7 @@ public class ProdService {
     @Autowired
     EmailService emailService;
 
-    public List<ProductEntity> getAllUser() {
+    public List<ProductEntity> getAllProduct() {
         return prodRepo.findAll();
     }
 
@@ -48,6 +48,15 @@ public class ProdService {
                 prodDetail.setName(prod.getName());
             if(prod.getExpiryDate() != null)
                 prodDetail.setExpiryDate(prod.getExpiryDate());
+            if(prod.getCategory() != null)
+                prodDetail.setCategory(prod.getCategory());
+            if(prod.getPrice() != null)
+                prodDetail.setPrice(prod.getPrice());
+            if(prod.getNutriGrade() != null)
+                prodDetail.setNutriGrade(prod.getNutriGrade());
+            if(prod.getDescription() != null)
+                prodDetail.setDescription(prod.getDescription());
+            prodDetail.setQuantity(prod.getQuantity());
             affectedData = prodRepo.save(prodDetail);
         }else{
             throw new RuntimeException("prod not found.");
@@ -79,6 +88,13 @@ public class ProdService {
         System.out.println("Successfully send " + formattedDate);
     }
 
+    public ProductEntity getProdById(Long prodId) {
+        Optional<ProductEntity> prodOpt = prodRepo.findById(prodId);
+        if(prodOpt.isPresent())
+            return prodOpt.get();
+        else
+            throw new RuntimeException("product not found.");
+    }
     @Scheduled(cron = "0 0 * * * *")
     public void sendExpiryNotificationEmail(){
         Date currentDate = new Date(System.currentTimeMillis());
