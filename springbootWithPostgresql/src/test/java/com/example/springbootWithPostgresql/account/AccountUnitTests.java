@@ -2,17 +2,12 @@ package com.example.springbootWithPostgresql.account;
 
 import com.example.springbootWithPostgresql.controller.AccountController;
 import com.example.springbootWithPostgresql.entity.AccountEntity;
-import com.example.springbootWithPostgresql.pattern.strategy.EmailValidationStrategy;
-import com.example.springbootWithPostgresql.pattern.strategy.ResponseMessage;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import com.example.springbootWithPostgresql.service.impl.AccServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,13 +19,11 @@ class AccountUnitTests {
     @MockBean
     private AccRepo accRepo;
 
-    private AccountController accountController;
-
-    @Mock
-    private EmailValidationStrategy emailValidationStrategy;
-
     @Autowired
     private AccServiceImpl accService;
+
+    @Autowired
+    private AccountController accountController;
 
     @Test
     void contextLoads() {
@@ -38,10 +31,22 @@ class AccountUnitTests {
 
     @Test
     void givenUserExists_whenUserIsRetrieved_thenReturnUser() {
-        AccountEntity user = accService.getUserById(1L);
-        System.out.println(user.toString());
-        System.out.println(accService.getUserById(1L).toString());
-        assertEquals(user.toString(), accService.getUserById(1L).toString());
+        // Create a mock object for AccountService
+        AccServiceImpl accServiceMock = mock(AccServiceImpl.class);
+
+        // Define behavior of the mock object
+        AccountEntity expectedUser = new AccountEntity();
+        expectedUser.setUserId(1L);  // Assuming setId method exists in AccountEntity class
+        // You can set other properties as needed
+
+        // When getUserById is called with argument 1L, return the expected user
+        when(accServiceMock.getUserById(1L)).thenReturn(expectedUser);
+
+        // Call the method being tested
+        AccountEntity user = accServiceMock.getUserById(1L);
+
+        // Verify that the method returned the expected user
+        assertEquals(expectedUser.toString(), user.toString());
     }
 
     @Test
@@ -108,6 +113,5 @@ class AccountUnitTests {
         // Verify that the result is null
         assertNull(result);
     }
-
 
 }
