@@ -113,4 +113,9 @@ public class GroceryListController {
         }
     }
 
+    @RequestMapping("/retrieveList")
+    public Map<String, Object> getList(@RequestBody Map<String, Long> map){
+        return GroceryListService.getListDetailsByID(map.get("list_id"));
+    }
+
 }

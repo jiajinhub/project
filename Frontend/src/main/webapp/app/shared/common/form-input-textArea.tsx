@@ -17,19 +17,22 @@ const FormInputTextArea = (props: FormInputTextAreaProps) => {
   // };
 
   return (
-    <label>
-      {props.label}
-      <Row>
-        <textarea
-          value={props.value}
-          onChange={props.onChange}
-          placeholder={props.placeholder}
-          rows={props.rows}
-          cols={props.cols}
-          name={props.name}
-        />
-      </Row>
-    </label>
+    <div>
+      <label style={{ marginLeft: '30px' }}>
+        {props.label} </label>
+      <div style={{ marginLeft: '40px' }}>
+        <Row>
+          <textarea
+            value={props.value}
+            onChange={props.onChange}
+            placeholder={props.placeholder}
+            rows={props.rows}
+            cols={props.cols}
+            name={props.name}
+          />
+        </Row>
+      </div>
+    </div>
   );
 };
 

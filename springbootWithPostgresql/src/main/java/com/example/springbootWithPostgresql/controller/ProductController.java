@@ -20,8 +20,7 @@ public class ProductController {
     ProdService prodService;
     @RequestMapping(value = "retrieve", method = RequestMethod.GET)
     public List<ProductEntity> getAllProduct(){
-        List<ProductEntity> products = prodService.getAllUser();
-        System.out.println("products : "+products);
+        List<ProductEntity> products = prodService.getAllProduct();
         return products;
     }
 
@@ -30,9 +29,9 @@ public class ProductController {
         prodService.insertProd(request);
     }
 
-    @RequestMapping(value="delete",method = RequestMethod.POST)
-    public void deleteAccount(@RequestBody Map<String, Long> requestBody){
-        prodService.deleteProd(requestBody.get("userID"));
+    @RequestMapping(value="delete")
+    public void deleteProduct(@RequestBody Map<String, Integer> requestBody){
+        prodService.deleteProd(Long.valueOf(requestBody.get("productId")));
     }
 
     @RequestMapping(value="updateProduct", method = RequestMethod.POST)
@@ -41,6 +40,13 @@ public class ProductController {
         affectedRow = prodService.updateProd(updateData);
         return affectedRow;
     }
+
+    @GetMapping("/{productId}")
+    public ProductEntity getProdById(@PathVariable Long productId){
+        System.out.println(prodService.getProdById(productId));
+        return prodService.getProdById(productId);
+    }
+
 
     @RequestMapping(value="ExportExcel", method = RequestMethod.POST)
     public ResponseEntity<byte[]> exportExcel(@RequestBody Map<String, Long> requestBody ){
