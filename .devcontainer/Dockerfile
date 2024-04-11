@@ -1,21 +1,8 @@
-# # java ver
-# ARG VARIANT="17"
-# FROM mcr.microsoft.com/vscode/devcontainers/java:0-${VARIANT}
-
-# # [Option] Install Maven
-# ARG INSTALL_MAVEN="true"
-# ARG MAVEN_VERSION="3.9.5"
-# RUN ["${INSTALL_MAVEN}" = "true" ]; then su vscode -c "umask 0002 && . /usr/local/sdkman/bin/sdkman-init.sh && sdk install maven \"${MAVEN_VERSION}\""; 
-
-# ARG NODE_VERSION="20"
-# RUN su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1";
-
-
-FROM maven:3.8-openjdk-11-slim
+FROM maven:3.8-openjdk-11-slim AS backend
 
 WORKDIR /app
 
-COPY ./springbootWithPostgresql .
+COPY /springbootWithPostgresql .
 
 RUN mvn clean package
 
@@ -25,4 +12,21 @@ WORKDIR /app/target
 EXPOSE 8080  
 
 # Start the application using the JAR file
-CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"] 
+CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"]
+
+# Use a base image with Node.js for frontend
+FROM node:20 AS frontend
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy frontend source code to the container
+COPY /Frontend .
+
+# Install dependencies
+RUN npm install
+
+# expose frontend port
+EXPOSE 9000
+
+
