@@ -57,11 +57,17 @@ jobs:
           npm install --save-dev eslint @eslint/js
           # Create JavaScript configuration file
           touch eslint.config.js
-      - name: Run lint # https://github.com/marketplace/actions/lint-action
-        uses: wearerequired/lint-action@v2
+      - name: Run ESLint
+        uses: github/eslint-action@v5
         with:
-            eslint: true
-            prettier: true
+          args: .
+          eslint-version: 'latest'
+
+      - name: Save ESLint results
+        uses: actions/upload-artifact@v2
+        with:
+          name: eslint-results
+          path: .eslint.results.json
 
 #  setup-and-push-docker-img:
 #    needs:
