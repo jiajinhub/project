@@ -56,6 +56,8 @@ jobs:
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
           npm install --save-dev @types/node@latest --force
+          npm install eslint --save-dev
+          npx eslint --init
       - name: Run lint # https://github.com/marketplace/actions/lint-action
         uses: wearerequired/lint-action@v2
         with:
