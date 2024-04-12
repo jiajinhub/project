@@ -75,8 +75,8 @@ jobs:
       - name: Lint
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
+          npm init @eslint/config@latest
           npm install eslint --save-dev
-          npx eslint --init --save-dev
           npm run lint
       - name: Test
         working-directory: ${{ github.workspace }} # execute on root dir
