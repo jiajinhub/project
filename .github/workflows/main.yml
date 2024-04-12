@@ -58,10 +58,12 @@ jobs:
           # Create JavaScript configuration file
           touch eslint.config.js
       - name: Run lint # https://github.com/marketplace/actions/lint-action
-        uses: wearerequired/lint-action@v2
-        with:
-            eslint: true
-            prettier: true
+        run: |
+          npm run eslint
+#        uses: wearerequired/lint-action@v2
+#        with:
+#            eslint: true
+#            prettier: true
 
 #  setup-and-push-docker-img:
 #    needs:
