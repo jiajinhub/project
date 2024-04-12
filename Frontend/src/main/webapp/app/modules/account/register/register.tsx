@@ -4,12 +4,15 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { RegisterDataType, insertAccount, reset } from './register.reducer';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputButton from 'app/shared/common/form-input-button';
+import { Link } from 'react-router-dom';
+import { Alert } from 'reactstrap';
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const controller = new AbortController();
   const registrationSuccess = useAppSelector(state => state.register.registrationSuccess);
-  //const [manualDispatch, setManualDispatch] = useState(false); //use this to pass thru without dispatch
+  const registrationErrorMsg = useAppSelector(state => state.register.errorMessage);
+  const [regStr, setRegStr] = useState('');
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -44,7 +47,6 @@ export const RegisterPage = () => {
 
     //check if newpassword and retypepassword is same else reject
     if (formData.newPassword === formData.reTypePassword) {
-      toast.success('registered successfully!!!!');
       setFormData(prevFormData => ({
         ...prevFormData,
         password: prevFormData.newPassword,
@@ -54,20 +56,21 @@ export const RegisterPage = () => {
     }
   };
 
-  //actual
   //after register success, navigate to /login
-  // useEffect(() => {
-  //   if (registrationSuccess) {
-  //     window.location.href = '/login';
-  //   }
-  // }, [registrationSuccess]);
-
-  //manual for debug remove last
-  // useEffect(() => {
-  //   if (manualDispatch) {
-  //     window.location.href = '/login';
-  //   }
-  // }, [manualDispatch]);
+  useEffect(() => {
+    if (registrationSuccess) {
+      alert('registered successfully!!!!');
+      window.location.href = '/login';
+    }
+    if (registrationErrorMsg) {
+      const convertRegStr = JSON.stringify(registrationErrorMsg);
+      setRegStr(convertRegStr);
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        password: '',
+      }));
+    }
+  }, [registrationSuccess, registrationErrorMsg]);
 
   useEffect(() => {
     console.log('Wat is in formData.password after change: ', formData.password); //for debug remove last
@@ -78,37 +81,58 @@ export const RegisterPage = () => {
         password: formData.password,
         hasdarktheme: formData.hasdarktheme,
       };
-      console.log('dispatch and success'); //for debug remove last
-      //setManualDispatch(true); //for debug remove last
-      //dispatch(insertAccount({ data, controller })); // actual
+      dispatch(insertAccount({ data, controller }));
     }
   }, [formData.password]);
 
-  //for debug remove last
-  //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
-  const customStyle: React.CSSProperties = {
-    backgroundColor: 'Green',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '5px 5px',
-    cursor: 'pointer',
-  };
-
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Create Account</h1>
-        <p></p>
-        <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
-        <p></p>
-        <FormInputText value={formData.newPassword} onChange={handleChange} placeholder={'New Password'} name={'newPassword'} />
-        <p></p>
-        <FormInputText value={formData.reTypePassword} onChange={handleChange} placeholder={'Retype Password'} name={'reTypePassword'} />
-        <p></p>
-        <FormInputButton type={'submit'} id={'submitButton'} label={'Sign Up'} btnStyle={customStyle} />
-      </form>
-      <FormInputButton type={'link'} id={'linktoLogin'} label={'Already have an account? Log In Here!'} link={'/login'} />
+      <div className="container">
+        <div className="left">
+          <div className="groceryTracker-font">Grocery Checker</div>
+          <div className="image-container">
+            <img
+              src="../../../content/images/Webpage Cover Banner.jpg"
+              alt="Left Image"
+              style={{ width: '605px', height: '512px', objectFit: 'fill' }}
+            />
+          </div>
+        </div>
+        <div className="right">
+          <div className="pad-50">
+            <form onSubmit={handleSubmit}>
+              <h1>Create Account</h1>
+              <br />
+              <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
+              <br />
+              <FormInputText
+                type={'password'}
+                value={formData.newPassword}
+                onChange={handleChange}
+                placeholder={'New Password'}
+                name={'newPassword'}
+              />
+              <br />
+              <FormInputText
+                type={'password'}
+                value={formData.reTypePassword}
+                onChange={handleChange}
+                placeholder={'Retype Password'}
+                name={'reTypePassword'}
+              />
+              <br />
+              <FormInputButton type={'submit'} id={'submitButton'} label={'Sign Up'} className={'btn-green'} />
+              {/* {regStr && <Alert color="warning">{regStr}</Alert>} */}
+              <br />
+              {regStr && <span className="alert alert-danger">{regStr}</span>}
+            </form>
+            <div className="pad-50">
+              <span>Already have an account?</span> <Link to="/login">Log In Here!</Link>
+            </div>
+            {/* <FormInputButton type={'link'} id={'linktoLogin'} label={'Already have an account? Log In Here!'} link={'/login'} /> */}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

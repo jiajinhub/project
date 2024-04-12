@@ -74,9 +74,7 @@ export const Login = () => {
       <div>
         <div className="container">
           <div className="left">
-            <div className='groceryTracker-font'>
-              Grocery Checker
-            </div>
+            <div className="groceryTracker-font">Grocery Checker</div>
             <div className="image-container">
               <img
                 src="../../../content/images/Webpage Cover Banner.jpg"
@@ -87,26 +85,32 @@ export const Login = () => {
           </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className='pad-50'>
-              <h1>Login</h1>
-              <p></p>
-              <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
-              <p></p>
-              <FormInputText value={formData.password} onChange={handleChange} placeholder={'Password'} name={'password'} />
-              <p></p>
-              {loginError ? (
-                <Alert color="danger" data-cy="loginError">
-                  <strong>Failed to sign in!</strong> Please check your credentials and try again.
-                </Alert>
-              ) : null}
-              <FormInputButton type={'submit'} id={'submitButton'} label={'Sign In'} className={'btn-green'}/>
-              <div className='pad-02'>
-                <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
-                  Forget password?
-                </Link>
+              <div className="pad-50">
+                <h1>Login</h1>
+                <p></p>
+                <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
+                <p></p>
+                <FormInputText
+                  type={'password'}
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder={'Password'}
+                  name={'password'}
+                />
+                <p></p>
+                {loginError ? (
+                  <Alert color="danger" data-cy="loginError">
+                    <strong>Failed to sign in!</strong> Please check your credentials and try again.
+                  </Alert>
+                ) : null}
+                <FormInputButton type={'submit'} id={'submitButton'} label={'Sign In'} className={'btn-green'} />
+                <div className="pad-02">
+                  <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
+                    Forget password?
+                  </Link>
                 </div>
-                <div className='pad-50'>
-                <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Sign up Here!</Link>
+                <div className="pad-50">
+                  <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Sign up Here!</Link>
                 </div>
               </div>
             </form>
