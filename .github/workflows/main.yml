@@ -39,7 +39,7 @@ jobs:
           name: Test Reports
           path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
 
-  setup-frontend:
+  build-and-test-node:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20'
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -65,7 +65,7 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
-          npm ci --force
+          npm install
       - name: Build
         run: |
           npm run build --force
@@ -82,7 +82,7 @@ jobs:
   setup-and-push-docker-img:
     needs:
       - build-and-test-maven
-      - setup-frontend
+      - build-and-test-node
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
