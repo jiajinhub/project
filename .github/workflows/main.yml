@@ -42,7 +42,9 @@ jobs:
   build-and-test-node:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -54,21 +56,18 @@ jobs:
       - name: Update types to latest
         run: |
           npm install --save-dev @types/node@latest --force
-          npm install --save-dev eslint @eslint/js
-          # Create JavaScript configuration file
-          touch eslint.config.js
-      - name: Run ESLint
-        uses: github/eslint-action@v5
-        with:
-          args: .
-          eslint-version: 'latest'
 
-      - name: Save ESLint results
-        uses: actions/upload-artifact@v2
+      - name: Save Code Linting Report JSON
+        # npm script for ESLint
+        # eslint --output-file eslint_report.json --format json src
+        # See https://eslint.org/docs/user-guide/command-line-interface#options
+        run: npm run lint:report
+        # Continue to the next step even if this fails
+        continue-on-error: true
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v2
         with:
-          name: eslint-results
-          path: .eslint.results.json
-
+          report-json: "eslint_report.json"
 #  setup-and-push-docker-img:
 #    needs:
 ##      - build-and-test-maven
