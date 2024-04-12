@@ -73,7 +73,7 @@ jobs:
         run: |
           npm ci --force
           npm install eslint --save-dev
-          npm eslint --lint
+          npx eslint --lint
       - name: Update types to latest
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
