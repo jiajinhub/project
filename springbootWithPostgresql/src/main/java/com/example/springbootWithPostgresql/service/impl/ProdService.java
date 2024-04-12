@@ -21,13 +21,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProdService {
+public abstract class ProdService {
 
     @Autowired
     ProdRepo prodRepo;
 
     @Autowired
     EmailService emailService;
+
+    protected abstract void validateProd(ProductEntity item);
 
     public List<ProductEntity> getAllProduct() {
         return prodRepo.findAll();
@@ -41,6 +43,7 @@ public class ProdService {
 
     public ProductEntity updateProd(ProductEntity prod) {
         ProductEntity affectedData;
+        validateProd(prod);
         Optional<ProductEntity> prodDetailOpt = prodRepo.findById(prod.getProductId());
         if(prodDetailOpt.isPresent()){
             ProductEntity prodDetail = prodDetailOpt.get();
