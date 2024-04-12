@@ -1,18 +1,39 @@
 package com.example.springbootWithPostgresql.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 public class ExpiryNotify {
-    String Email;
-    String user;
-    String prodName;
-    Long quantity;
-    String listName;
+
+    @Column
+    private String email;
+    @Column
+    private String user;
+    @Column
+    private String prodName;
+    @Column
+    private int quantity;
+    @Column
+    private String listName;
+
+    public ExpiryNotify(){
+
+    }
+
+    public ExpiryNotify(String email, String user, String prodName, int quantity, String listName) {
+        this.email = email;
+        this.user = user;
+        this.prodName = prodName;
+        this.quantity = quantity;
+        this.listName = listName;
+    }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getUser() {
@@ -31,11 +52,11 @@ public class ExpiryNotify {
         this.prodName = prodName;
     }
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
