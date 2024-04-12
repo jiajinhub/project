@@ -1,6 +1,7 @@
 {
   "scripts": {
     "lint": "eslint .",
-    "eslint.experimental.useFlatConfig": "true"
+    "eslint.experimental.useFlatConfig": "true",
+    "eslint:github-action": "eslint src/"
   }
 }
