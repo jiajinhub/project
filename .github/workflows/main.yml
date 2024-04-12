@@ -58,8 +58,6 @@ jobs:
           # Create JavaScript configuration file
           touch eslint.config.js
       - name: Run lint # https://github.com/marketplace/actions/lint-action
-        run: |
-          npm run eslint
         uses: wearerequired/lint-action@v2
         with:
             eslint: true
