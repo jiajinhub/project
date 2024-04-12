@@ -57,7 +57,11 @@ jobs:
           npm install --save-dev eslint @eslint/js
           # Create JavaScript configuration file
           touch eslint.config.js
-        uses: eslint/github-action@v0
+      - name: Run ESLint
+        uses: github/eslint-action@v5
+        with:
+            args: .
+            eslint-version: 'latest'
 #      - name: Run lint # https://github.com/marketplace/actions/lint-action
 #        run: |
 #          npm run eslint
