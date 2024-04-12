@@ -43,7 +43,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: browser-actions/setup-chrome@latest
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -57,16 +56,11 @@ jobs:
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
           npm install --save-dev @types/node@latest --force
-#      - name: Lint
-#        working-directory: ${{ github.workspace }} # execute on root dir
-#        run: |
-#          npm install eslint --save-dev
-#          npx eslint --init
-#          npm run lint
-      - name: Test
-        working-directory: ${{ github.workspace }} # execute on root dir
-        run: |
-          npm run test --watch=false --browsers=ChromeHeadlesss
+      - name: Run lint # https://github.com/marketplace/actions/lint-action
+        uses: wearerequired/lint-action@v2
+        with:
+            eslint: true
+            prettier: true
 
 #  setup-and-push-docker-img:
 #    needs:
