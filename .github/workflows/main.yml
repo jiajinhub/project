@@ -57,6 +57,7 @@ jobs:
         run: |
           npm install eslint
           npm install --save-dev @types/node@latest --force
+          npx eslint . --ext .js --ext .ts
       - name: Run lint # https://github.com/marketplace/actions/lint-action
         uses: wearerequired/lint-action@v2
         with:
