@@ -72,6 +72,12 @@ jobs:
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
           npm ci --force
+          npm install build
+          npm install lint
+      - name: Build
+        working-directory: ${{ github.workspace }} # execute on root dir
+        run: |
+          npm run build --force
       - name: Lint
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
