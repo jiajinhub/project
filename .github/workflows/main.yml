@@ -58,10 +58,8 @@ jobs:
           # Create JavaScript configuration file
           touch eslint.config.js
       - name: Run ESLint
-        uses: mrdivyansh/eslint-action@v1.0.7
-        with:
-            args: .
-            eslint-version: 'latest'
+        run: |
+          npm run lint
 #      - name: Run lint # https://github.com/marketplace/actions/lint-action
 #        run: |
 #          npm run eslint
