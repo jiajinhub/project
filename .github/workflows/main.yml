@@ -55,9 +55,10 @@ jobs:
       - name: Update types to latest
         working-directory: ${{ github.workspace }} # execute on root dir
         run: |
-          npm install eslint
           npm install --save-dev @types/node@latest --force
-          npx eslint . --ext .js --ext .ts
+          npm install --save-dev eslint @eslint/js
+          # Create JavaScript configuration file
+          touch eslint.config.js
       - name: Run lint # https://github.com/marketplace/actions/lint-action
         uses: wearerequired/lint-action@v2
         with:
