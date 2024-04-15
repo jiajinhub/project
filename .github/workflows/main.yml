@@ -79,7 +79,7 @@ jobs:
         run: docker tag test-project-e-be:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_backend_latest
 
       - name: Push Docker Image to Registry
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_backend_latest
 
 
   setup-and-push-docker-img-frontend:
@@ -103,7 +103,7 @@ jobs:
           run: docker tag test-project-e-fe:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_frontend_latest
 
         - name: Push Docker Image to Registry
-          run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
+          run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_frontend_latest
 
 
 #  deploy-app:
