@@ -76,7 +76,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker Tag Image
-        run: docker tag test-project-e:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28_backend:fpta_latest
+        run: docker tag test-project-e-be:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28_backend:fpta_latest
 
       - name: Push Docker Image to Registry
         run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
@@ -100,7 +100,7 @@ jobs:
             password: ${{ secrets.DOCKER_PASSWORD }}
 
         - name: Docker Tag Image
-          run: docker tag test-project-e:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28_frontend:fpta_latest
+          run: docker tag test-project-e-fe:latest ${{ secrets.DOCKER_USERNAME }}/swe5006_team28_frontend:fpta_latest
 
         - name: Push Docker Image to Registry
           run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_latest
