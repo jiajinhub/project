@@ -1,6 +1,6 @@
 
 # Use a base image with Node.js for frontend
-FROM node:20 AS frontend
+FROM node:18-alpine AS frontend
 
 # Set the working directory in the container
 WORKDIR /app
