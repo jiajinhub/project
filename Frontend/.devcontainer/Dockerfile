@@ -13,9 +13,8 @@ RUN npm cache clean --force
 RUN npm install
 
 # expose frontend port
-EXPOSE 9000
+EXPOSE 9009
 
-CMD["npm", "run", "start"]
-
+ENTRYPOINT ["npm", "run", "start"]
 
 
