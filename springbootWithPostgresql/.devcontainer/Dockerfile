@@ -9,7 +9,7 @@ RUN mvn clean package
 WORKDIR /app/target
 
 # Expose port 8080 (default Spring Boot port)
-EXPOSE 8080  
+EXPOSE 8432 # expose different port
 
 # Start the application using the JAR file
 CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"]

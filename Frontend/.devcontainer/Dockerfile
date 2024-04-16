@@ -9,12 +9,13 @@ WORKDIR /app
 COPY /Frontend .
 
 # Install dependencies
+RUN npm cache clean --force
 RUN npm install
 
 # expose frontend port
 EXPOSE 9000
 
-RUN npm start
+CMD["npm", "start"]
 
 
 
