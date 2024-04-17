@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY /springbootWithPostgresql .
 
-RUN mvn clean package
+#RUN mvn clean package
 
 WORKDIR /app/target
 
@@ -12,6 +12,6 @@ WORKDIR /app/target
 EXPOSE 8432
 
 # Start the application using the JAR file
-CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"]
+#CMD ["java", "-jar", "springbootWithPostgresql-0.0.1-SNAPSHOT.jar"]
 
 
