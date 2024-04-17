@@ -25,8 +25,8 @@ jobs:
       #build with automated run, run checks on code, update dependencies on the fly
       - name: Build with Maven
         working-directory: springbootWithPostgresql
-        run: |
-          mvn install
+        run: mvn install
+
 #          mvn --batch-mode --update-snapshots verify
 
 #      #Run tests
