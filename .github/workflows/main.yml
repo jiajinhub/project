@@ -27,17 +27,17 @@ jobs:
         working-directory: springbootWithPostgresql
         run: mvn --batch-mode --update-snapshots verify
 
-      #Run tests
-      - name: Run Java Tests
-        working-directory: springbootWithPostgresql
-        run: mvn test
-
-      #create artifacts after job run
-      - name: Create Test Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: Test Reports
-          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
+#      #Run tests
+#      - name: Run Java Tests
+#        working-directory: springbootWithPostgresql
+#        run: mvn test
+#
+#      #create artifacts after job run
+#      - name: Create Test Artifacts
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: Test Reports
+#          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
 
 
   setup-node:
@@ -107,9 +107,11 @@ jobs:
         - name: Push Docker Image to Registry
           run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_frontend_latest
 
-
-#  deploy-app:
-#    needs: setup-and-push-docker-img
-#    runs-on: ubuntu-latest
 #
+#  deploy-app:
+#    needs:
+#    - setup-and-push-docker-img-backend
+#    - setup-and-push-docker-img-backend
+#    runs-on: ubuntu-latest
+
 
