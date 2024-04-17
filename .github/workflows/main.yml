@@ -23,22 +23,21 @@ jobs:
         run: cd springbootWithPostgresql  # Change path to where pom.xml is located
 
       #build with automated run, run checks on code, update dependencies on the fly
-#      - name: Build with Maven
-#        working-directory: springbootWithPostgresql
-#        run: mvn install
-#          mvn --batch-mode --update-snapshots verify
+      - name: Build with Maven
+        working-directory: springbootWithPostgresql
+        run: mvn --batch-mode --update-snapshots verify
 
-#      #Run tests
-#      - name: Run Java Tests
-#        working-directory: springbootWithPostgresql
-#        run: mvn test
-#
-#      #create artifacts after job run
-#      - name: Create Test Artifacts
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: Test Reports
-#          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
+      #Run tests
+      - name: Run Java Tests
+        working-directory: springbootWithPostgresql
+        run: mvn test
+
+      #create artifacts after job run
+      - name: Create Test Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Reports
+          path: springbootWithPostgresql/target/surefire-reports # Path to the directory containing test reports
 
 
   setup-node:
