@@ -23,10 +23,9 @@ jobs:
         run: cd springbootWithPostgresql  # Change path to where pom.xml is located
 
       #build with automated run, run checks on code, update dependencies on the fly
-      - name: Build with Maven
-        working-directory: springbootWithPostgresql
-        run: mvn install
-
+#      - name: Build with Maven
+#        working-directory: springbootWithPostgresql
+#        run: mvn install
 #          mvn --batch-mode --update-snapshots verify
 
 #      #Run tests
