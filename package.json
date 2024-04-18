@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "eslint.experimental.useFlatConfig": "true",
+    "eslint:github-action": "eslint src/"
+  }
+}
