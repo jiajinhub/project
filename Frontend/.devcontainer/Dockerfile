@@ -14,6 +14,6 @@ RUN npm install
 # expose frontend port
 EXPOSE 9001
 
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
 
 
