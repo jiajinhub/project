@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Copy frontend source code to the container
 COPY /Frontend .
-COPY package.json
+COPY package*.json ./
 
 # Install dependencies
 RUN npm cache clean --force
