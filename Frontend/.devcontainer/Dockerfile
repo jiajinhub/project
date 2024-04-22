@@ -14,6 +14,6 @@ RUN npm install
 # expose frontend port
 EXPOSE 9001
 
-CMD ["node", "app.js"]
-
+# Start Nginx and keep it running in the foreground
+CMD ["nginx", "-g", "daemon off;"]
 
