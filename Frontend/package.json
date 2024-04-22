@@ -18,7 +18,7 @@
     "prettier:check": "prettier --check \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss}\"",
     "prettier:format": "prettier --write \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss}\"",
     "sonar": "sonar-scanner",
-    "start": "npm run webapp:prod --",
+    "start": "npm run webapp:dev --",
     "start-tls": "npm run webapp:dev -- --env.tls",
     "pretest": "npm run lint",
     "test": "npm run jest --",

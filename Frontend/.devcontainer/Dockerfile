@@ -5,15 +5,19 @@ FROM node:18-alpine AS frontend
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy frontend source code to the container
-COPY /Frontend .
 # Install dependencies
 RUN npm cache clean --force
 RUN npm install
+
+# Copy frontend source code to the container
+COPY /Frontend .
+
+#Build app
+RUN npm run build --prod
 
 # expose frontend port
 EXPOSE 9000
 
 # Start Nginx and keep it running in the foreground
-CMD ["npm", "start"]
+CMD ["node", "main.js"]
 
