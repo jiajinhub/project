@@ -7,10 +7,11 @@ WORKDIR /app
 
 # Install dependencies
 RUN npm cache clean --force
-RUN npm install
 
 # Copy frontend source code to the container
 COPY /Frontend .
+
+RUN npm install
 
 #Build app
 RUN npm run build --prod
