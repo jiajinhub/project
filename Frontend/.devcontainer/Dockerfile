@@ -12,7 +12,7 @@ RUN npm cache clean --force
 RUN npm install
 
 # expose frontend port
-EXPOSE 9001
+EXPOSE 9000
 
 # Start Nginx and keep it running in the foreground
 CMD ["npm", "start"]
