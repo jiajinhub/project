@@ -15,5 +15,5 @@ RUN npm install
 EXPOSE 9001
 
 # Start Nginx and keep it running in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
 
