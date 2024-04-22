@@ -7,6 +7,7 @@ WORKDIR /app
 
 # Copy frontend source code to the container
 COPY /Frontend .
+COPY package.json
 
 # Install dependencies
 RUN npm cache clean --force
@@ -15,6 +16,6 @@ RUN npm install
 # expose frontend port
 EXPOSE 9009
 
-ENTRYPOINT ["npm", "run", "start"]
+ENTRYPOINT ["npm", "start"]
 
 
