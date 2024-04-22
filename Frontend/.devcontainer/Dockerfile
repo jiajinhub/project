@@ -20,5 +20,5 @@ RUN npm run build --prod
 EXPOSE 9000
 
 # Start Nginx and keep it running in the foreground
-CMD ["node", "main.js"]
+CMD ["node", "app.js"]
 
