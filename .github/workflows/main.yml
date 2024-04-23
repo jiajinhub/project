@@ -109,6 +109,9 @@ jobs:
 
 
   deploy-app:
+    needs:
+      - setup-and-push-docker-img-backend
+      - setup-and-push-docker-img-frontend
     runs-on: ubuntu-latest
     steps:
       - name: SSH into AWS EC2 instance and run Docker commands
@@ -118,6 +121,6 @@ jobs:
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull elishazacarias/swe5006_team28:fpta_backend_latest
+#            docker pull elishazacarias/swe5006_team28:fpta_backend_latest
             docker images
-#            docker run -d -p 8080:8080 f243b08e1a8c
+            docker run -d -p 8080:8080 288476714428
