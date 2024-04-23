@@ -122,5 +122,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull elishazacarias/swe5006_team28:fpta_backend_latest
-            docker run -d -p 8080:8080 $(sudo docker images -q swe5006_team28:fpta_backend_latest)
+            image_id=$(docker images -q swe5006_team28:fpta_backend_latest)
+            docker run -d -p 8080:8080 image_id
             
