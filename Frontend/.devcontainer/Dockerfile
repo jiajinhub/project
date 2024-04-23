@@ -20,7 +20,7 @@ RUN npm install -g serve
 COPY /Frontend .
 
 #Build app
-RUN npm run build --prod
+RUN npm run build
 
 # expose frontend port
 EXPOSE 9000
