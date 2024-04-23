@@ -122,6 +122,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull elishazacarias/swe5006_team28:fpta_backend_latest
-            docker save swe5006_team28:fpta_backend_latest > backend.tar
-            docker load < backend.tar
+            docker run -d -p 8080:8080 swe5006_team28:fpta_backend_latest
             
