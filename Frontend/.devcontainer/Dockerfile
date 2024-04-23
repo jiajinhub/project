@@ -6,12 +6,12 @@ FROM node:18 AS frontend
 WORKDIR /app
 
 # copy package.json and package-lock.json
-COPY package.json package-lock.json
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm cache clean --force
 
-WORKDIR /app
+WORKDIR /Frontend
 RUN npm install
 
 # Copy frontend source code to the container
