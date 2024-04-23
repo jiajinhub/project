@@ -121,6 +121,8 @@ jobs:
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            backend=$(docker pull elishazacarias/swe5006_team28:fpta_backend_latest)
-            docker images
-            docker run -d -p 8080:8080 backend
+            image_name="elishazacarias/swe5006_team28"
+            backend_tag="fpta_backend_latest"
+            frontend_tag="fpta_frontend_latest"
+            backend_digest=$(docker inspect --format='{{index .RepoDigests 0}}' "$image_name:$backend_tag")
+            docker run -d -p 8080:8080 "$backend_digest"
