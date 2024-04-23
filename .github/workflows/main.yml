@@ -121,8 +121,9 @@ jobs:
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            docker system prune
             docker pull elishazacarias/swe5006_team28:fpta_backend_latest
             docker pull elishazacarias/swe5006_team28:fpta_backend_latest
             docker images
-#            docker run -d -p 8080:8080 ${image_id}
+            docker run -d -p 8080:8080 57dea4a6631f862ed3a3fb4423b8ba6660eac34e4c4772024064267f1533899a
             
