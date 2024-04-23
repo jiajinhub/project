@@ -107,11 +107,17 @@ jobs:
         - name: Push Docker Image to Registry
           run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_frontend_latest
 
-#
-#  deploy-app:
-#    needs:
-#    - setup-and-push-docker-img-backend
-#    - setup-and-push-docker-img-backend
-#    runs-on: ubuntu-latest
 
-
+  deploy-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into AWS EC2 instance and run Docker commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: "ec2-13-229-216-25.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
+          username: "ubuntu"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull elishazacarias/swe5006_team28:fpta_backend_latest
+            docker images
+#            docker run -d -p 8080:8080 f243b08e1a8c
