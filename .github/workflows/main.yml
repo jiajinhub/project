@@ -110,17 +110,17 @@ jobs:
 
   deploy-app:
     needs:
-      - setup-and-push-docker-img-backend
+#      - setup-and-push-docker-img-backend # disable when the max connections hit
       - setup-and-push-docker-img-frontend
     runs-on: ubuntu-latest
     steps:
       - name: SSH into AWS EC2 instance and run Docker commands
         uses: appleboy/ssh-action@master
         with:
-          host: "ec2-52-221-229-91.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
+          host: "ec2-13-212-139-116.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull elishazacarias/swe5006_team28:fpta_frontend_latest
+            backend=$(docker pull elishazacarias/swe5006_team28:fpta_backend_latest)
             docker images
-            docker run -d -p 8080:8080 288476714428
+            docker run -d -p 8080:8080 backend
