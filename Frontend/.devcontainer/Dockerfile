@@ -11,11 +11,9 @@ COPY package.json package-lock.json ./
 # Install dependencies
 RUN npm cache clean --force
 
-WORKDIR /Frontend
-RUN npm install
-
 # Copy frontend source code to the container
 COPY /Frontend .
+RUN npm install
 
 #Build app
 RUN npm run webapp:build
