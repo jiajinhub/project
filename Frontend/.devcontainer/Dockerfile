@@ -8,7 +8,7 @@ WORKDIR /app
 # copy package.json and package-lock.json
 COPY /Frontend/package.json /Frontend/package-lock.json ./
 # Build your application with Webpack
-RUN webpack --config webpack.prod.js
+#RUN webpack --config webpack.prod.js
 
 # Install dependencies
 RUN npm cache clean --force
