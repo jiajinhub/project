@@ -121,4 +121,4 @@ jobs:
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker run -d -p 8080:8080 $(sudo docker elishazacarias/swe5006_team28:fpta_backend_latest)
+            docker run -d -p 8080:8080 $(sudo docker pull elishazacarias/swe5006_team28:fpta_backend_latest)
