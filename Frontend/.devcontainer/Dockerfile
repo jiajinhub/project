@@ -3,10 +3,10 @@
 FROM node:18 AS frontend
 
 # Set the working directory in the container
-WORKDIR /Frontend
+WORKDIR /app
 
 # copy package.json and package-lock.json
-COPY /package.json /package-lock.json
+COPY package.json package-lock.json
 
 # Install dependencies
 RUN npm cache clean --force
