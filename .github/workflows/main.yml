@@ -111,7 +111,7 @@ jobs:
   deploy-app:
     needs:
 #      - setup-and-push-docker-img-backend # disable when the max connections hit
-      - setup-and-push-docker-img-frontend
+#      - setup-and-push-docker-img-frontend
     runs-on: ubuntu-latest
     steps:
       - name: SSH into AWS EC2 instance and run Docker commands
@@ -128,6 +128,8 @@ jobs:
             docker pull elishazacarias/swe5006_team28:fpta_frontend_latest
             backendImg=$(docker images -q swe5006_team28:fpta_backend_latest)
             frontendImg=$(docker images -q swe5006_team28:fpta_frontend_latest)
+            echo $backendImg
+            echo $frontendImg
             docker run -d -p 8080:8080 $backendImg
             docker run -d -p 9000:9000 $frontendImg
             
