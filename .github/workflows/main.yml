@@ -109,7 +109,7 @@ jobs:
 
 
   deploy-app:
-    needs:
+#    needs:
 #      - setup-and-push-docker-img-backend # disable when the max connections hit
 #      - setup-and-push-docker-img-frontend
     runs-on: ubuntu-latest
