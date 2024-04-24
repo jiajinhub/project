@@ -126,8 +126,8 @@ jobs:
             docker rm $(docker kill $(docker ps -aq))
             docker pull elishazacarias/swe5006_team28:fpta_backend_latest
             docker pull elishazacarias/swe5006_team28:fpta_frontend_latest
-            backendImg=$(docker images -q swe5006_team28:fpta_backend_latest)
-            frontendImg=$(docker images -q swe5006_team28:fpta_frontend_latest)
+            backendImg=$(docker images -q elishazacarias/swe5006_team28:fpta_backend_latest)
+            frontendImg=$(docker images -q elishazacarias/swe5006_team28:fpta_frontend_latest)
             echo $backendImg
             echo $frontendImg
             docker run -d -p 8080:8080 $backendImg
