@@ -109,9 +109,9 @@ jobs:
 
 
   deploy-app:
-#    needs:
-#      - setup-and-push-docker-img-backend # disable when the max connections hit
-#      - setup-and-push-docker-img-frontend
+    needs:
+      - setup-and-push-docker-img-backend # disable when the max connections hit
+      - setup-and-push-docker-img-frontend
     runs-on: ubuntu-latest
     steps:
       - name: SSH into AWS EC2 instance and run Docker commands
