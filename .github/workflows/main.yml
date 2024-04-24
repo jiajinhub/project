@@ -107,11 +107,29 @@ jobs:
         - name: Push Docker Image to Registry
           run: docker push ${{ secrets.DOCKER_USERNAME }}/swe5006_team28:fpta_frontend_latest
 
-#
-#  deploy-app:
-#    needs:
-#    - setup-and-push-docker-img-backend
-#    - setup-and-push-docker-img-backend
-#    runs-on: ubuntu-latest
 
-
+  deploy-app:
+    needs:
+      - setup-and-push-docker-img-backend # disable when the max connections hit
+      - setup-and-push-docker-img-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into AWS EC2 instance and run Docker commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: "ec2-54-254-170-12.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
+          username: "ubuntu"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker system prune -f
+            docker rmi $(docker images -qf "dangling=true")
+            docker rm $(docker kill $(docker ps -aq))
+            docker pull elishazacarias/swe5006_team28:fpta_backend_latest
+            docker pull elishazacarias/swe5006_team28:fpta_frontend_latest
+            backendImg=$(docker images -q elishazacarias/swe5006_team28:fpta_backend_latest)
+            frontendImg=$(docker images -q elishazacarias/swe5006_team28:fpta_frontend_latest)
+            echo $backendImg
+            echo $frontendImg
+            docker run -d -p 8080:8080 $backendImg
+            docker run -d -p 9000:9000 $frontendImg
+            

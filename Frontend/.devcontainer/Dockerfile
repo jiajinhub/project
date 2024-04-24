@@ -1,20 +1,25 @@
 
 # Use a base image with Node.js for frontend
-FROM node:18-alpine AS frontend
+FROM node:18 AS frontend
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy frontend source code to the container
-COPY /Frontend .
+# copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm cache clean --force
+
+# Copy frontend source code to the container
+COPY /Frontend .
 RUN npm install
 
+#Build app
+RUN npm run webapp:build
+
 # expose frontend port
-EXPOSE 9009
+EXPOSE 9000
 
-ENTRYPOINT ["npm", "run", "start"]
-
+CMD ["node", "app.js"]
 
