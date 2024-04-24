@@ -21,5 +21,5 @@ RUN npm run webapp:build
 # expose frontend port
 EXPOSE 9000
 
-CMD ["node", "app.js"]
+CMD ["npm", "run", "start"]
 
