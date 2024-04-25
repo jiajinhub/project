@@ -28,7 +28,7 @@ public class AccountController {
     private ValidationStrategy passwordValidationStrategy = new PasswordValidationStrategy();
     private ValidationStrategy emailValidationStrategy = new EmailValidationStrategy();
 
-    @RequestMapping(value = "retrieveAll", method = RequestMethod.GET)
+    @RequestMapping(value = "retrieve", method = RequestMethod.GET)
     public List<AccountEntity> getAllAccount(){
         List<AccountEntity> users = accService.getAllUser();
         System.out.println("users : "+users);
