@@ -6,7 +6,23 @@ on:
       - "github_actions" #for debugging/dev purposes in this branch
 
 jobs:
+  remove-running-images: #in the case that the database connection conflicts with the running docker build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove existing images
+        uses: appleboy/ssh-action@master
+        with:
+          host: "ec2-13-212-74-198.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
+          username: "ubuntu"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker system prune -f
+            docker rmi $(docker images -qf "dangling=true")
+            docker rm $(docker kill $(docker ps -aq))
+
   build-and-test-maven:
+    needs:
+      - remove-running-images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -41,6 +57,8 @@ jobs:
 
 
   setup-node:
+    needs:
+      - remove-running-images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -117,7 +135,7 @@ jobs:
       - name: SSH into AWS EC2 instance and run Docker commands
         uses: appleboy/ssh-action@master
         with:
-          host: "ec2-13-212-78-27.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
+          host: "ec2-13-212-74-198.ap-southeast-1.compute.amazonaws.com" #requires changing when the aws instance is restarted
           username: "ubuntu"
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
