@@ -4,6 +4,7 @@
   "private": true,
   "description": "Description for Jhip FE",
   "license": "UNLICENSED",
+  "main": "index.js",
   "scripts": {
     "build": "npm run webapp:prod --",
     "build-watch": "concurrently 'npm run webapp:build:dev -- --watch'",
@@ -17,6 +18,7 @@
     "prepare": "husky install",
     "prettier:check": "prettier --check \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss}\"",
     "prettier:format": "prettier --write \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss}\"",
+    "prod-start": "npm run webapp:prod",
     "sonar": "sonar-scanner",
     "start": "npm run webapp:dev --",
     "start-tls": "npm run webapp:dev -- --env.tls",

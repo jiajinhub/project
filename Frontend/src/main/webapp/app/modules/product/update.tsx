@@ -27,6 +27,7 @@ export const Update = () => {
   const [listProd, setProdList] = useState('');
   const [itemUpdated, setItemUpdated] = useState(false);
   const [update, updated] = useState(false);
+  const [N, setN] = useState('');
   useEffect(() => {
     item();
   }, []);
@@ -68,7 +69,13 @@ export const Update = () => {
   };
 
   const openModal = () => {
-    setopen(true);
+    const num = /^[0-9]+$/;
+    if (!num.test(quantity)) {
+      setN('Please enter a number');
+      return;
+    } else {
+      setopen(true);
+    }
   };
 
   const closeModal = () => {
@@ -88,6 +95,10 @@ export const Update = () => {
   };
 
   const prodQuantity = (event) => {
+    const num = /^[0-9]+$/;
+    if (!num.test(quantity)) {
+      setN('');
+    }
     setQuantity(event.target.value);
   };
 
@@ -104,7 +115,6 @@ export const Update = () => {
   };
 
   const edit = (e) => {
-    const prod = {name,price,cat};
     data.name = name;
     data.price = price;
     data.category = cat;
@@ -165,6 +175,7 @@ export const Update = () => {
                 validate={{required: 'please include quantity',}}
                 required
               />)}
+              {N && (<div style={{ color: 'red',fontSize: '12px'}}>Please enter a number</div>)}
               <label>Expiry Date </label>
               <br/>
               <DatePicker id="Expiry Date" selected={selectedDate} onChange={prodDate} dateFormat="yyyy-MM-dd"/>

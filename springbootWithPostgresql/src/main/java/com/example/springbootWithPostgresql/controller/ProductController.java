@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @RequestMapping(value="test", method = RequestMethod.GET)
-    public List<ProductEntity> forTest(){
-        return prodService.forTest();
+    public void forTest(){
+        prodService.sendExpiryNotificationEmail();
     }
 }
