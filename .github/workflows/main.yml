@@ -18,7 +18,7 @@ jobs:
           script: |
             docker system prune -f
             docker rmi $(docker images -qf "dangling=true")
-            docker rm $(docker kill $(docker ps -aq))
+            docker stop $(docker ps -aq)
 
   build-and-test-maven:
     needs:
