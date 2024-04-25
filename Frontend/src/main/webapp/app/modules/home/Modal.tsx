@@ -29,9 +29,14 @@ const Modal: React.FC<ModalProps> = ({ toUpdate, name, description, isOpen, onCl
     <div className={`modal ${isOpen ? 'display-block' : 'display-none'}`}>
     <div className="modal-main">
       <div className="modalHeader">
-        <h3>New List</h2>
+        {toUpdate ? (
+          <h3>Update {name}</h2>
+        ) : (
+          <h3>New List</h2>
+        )}
+
         <div onClick={onClose}>
-          <FontAwesomeIcon icon="times"/>
+          <FontAwesomeIcon icon="times" style={{color: '#14110F'}}/>
         </div>
       </div>
       <div className="inputFieldsMain">

@@ -5,7 +5,7 @@ import FormInputDDL from 'app/shared/common/form-input-ddl';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputTextArea from 'app/shared/common/form-input-textArea';
 import React, { useEffect, useState } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { CreateProductDataType, CreateProductReducerType, createProduct } from './create-product.reducer';
 
@@ -38,7 +38,7 @@ export const CreateProduct = () => {
     expiryDate: null,
     description: '',
     nutriGrade: '',
-    listId: 1, //hardcode currently, need to wait for grocery list to complete********************
+    listId: localStorage.getItem('listID'),
   });
 
   //handle change for textbox and textarea
@@ -122,24 +122,27 @@ export const CreateProduct = () => {
   //for debug remove last
   //TEMPORARY BUTTON STYLE FOR CREATE BUTTON*********************
   const customStyle: React.CSSProperties = {
-    backgroundColor: 'grey',
-    color: 'white',
+    backgroundColor: '#D9C5B2',
+    borderRadius: '10px',
+    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.05)',
     border: 'none',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    cursor: 'pointer',
-    width: 400;
-    height: 40;
-    position: 'absolute',
+    display: 'flex',
+    height: '40px',
+    width: '130px',
     right: '20px',
+    position: 'absolute',
+    padding: '5px 10px',
+    alignItems: 'center',
+    justifyContent: 'center',
+
   };
 
   return (
     <div>
       <h1 style={{ marginLeft: '30px', textAlign: 'left'}}>Add Inventory</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ marginLeft: '30px' }}>
         <Row className="justify-content-center">
-          <FormInputText label="Title" value={formData.name} onChange={handleChange} placeholder={'Name'} name={'name'} />
+          <FormInputText label="Title" value={formData.name} onChange={handleChange} placeholder={'Name'} name={'name'}/>
           {e1 && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '60px'}}>Name is required</div>)}
           <FormInputDDL label="Category" options={options} value={formData.category} onChange={handleSelectChange} name={'category'}/>
           {e2 && (<div style={{ color: 'red',fontSize: '12px',marginLeft: '60px'}}>Category is required</div>)}
@@ -172,7 +175,7 @@ export const CreateProduct = () => {
             />
           </div>
 
-          <FormInputButton type={'submit'} id={'submitButton'} label={'create'} btnStyle={customStyle} />
+          <FormInputButton type={'submit'} id={'submitButton'} label={'Create'} btnStyle={customStyle} />
         </Row>
       </form>
     </div>

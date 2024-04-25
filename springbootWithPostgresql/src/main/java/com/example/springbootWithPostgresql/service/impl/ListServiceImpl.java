@@ -2,13 +2,15 @@ package com.example.springbootWithPostgresql.service.impl;
 
 import com.example.springbootWithPostgresql.entity.ListDetailEntity;
 import com.example.springbootWithPostgresql.repository.ListRepo;
+import com.example.springbootWithPostgresql.service.GroceryListService;
+import com.example.springbootWithPostgresql.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ListServiceImpl {
+public class ListServiceImpl implements ListService {
 
     @Autowired
     private ListRepo listRepo;

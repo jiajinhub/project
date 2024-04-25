@@ -6,19 +6,28 @@ $header-color-hover: darken($header-color, 20%);
 Development Ribbon
 ========================================================================== */
 
-:root{
-  --header_background: #34312D;
-  --header_color: black;
+:root {
+  --body_background: #f3f3f4;
+  --body_color: #14110F;
+  --accent_colors_1: #34312D;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #D9C5B2;
 }
 
-[data-theme="dark"]{
-  --header-color: #fff;
-  --header-color-secondary: #bbb;
+[data-theme='dark'] {
+  --body_background: #14110f;
+  --body_color: #f3f3f4;
+  --accent_colors_1: #D9C5B2;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #34312D;
 }
 
-[data-theme="light"]{
-  --header_background: #34312D;
-  --header_color: black;
+[data-theme='light'] {
+  --body_background: #f3f3f4;
+  --body_color: #14110F;
+  --accent_colors_1: #34312D;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #D9C5B2;
 }
 
 .ribbon {
@@ -68,22 +77,8 @@ Navbar styles
   padding: 0 0 0 10px;
 }
 
-.brand-logo {
-  &:hover {
-    text-decoration: none;
-  }
-  .brand-icon {
-    height: 35px;
-    width: auto;
-    display: inline-block;
-    img {
-      width: 45px;
-    }
-  }
-}
-
 .brand-title {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   margin-left: 0.25rem;
   color: var(--header-color);
   &:hover {

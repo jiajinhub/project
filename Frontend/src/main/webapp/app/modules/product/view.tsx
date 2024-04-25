@@ -110,19 +110,19 @@ export const View = () => {
         <Row className="justify-content-center">
           <Col md="8">
             <ValidatedForm id="view" onSubmit={null} formNoValidate noValidate={ false } >
-              <p style={{ marginBottom: '4px' }}>Category</p>
-              <p style={{ minHeight: '20px' }}>{cat}</p>
-              <p style={{ marginBottom: '4px' }}>Price</p>
-              <p style={{ minHeight: '20px' }}>SGD {price}</p>
-              <p style={{ marginBottom: '4px' }}>Quantity</p>
-              <p style={{ minHeight: '20px' }}>{quantity}</p>
-              <p style={{ marginBottom: '4px' }}>Expiry Date</p>
-              <p style={{ minHeight: '20px' }}>{ed}</p>
-              <p style={{ marginBottom: '4px' }}>NutriGrade</p>
-              <p style={{ minHeight: '20px' }}>{ng}</p>
-              <p style={{ marginBottom: '4px' }}>Description / Remarks</p>
-              <p style={{ minHeight: '20px' }}>{des}</p>
-              <Link to="/product" className="btn" color="primary"  style={{justifyContent: 'flex-end', display: 'inline-block', border: '1px solid', borderRadius: '5px', marginLeft: '750px'}}>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>Category</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>{cat}</p>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>Price</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>SGD {price}</p>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>Quantity</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>{quantity}</p>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>Expiry Date</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>{ed}</p>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>NutriGrade</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>{ng}</p>
+              <p className="viewProducts" style={{ marginBottom: '4px' }}>Description / Remarks</p>
+              <p className="viewProducts" style={{ minHeight: '20px' }}>{des}</p>
+              <Link to="/product" className="btn viewProducts" color="primary"  style={{justifyContent: 'flex-end', display: 'inline-block', border: '1px solid', borderRadius: '5px', marginLeft: '750px'}}>
                 Cancel
               </Link>
             </ValidatedForm>

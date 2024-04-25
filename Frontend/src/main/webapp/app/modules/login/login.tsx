@@ -5,6 +5,7 @@ import { AccountDataType, authenticate, getAccount } from './login.reducer';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputButton from 'app/shared/common/form-input-button';
 import { Alert } from 'reactstrap';
+import LandingBanner from 'app/modules/account/landingBanner/LandingBanner';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -73,19 +74,10 @@ export const Login = () => {
     <>
       <div>
         <div className="container">
-          <div className="left">
-            <div className="groceryTracker-font">Grocery Checker</div>
-            <div className="image-container">
-              <img
-                src="../../../content/images/Webpage Cover Banner.jpg"
-                alt="Left Image"
-                style={{ width: '605px', height: '512px', objectFit: 'fill' }}
-              />
-            </div>
-          </div>
+          <LandingBanner />
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className="pad-50">
+              <div className="pad-75">
                 <h1>Login</h1>
                 <p></p>
                 <FormInputText value={formData.email} onChange={handleChange} placeholder={'Email Address'} name={'email'} />
@@ -104,13 +96,13 @@ export const Login = () => {
                   </Alert>
                 ) : null}
                 <FormInputButton type={'submit'} id={'submitButton'} label={'Sign In'} className={'btn-green'} />
-                <div className="pad-02">
-                  <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
+                <div style={{ paddingTop: '1rem' }} >
+                  <Link className="loginWords" to="/account/reset/request" data-cy="forgetYourPasswordSelector">
                     Forget password?
                   </Link>
                 </div>
                 <div className="pad-50">
-                  <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Sign up Here!</Link>
+                  <span className="loginWords">You don&apos;t have an account yet?</span> <Link className="loginWords" to="/account/register">Sign up Here!</Link>
                 </div>
               </div>
             </form>

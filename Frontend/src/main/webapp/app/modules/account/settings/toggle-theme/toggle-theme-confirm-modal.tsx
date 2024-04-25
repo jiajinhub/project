@@ -30,7 +30,7 @@ const ThemeUpdateModal = (props: IToggleThemeProps) => {
   const userID: UserDataType = {
     userID: loginUserDetails.userId
   }
-  
+
   const handleUpdateSubmit = e => {
     handleSubmit(updateTheme)(e);
   };
@@ -56,7 +56,7 @@ const ThemeUpdateModal = (props: IToggleThemeProps) => {
     <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="theme-page" autoFocus={false}>
       <Form onSubmit={handleUpdateSubmit}>
         <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose} className='component'>
-         Confirm change theme
+         <h3 className="special_texts">Confirm change theme</h3>
         </ModalHeader>
         <ModalBody className='component'>
           <Row>
@@ -71,7 +71,7 @@ const ThemeUpdateModal = (props: IToggleThemeProps) => {
 
           <Row>
             <Col md="12">
-              Please confirm if you would like to update your application theme. 
+              <p className="special_texts">Please confirm if you would like to update your application theme.</p>
             </Col>
           </Row>
         </ModalBody>

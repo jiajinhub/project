@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-
+import React, { useLayoutEffect, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { reset } from './login.reducer';
 //import { logout } from 'app/shared/reducers/authentication';
@@ -7,8 +7,9 @@ import { reset } from './login.reducer';
 export const Logout = () => {
   //const logoutUrl = useAppSelector(state => state.authentication.logoutUrl);
   const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
+  const navigate = useNavigate();
 
-  
   const setLightMode = () => {
     document.querySelector("body").setAttribute('data-theme','light');
     document.querySelector("nav").setAttribute('data-bs-theme','light');
@@ -26,9 +27,15 @@ export const Logout = () => {
     setLightMode();
   });
 
+  useEffect(() => {
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+    }, [isAuthenticated]);
+
   return (
     <div className="p-5">
-      <h4>Logged out successfully!</h4>
+      <h4 className="loginWords">Logged out successfully!</h4>
     </div>
   );
 };

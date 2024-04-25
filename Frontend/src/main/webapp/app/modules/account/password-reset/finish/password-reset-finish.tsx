@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import LandingBanner from 'app/modules/account/landingBanner/LandingBanner';
+import { AccountDataType } from '../password-reset.reducer';
 
 export const PasswordResetFinishPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
-  const key = searchParams.get('key');
+//   const key = searchParams.get('key');
+  const key = localStorage.getItem('email');
 
   const [password, setPassword] = useState('');
 
@@ -23,7 +26,15 @@ export const PasswordResetFinishPage = () => {
     [],
   );
 
-  const handleValidSubmit = ({ newPassword }) => dispatch(handlePasswordResetFinish({ key, newPassword }));
+  const handleValidSubmit = ({ newPassword }) => {
+    const auth: AccountDataType = {
+          email: key, //email
+          password: newPassword, //password
+        };
+    console.log("key: " + key);
+    console.log("newPassword: " + newPassword);
+    dispatch(handlePasswordResetFinish({ auth }));
+  }
 
   const updatePassword = event => setPassword(event.target.value);
 
@@ -31,6 +42,7 @@ export const PasswordResetFinishPage = () => {
     return (
       <ValidatedForm onSubmit={handleValidSubmit}>
         <ValidatedField
+          className="loginWords"
           name="newPassword"
           label="New password"
           placeholder="New password"
@@ -45,6 +57,7 @@ export const PasswordResetFinishPage = () => {
         />
         <PasswordStrengthBar password={password} />
         <ValidatedField
+          className="loginWords"
           name="confirmPassword"
           label="New password confirmation"
           placeholder="Confirm the new password"
@@ -69,19 +82,25 @@ export const PasswordResetFinishPage = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
+      navigate('/login');
     }
   }, [successMessage]);
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="4">
-          <h1>Reset password</h1>
-          <div>{key ? getResetForm() : null}</div>
-        </Col>
-      </Row>
+      <div className="container">
+        <LandingBanner />
+        <div className="right">
+          <div className="pad-50">
+            <h1>Reset password</h1>
+            <div>{ getResetForm() }</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+
+// <div>{key ? getResetForm() : null}</div>
 
 export default PasswordResetFinishPage;

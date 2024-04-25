@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { RegisterDataType, insertAccount, reset } from './register.reducer';
 import FormInputText from 'app/shared/common/form-input-text';
 import FormInputButton from 'app/shared/common/form-input-button';
-import { Link } from 'react-router-dom';
-import { Alert } from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { Alert, Button } from 'reactstrap';
+import LandingBanner from 'app/modules/account/landingBanner/LandingBanner';
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +14,7 @@ export const RegisterPage = () => {
   const registrationSuccess = useAppSelector(state => state.register.registrationSuccess);
   const registrationErrorMsg = useAppSelector(state => state.register.errorMessage);
   const [regStr, setRegStr] = useState('');
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -52,19 +54,38 @@ export const RegisterPage = () => {
         password: prevFormData.newPassword,
       }));
     } else {
-      toast.error('resubmit your password combination does not match please try again!');
+      toast.error('Rejected');
+      setRegStr('Password combination does not match.');
     }
   };
+
+  const handleAlerts = () => {
+    return (
+        <Alert color="success">
+          <strong>Registration Successful!</strong>
+          <p>Your account has been created.</p>
+          <div className="d-flex justify-content-end mt-2">
+            <Button color="primary" size="sm" onClick={() => navToLogin()}>Log In</Button>
+          </div>
+        </Alert>
+      );
+  }
+
+  const navToLogin = () => {
+    navigate('/login');
+  }
 
   //after register success, navigate to /login
   useEffect(() => {
     if (registrationSuccess) {
-      alert('registered successfully!!!!');
-      window.location.href = '/login';
+//       alert('registered successfully!!!!');
+      handleAlerts();
+//       toast.success("Successfully registered!");
+//       navToLogin();
     }
     if (registrationErrorMsg) {
       const convertRegStr = JSON.stringify(registrationErrorMsg);
-      setRegStr(convertRegStr);
+      setRegStr(registrationErrorMsg);
       setFormData(prevFormData => ({
         ...prevFormData,
         password: '',
@@ -88,16 +109,7 @@ export const RegisterPage = () => {
   return (
     <div>
       <div className="container">
-        <div className="left">
-          <div className="groceryTracker-font">Grocery Checker</div>
-          <div className="image-container">
-            <img
-              src="../../../content/images/Webpage Cover Banner.jpg"
-              alt="Left Image"
-              style={{ width: '605px', height: '512px', objectFit: 'fill' }}
-            />
-          </div>
-        </div>
+        <LandingBanner />
         <div className="right">
           <div className="pad-50">
             <form onSubmit={handleSubmit}>
@@ -127,7 +139,7 @@ export const RegisterPage = () => {
               {regStr && <span className="alert alert-danger">{regStr}</span>}
             </form>
             <div className="pad-50">
-              <span>Already have an account?</span> <Link to="/login">Log In Here!</Link>
+              <span className="loginWords">Already have an account?</span> <Link className="loginWords" to="/login">Log In Here!</Link>
             </div>
             {/* <FormInputButton type={'link'} id={'linktoLogin'} label={'Already have an account? Log In Here!'} link={'/login'} /> */}
           </div>

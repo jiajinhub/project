@@ -99,4 +99,8 @@ public class AccServiceImpl {
         return response;
     }
 
+    public void saveAccount(AccountEntity account) {
+        AccountEntity accountDetails = accRepo.save(account);
+    }
+
 }

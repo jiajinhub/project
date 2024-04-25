@@ -8,18 +8,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
 
 :root {
-  --body_background: #f3f3ff;
-  --body_color: black;
+  --body_background: #f3f3f4;
+  --body_color: #14110F;
+  --accent_colors_1: #34312D;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #D9C5B2;
 }
 
 [data-theme='dark'] {
   --body_background: #14110f;
-  --body_color: white;
+  --body_color: #f3f3f4;
+  --accent_colors_1: #D9C5B2;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #34312D;
 }
 
 [data-theme='light'] {
-  --body_background: #f3f3ff;
-  --body_color: black;
+  --body_background: #f3f3f4;
+  --body_color: #14110F;
+  --accent_colors_1: #34312D;
+  --accent_colors_2: #7E7F83;
+  --accent_colors_3: #D9C5B2;
 }
 
 .banner {
@@ -33,12 +42,14 @@ h1 {
   font-weight: 700;
   font-size: 40px;
   font-style: normal;
+  color: var(--body_color);
 }
 
 h2 {
   font-family: 'Athiti', sans-serif;
   font-weight: 400;
   font-style: normal;
+  color: var(--body_color);
 }
 
 h3 {
@@ -46,6 +57,7 @@ h3 {
   font-weight: 500;
   font-size: 25px;
   font-style: normal;
+  color: var(--body_background);
 }
 
 h4,
@@ -54,6 +66,11 @@ p {
   font-weight: 401;
   font-size: 20px;
   font-style: normal;
+  color: var(--body_color);
+}
+
+hr {
+  color: var(--accent_colors_2);
 }
 
 body,
@@ -61,12 +78,31 @@ body,
 .jh-card- {
   margin: 0;
   background-color: var(--body_background);
+  color: var(--body_background);
+}
+
+a, span, label {
+//   color: #533f03;
+  font-weight: bold;
   color: var(--body_color);
 }
 
-a {
+.loginWords {
   color: #533f03;
-  font-weight: bold;
+}
+
+.viewProducts {
+  color: var(--body_color);
+}
+
+/* index.css */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+td,th,tr {
+    color: var(--accent_colors_3);
 }
 
 * {
@@ -87,7 +123,7 @@ a {
     height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 1rem;
+    padding: 2rem;
     .card {
       padding: 1rem;
     }
@@ -449,15 +485,19 @@ CSS for Landing/Log In Page/Sign Up Page/Forgot Password Page
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-  height: 100vh; /* Full height of the viewport */
+//   height: 100vh; /* Full height of the viewport */
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 /* Left Background */
 .left {
 position: absolute;
-width: 720px;
-height: 1024px;
-// left: px;
+width: 50%;
+height: 100%;
+// width: 720px;
+// height: 1024px;
+left: 0px;
 top: 0px;
 background: #CBC5A3;
 padding-top: 63px;
@@ -466,10 +506,13 @@ padding-top: 63px;
 /* Right Background */
 .right {
 position: absolute;
-width: 720px;
-height: 1024px;
-left: 950px;
+// width: 720px;
+// height: 1024px;
+// left: 950px;
 // right: 20px;
+width: 50%;
+height: 100%;
+left: 50%;
 top: 0px;
 background: #ffffff;
 padding-top: 63px;
@@ -478,23 +521,25 @@ padding-top: 63px;
 /* Grocery Image */
 .image-container {
   position: absolute;
-  width: 605px;
-  height: 512px;
-  left: 38px;
-  top: 432px;
+//   width: 605px;
+//   height: 512px;
+  width: 50%;
+  height: 50%;
+  left: 20%;
+  top: 50%;
 }
 
 /* Grocery Tracker */
 .groceryTracker-font {
   position: absolute;
-  width: 483px;
-  height: 240px;
-  left: 110px;
-  top: 200px;
+  width: 80%;
+  height: 40%;
+  left: 20%;
+  top: 15%;
   font-family: 'Libre Barcode 39 Text';
   font-style: normal;
   font-weight: 400;
-  font-size: 120px;
+  font-size: 100px;
   line-height: 120px;
 
   color: #000000;
@@ -509,3 +554,17 @@ padding-top: 63px;
   width: 450px;
   cursor: pointer; /* No quotes needed */
 }
+
+.hideNavBar {
+  display: none;
+}
+
+.label_background {
+  background-color: var(--accent_colors_3);
+  color: var(--body_color);
+}
+
+.special_texts {
+  color: var(--body_color);
+}
+

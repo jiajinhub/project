@@ -72,7 +72,9 @@ public class ProdService {
             throw new RuntimeException("prod not found.");
     }
 
-
+    public List<ProductEntity> getProductByListID(Long listID) {
+        return prodRepo.getAllByListId(listID);
+    }
 
     //@Scheduled(fixedRate = 60000)
     public void sendEmail(){

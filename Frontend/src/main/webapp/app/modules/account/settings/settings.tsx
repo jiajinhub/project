@@ -25,19 +25,15 @@ export const SettingsPage = () => {
   return (
     <div className="component">
       <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="settings-title">
-            Settings
-          </h2>
-          <Row>Email: </Row>
-          <Row>{loginUserDetails.email}</Row>
-          <br />
-          <Row>
-            <Link to={'/account/password'} id={'linktoupdate'} style={{ 'marginLeft': '0px', 'paddingLeft': '0px', 'borderLeft': '0px' }}>
-              Change Password
-            </Link>
-          </Row>
-        </Col>
+        <h1>Settings</h1>
+        <div style={{ height: '20px' }}></div>
+        <Row>Email: {loginUserDetails.email}</Row>
+        <br />
+        <Row>
+          <Link to={'/account/password'} id={'linktoupdate'} style={{ 'marginLeft': '0px', 'paddingLeft': '0px', 'borderLeft': '0px' }}>
+            Change Password
+          </Link>
+        </Row>
       </Row>
     </div>
   );

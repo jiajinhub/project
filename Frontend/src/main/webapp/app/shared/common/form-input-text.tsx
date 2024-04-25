@@ -18,8 +18,8 @@ const FormInputText = (props: FormInputTextProps) => {
   // };
 
   return (
-    <div className="pad-02">
-      <label style={{ marginLeft: '30px' }}>
+    <div>
+      <label>
         {props.label}
         <Row style={{ width: '30%'}}>
           <div className="pad-03">

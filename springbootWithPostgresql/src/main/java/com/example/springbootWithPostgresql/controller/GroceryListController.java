@@ -2,8 +2,11 @@ package com.example.springbootWithPostgresql.controller;
 
 import com.example.springbootWithPostgresql.entity.GroceryListEntity;
 import com.example.springbootWithPostgresql.entity.ListDetailEntity;
+import com.example.springbootWithPostgresql.pattern.command.DeleteListCommand;
 import com.example.springbootWithPostgresql.service.impl.GroceryListImpl;
 import com.example.springbootWithPostgresql.service.impl.ListServiceImpl;
+import com.example.springbootWithPostgresql.service.GroceryListService;
+import com.example.springbootWithPostgresql.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,12 @@ public class GroceryListController {
 
     @Autowired
     ListServiceImpl ListService;
+
+    @Autowired
+    private GroceryListService groceryListService;
+
+    @Autowired
+    private ListService listService;
 
     @RequestMapping("/getUserLists")
     public ResponseEntity<Map<String, Object>> getAllList(@RequestParam("userID") Long userID) {
@@ -85,8 +94,8 @@ public class GroceryListController {
             @RequestParam("listID") Long listID
     ) {
         try {
-            GroceryListService.deleteUserList(userID, listID);
-            ListService.deleteList(listID);
+            DeleteListCommand deleteListCommand = new DeleteListCommand(groceryListService, listService);
+            deleteListCommand.execute(userID, listID);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Dashboard deleteUserList Error: " + e);
