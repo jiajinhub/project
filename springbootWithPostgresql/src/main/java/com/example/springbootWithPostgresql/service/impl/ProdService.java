@@ -81,6 +81,7 @@
 
 
         //@Scheduled(fixedRate = 60000)
+        @Scheduled(cron = "0 30 14 * * * ")
         public void sendEmail(){
 
             Date currentDate = new Date(System.currentTimeMillis());
@@ -101,9 +102,9 @@
             else
                 throw new RuntimeException("product not found.");
         }
-        @Scheduled(cron = "0 0 * * * *")
+        @Scheduled(cron = "0 40 16 * * * ")
         public void sendExpiryNotificationEmail(){
-
+            System.out.println("before Successfully send sendExpiryNotificationEmail ");
             try {
                 List<Map<String, Object>> resultList = prodRepo.getExpiryNotificationBatch();
                 List<ExpiryNotify> expiryNotifyList = new ArrayList<ExpiryNotify>();
@@ -129,6 +130,8 @@
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+            System.out.println("after Successfully send sendExpiryNotificationEmail ");
         }
 
         public byte[] createExcel(Long listId){
