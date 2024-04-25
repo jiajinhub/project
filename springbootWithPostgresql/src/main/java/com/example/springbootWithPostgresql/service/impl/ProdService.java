@@ -78,7 +78,9 @@
                 throw new RuntimeException("prod not found.");
         }
 
-
+    public List<ProductEntity> getProductByListID(Long listID) {
+        return prodRepo.getAllByListId(listID);
+    }
 
         //@Scheduled(fixedRate = 60000)
         @Scheduled(cron = "0 30 14 * * * ")

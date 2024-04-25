@@ -1,6 +1,8 @@
+import './prod.scss';
+
 import React, { useEffect, useState } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Link, useNavigate, useParams  } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation  } from 'react-router-dom';
 import axios from 'axios';
 import { Row, Col, Table, Modal, ModalBody} from 'reactstrap';
 import { API_VIEW_PRODUCT, API_DELETE_PRODUCT, API_URL } from 'app/config/constants/api-endpoints';
@@ -20,16 +22,29 @@ export const Product = () => {
   const [prod, prodInput] = useState(0);
   const navigate = useNavigate();
   const [e, edit] = useState('view');
+  const [listID, setListID] = useState(null);
+  const [listName, setListName] = useState(null);
 
   const change = e => {
       setSearch(e.target.value);
   };
 
   useEffect(() => {
-    axios.get(`${API_URL}${API_VIEW_PRODUCT}`)
-    .then(res => setData(res.data));
-
+    var storedData = localStorage.getItem('listID');
+    if (storedData) {
+      setListID(JSON.parse(storedData));
+    }
+    storedData = localStorage.getItem('listName');
+    if (storedData) {
+      setListName(JSON.parse(storedData));
+    }
+    handleViewProducts();
   }, []);
+
+  const handleViewProducts = async () => {
+    axios.get(`${API_URL}${API_VIEW_PRODUCT}/${localStorage.getItem('listID')}`)
+      .then(res => setData(res.data));
+  }
 
   const handleOpen = (id) => {
     setOpen(true);
@@ -43,7 +58,7 @@ export const Product = () => {
   const remove = () => {
     axios.post(`${API_URL}${API_DELETE_PRODUCT}`,{productId: prod})
     setOpen(false);
-    window.location.reload();
+    handleViewProducts();
   };
 
   const handleRowDoubleClick = (prodId) => {
@@ -76,11 +91,10 @@ export const Product = () => {
   });
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <Row className="justify-content-center">
-        <Col md="10">
           <h1 id="prodtitle" data-cy="prodTitle">
-            Product
+            {listName}
           </h1>
           <div className="d-flex justify-content-between">
             <div>
@@ -89,30 +103,30 @@ export const Product = () => {
               <button className={`btn btn-outline-secondary m-2 ${e ==='before'?'active':''}`} onClick={() => changes('before')}>Fresh</button>
             </div>
             <div>
-              <button className="btn btn-primary mr-2" ><FontAwesomeIcon icon={faShareAlt} className="mr-1" /> Share</button>
+              <div className="btn btn-outline-secondary mr-2" ><FontAwesomeIcon icon={faShareAlt} className="mr-1" /> Share</div>
               &nbsp;
-              <Link to='/create-product' className="btn btn-secondary"><FontAwesomeIcon icon={faPlus} /> Add Inventory</Link>
+              <Link to='/create-product' className="btn label_background"><FontAwesomeIcon icon={faPlus} /> Add Inventory</Link>
             </div>
           </div>
           <hr/>
-        </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="10">
           <ValidatedForm id="prod" onSubmit={null}>
             <ValidatedField
               id="name"
               name="searchQuery"
               onChange={change}
               data-cy="prod"
-              placeHolder="Search..."
+              placeholder="Search..."
             />
           </ValidatedForm>
-          <Table className="table">
+          <Table className="table table_background">
             <thead>
               <tr>
-                <th>Name</th><th>Category</th>
-                <th>Quantity</th><th>Price [SGD]</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price [SGD]</th>
                 <th>Expiry Date</th>
                 <th></th>
               </tr>
@@ -123,13 +137,13 @@ export const Product = () => {
                 const name = item.name.toLowerCase();
                 return name.startsWith(LC)
               }).map((product) => (
-                <tr className="prod" key={product.productId} onDoubleClick={() => handleRowDoubleClick(product.productId)}>
+                <tr className={`${new Date(product.expiryDate) < new Date() ? "expired" : new Date(product.expiryDate) < new Date(new Date().getTime() + (7 * 24 * 60 * 60 * 1000)) && new Date(product.expiryDate) > new Date() ? "warning" : "fresh"}`} key={product.productId} onDoubleClick={() => handleRowDoubleClick(product.productId)}>
                   <td className="p-2">{product.name}</td>
                   <td className="p-2">{product.category}</td>
                   <td className="p-2">{product.quantity}</td>
                   <td className="p-2">{product.price}</td>
                   <td className="p-2">{update(product.expiryDate)}</td>
-                  <td className="p-2"><Link to="#" onClick={()=>handleOpen(product.productId)} className="ms-2"><FontAwesomeIcon icon="trash"/></Link>
+                  <td className="p-2"><Link to="#" onClick={()=>handleOpen(product.productId)} className="ms-2" style={{"color":"#14110f"}}><FontAwesomeIcon icon="trash"/></Link>
                   </td>
                 </tr>
               ))}
@@ -142,7 +156,6 @@ export const Product = () => {
               <button onClick={close}>No</button>
             </ModalBody>
           </Modal>
-        </Col>
       </Row>
     </div>
   );

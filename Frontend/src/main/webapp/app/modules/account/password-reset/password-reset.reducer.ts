@@ -3,6 +3,17 @@ import { createAsyncThunk, createSlice, isPending, isRejected } from '@reduxjs/t
 
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 
+export type AccountDataType = {
+  email: string;
+  password: string;
+};
+
+export type AccountReducerType = {
+  auth?: AccountDataType;
+  controller?: AbortController;
+};
+
+
 const initialState = {
   loading: false,
   resetPasswordSuccess: false,
@@ -12,19 +23,28 @@ const initialState = {
 
 export type PasswordResetState = Readonly<typeof initialState>;
 
-const apiUrl = 'api/account/reset-password';
+const apiUrl = 'account/reset-password';
 // Actions
 
 export const handlePasswordResetInit = createAsyncThunk(
   'passwordReset/reset_password_init',
-  // If the content-type isn't set that way, axios will try to encode the body and thus modify the data sent to the server.
-  async (mail: string) => axios.post(`${apiUrl}/init`, mail, { headers: { ['Content-Type']: 'text/plain' } }),
+  async (mail: string) => {
+    try {
+      const response = await axios.get('http://localhost:8080/account/checkUser', {
+        params: { mail },
+        headers: { 'Content-Type': 'application/json' }
+      });
+      localStorage.setItem('email', mail);
+    } catch (e) {
+      console.log(e);
+    }
+  },
   { serializeError: serializeAxiosError },
 );
 
 export const handlePasswordResetFinish = createAsyncThunk(
   'passwordReset/reset_password_finish',
-  async (data: { key: string; newPassword: string }) => axios.post(`${apiUrl}/finish`, data),
+  async ({auth}: AccountReducerType) => axios.post('http://localhost:8080/account/resetPassword', auth),
   { serializeError: serializeAxiosError },
 );
 
@@ -42,7 +62,7 @@ export const PasswordResetSlice = createSlice({
         ...initialState,
         loading: false,
         resetPasswordSuccess: true,
-        successMessage: 'Check your email for details on how to reset your password.',
+        initSuccessMessage: 'Check your email for details on how to reset your password.',
       }))
       .addCase(handlePasswordResetFinish.fulfilled, () => ({
         ...initialState,

@@ -201,7 +201,7 @@ export const Update = () => {
                   Update
                 </button>
                 <Modal isOpen={open}>
-                  <p>Do you want to save?</p>
+                  <p className="special_texts">Do you want to save?</p>
                   <button onClick={edit}>Yes</button>
                   <button onClick={close}>No</button>
                 </Modal>
@@ -213,7 +213,7 @@ export const Update = () => {
                    </div>}
                 </Modal>
                 <div>
-                  <Link to={`/product`} className="btn btn-secondary" style={{ textDecoration: 'none' border: '1px solid', color: '#000', background: 'transparent', marginLeft: '10px'}}>Cancel</Link>
+                  <Link to={`/product`} className="btn viewProducts" color="primary"  style={{ display: 'inline-block', border: '1px solid', borderRadius: '5px', marginLeft: '10px'}}>Cancel</Link>
                 </div>
               </div>
             </ValidatedForm>

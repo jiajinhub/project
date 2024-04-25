@@ -62,6 +62,11 @@ public class ProductController {
                 .body(excelBytes);
     }
 
+    @RequestMapping(value = "retrieve/{list_ID}", method = RequestMethod.GET)
+    public List<ProductEntity> getProductByListID(@PathVariable Long list_ID){
+        return prodService.getProductByListID(list_ID);
+    }
+
     @RequestMapping(value="test", method = RequestMethod.GET)
     public void forTest(){
         prodService.sendExpiryNotificationEmail();

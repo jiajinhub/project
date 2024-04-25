@@ -111,4 +111,32 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountEntity());
         }
     }
+
+    @RequestMapping("/checkUser")
+    public ResponseEntity<Map<String, Object>> checkUserExist(@RequestParam("mail") String email) {
+        AccountEntity account = accService.getAccountByEmail(email);
+        if(account!=null){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody AccountRequestEntity accountRequest) {
+        String email = accountRequest.getEmail();
+        String newPassword = accountRequest.getPassword();
+
+        System.out.println("resetPassword: " + accountRequest);
+
+        AccountEntity account = accService.getAccountByEmail(email);
+        account.setPassword(newPassword);
+
+        try {
+            accService.saveAccount(account);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

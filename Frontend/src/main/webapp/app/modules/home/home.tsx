@@ -1,7 +1,7 @@
 import './home.scss';
 
 import React, { useEffect, useState, useRef, createRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import { Row, Col, Alert, Button } from 'reactstrap';
 import { useAppSelector } from 'app/config/store';
@@ -18,6 +18,7 @@ export const Home = () => {
   const [userLists, setUserLists] = useState(null);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -67,6 +68,8 @@ export const Home = () => {
     if (isAuthenticated) {
       fetchUserData();
       setShowModal(false);
+    } else {
+      navigate('/login');
     }
   }, [isAuthenticated]);
 
@@ -78,7 +81,7 @@ export const Home = () => {
     return (
       <div>
           <h4>
-            You are currently logged out. Please sign back in!
+            Loading...
           </h4>
       </div>
     );
@@ -122,16 +125,15 @@ export const Home = () => {
       <h1 className="welcomeTexts">Welcome, {userEmail}!</h1>
       <div className="subHeader">
         <h2>Dashboard</h2>
-        <div className="addListButton" onClick={toggleModal}>
-          <FontAwesomeIcon icon="plus"/>
-          <h4 className="addListText">New List</h4>
-        </div >
-      </div>
-      <div className="no-style-div" >
-        <button onClick={() => exportExcel(1)}>
-              Export Excel
-        </button>
-        <div style={{ height: '20px' }}></div>
+        <div className="subHeaderButtons">
+          <div className="btn btn-outline-secondary mr-2" onClick={() => exportExcel(1)}>
+            <h4 className="addListText">Export Excel</h4>
+          </div>
+          <div className="addListButton" onClick={toggleModal}>
+            <FontAwesomeIcon icon="plus" style={{color: '#14110F'}}/>
+            <h4 className="addListText" style={{color: '#14110F'}}>New List</h4>
+          </div>
+        </div>
       </div>
       <div>
         <Modal toUpdate={false} name={''} description={''} isOpen={showModal} onClose={toggleModal} onSubmit={handleList} />

@@ -4,6 +4,7 @@ import com.example.springbootWithPostgresql.entity.GroceryListEntity;
 import com.example.springbootWithPostgresql.repository.AccRepo;
 import com.example.springbootWithPostgresql.repository.GroceryListRepo;
 import com.example.springbootWithPostgresql.repository.ListRepo;
+import com.example.springbootWithPostgresql.service.GroceryListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GroceryListImpl {
+public class GroceryListImpl implements GroceryListService {
 
     @Autowired
     private GroceryListRepo groceryListRepo;

@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from './Modal';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface CardProps {
   listItem: {
@@ -23,6 +24,14 @@ const Card: React.FC<CardProps> = ({ listItem, refresh }) => {
   const userID = useAppSelector(state => state.userDetails.userId);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const navToList = (listID, listName) => {
+    localStorage.setItem('listID', JSON.stringify(listID));
+    localStorage.setItem('listName', JSON.stringify(listName));
+    navigate('/product');
+  }
+
 
   const toggleEditModal = () => {
     setShowModal(!showModal);
@@ -77,9 +86,9 @@ const Card: React.FC<CardProps> = ({ listItem, refresh }) => {
   return (
     <div className={cardClasses} key={listItem.list_id}>
       <div className="cardHeader">
-        <h3>{listItem.name}</h3>
+        <h3 style={{color: '#14110F'}}>{listItem.name}</h3>
         <div className="cardMenuIcon" ref={anchorRef} onClick={toggleCardMenu}>
-          <FontAwesomeIcon icon="ellipsis-vertical" />
+          <FontAwesomeIcon icon="ellipsis-vertical" style={{color: '#14110F'}} />
           {showCardMenu && (
             <div className="cardMenu">
               <div className="cardMenuItem" onClick={toggleEditModal}>Edit</div>
@@ -91,10 +100,10 @@ const Card: React.FC<CardProps> = ({ listItem, refresh }) => {
           </div>
         </div>
       </div>
-      <div className="groceryListCardsDetails">
-        <h4>Total Items: {listItem.productCount}</h4>
-        <h4>Total Expired: {listItem.expiredProductCount}</h4>
-        <h4>Total Expiring: {listItem.expiringProductCount}</h4>
+      <div className="groceryListCardsDetails" onClick={() => navToList(listItem.list_id, listItem.name)}>
+        <h4 style={{color: '#14110F'}}>Total Items: {listItem.productCount}</h4>
+        <h4 style={{color: '#14110F'}}>Total Expired: {listItem.expiredProductCount}</h4>
+        <h4 style={{color: '#14110F'}}>Total Expiring: {listItem.expiringProductCount}</h4>
       </div>
     </div>
   );
