@@ -1,0 +1,43 @@
+.table {
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+}
+
+.expired {
+  border-left-style: solid;
+  border-left-color: red;
+  border-left-width: thick;
+}
+
+.warning {
+  border-left-style: solid;
+  border-left-color: yellow;
+  border-left-width: thick;
+}
+
+.fresh {
+  border-left-width: thick;
+  border-left-color: transparent;
+}
+
+.addButton {
+  background-color: #D9C5B2;
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  display: flex;
+  min-height: 40px;
+  width: 130px;
+  align-items: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  justify-content: space-between;
+  .share {
+    background-color: transparent;
+    border-color: black;
+  }
+}
+
+.addButton:active{
+  background-color: #7E7F83;
+}
+
