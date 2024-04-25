@@ -108,6 +108,7 @@ jobs:
   setup-and-push-docker-img-frontend:
       needs:
         - setup-node
+      if: always()
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Code
@@ -133,6 +134,7 @@ jobs:
     needs:
       - setup-and-push-docker-img-backend # disable when the max connections hit
       - setup-and-push-docker-img-frontend
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: SSH into AWS EC2 instance and run Docker commands
