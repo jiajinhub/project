@@ -28,15 +28,14 @@ public class ListServiceImpl implements ListService {
         listRepo.deleteById(listID);
     }
 
-    public boolean updateList (Long listID, String name, String description) {
+    public void updateList (Long listID, String name, String description) throws Exception{
         Optional<ListDetailEntity> toUpdate = listRepo.findById(listID);
-        if (toUpdate.isPresent()) {
-            ListDetailEntity toUpdateList = toUpdate.get();
-            toUpdateList.setName(name);
-            toUpdateList.setDescription(description);
-            listRepo.save(toUpdateList);
-            return false;
+        if (toUpdate.isEmpty()) {
+            throw new Exception();
         }
-        return true;
+        ListDetailEntity toUpdateList = toUpdate.get();
+        toUpdateList.setName(name);
+        toUpdateList.setDescription(description);
+        listRepo.save(toUpdateList);
     }
 }
