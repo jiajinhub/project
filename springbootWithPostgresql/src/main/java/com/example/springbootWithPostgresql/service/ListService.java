@@ -11,5 +11,5 @@ public interface ListService {
 
     public void deleteList (Long listID);
 
-    public boolean updateList (Long listID, String name, String description);
+    public void updateList (Long listID, String name, String description) throws Exception;
 }

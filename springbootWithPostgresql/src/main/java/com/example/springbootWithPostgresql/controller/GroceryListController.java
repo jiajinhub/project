@@ -2,7 +2,10 @@ package com.example.springbootWithPostgresql.controller;
 
 import com.example.springbootWithPostgresql.entity.GroceryListEntity;
 import com.example.springbootWithPostgresql.entity.ListDetailEntity;
+import com.example.springbootWithPostgresql.pattern.command.CreateListCommand;
 import com.example.springbootWithPostgresql.pattern.command.DeleteListCommand;
+import com.example.springbootWithPostgresql.pattern.command.UpdateListCommand;
+import com.example.springbootWithPostgresql.pattern.command.ViewListCommand;
 import com.example.springbootWithPostgresql.service.impl.GroceryListImpl;
 import com.example.springbootWithPostgresql.service.impl.ListServiceImpl;
 import com.example.springbootWithPostgresql.service.GroceryListService;
@@ -33,34 +36,11 @@ public class GroceryListController {
 
     @RequestMapping("/getUserLists")
     public ResponseEntity<Map<String, Object>> getAllList(@RequestParam("userID") Long userID) {
-        Map<String, Object> results = new HashMap<>();
         try {
-            String accEmail = GroceryListService.getAccountByID(userID);
-            List<Long> listOfListID = GroceryListService.getAllUserList(userID);
-            ArrayList<Object> userLists = new ArrayList<>();
-            for (long id: listOfListID) {
-                Map<String, Object> currListDetail = GroceryListService.getListDetailsByID(id);
-                Map<String, Object> currList = new HashMap<>();
-                currList.put("list_id", currListDetail.get("list_id"));
-                currList.put("name", currListDetail.get("name"));
-                currList.put("description", currListDetail.get("description"));
-                Integer totalProductCount = GroceryListService.getTotalProductByID(id);
-                Integer totalExpiredProductCount = GroceryListService.getTotalExpiredProductByID(id);
-                Integer totalExpiringProductCount = GroceryListService.getTotalExpiringProductByID(id);
-                currList.put("productCount", totalProductCount);
-                currList.put("expiredProductCount", totalExpiredProductCount);
-                currList.put("expiringProductCount", totalExpiringProductCount);
-                userLists.add(currList);
-            }
-            if (accEmail == null) {
-                System.out.println("accEmail = null");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("email", accEmail);
-            results.put("user", userData);
-            results.put("lists", userLists);
-            return ResponseEntity.ok().body(results);
+            ViewListCommand viewListCommand = new ViewListCommand(groceryListService);
+            HashMap<String, Object> requestParams = new HashMap<>();
+            requestParams.put("userID", userID);
+            return viewListCommand.execute(requestParams);
         } catch (Exception e) {
             System.out.println("Dashboard GetUserLists Error: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,15 +53,12 @@ public class GroceryListController {
             @RequestParam("description") String description
     ) {
         try {
-            ListDetailEntity newList = new ListDetailEntity();
-            newList.setName(name);
-            newList.setDescription(description);
-            Long listID = ListService.saveList(newList);
-            GroceryListEntity newUserList = new GroceryListEntity();
-            newUserList.setUser_id(userID);
-            newUserList.setList_id(listID);
-            GroceryListService.saveList(newUserList);
-            return new ResponseEntity<>(HttpStatus.OK);
+            CreateListCommand createListCommand = new CreateListCommand(groceryListService, listService);
+            HashMap<String, Object> requestParams = new HashMap<>();
+            requestParams.put("userID", userID);
+            requestParams.put("name", name);
+            requestParams.put("description", description);
+            return createListCommand.execute(requestParams);
         } catch (Exception e) {
             System.out.println("Dashboard addList Error: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,8 +72,10 @@ public class GroceryListController {
     ) {
         try {
             DeleteListCommand deleteListCommand = new DeleteListCommand(groceryListService, listService);
-            deleteListCommand.execute(userID, listID);
-            return new ResponseEntity<>(HttpStatus.OK);
+            HashMap<String, Object> requestParams = new HashMap<>();
+            requestParams.put("userID", userID);
+            requestParams.put("listID", listID);
+            return deleteListCommand.execute(requestParams);
         } catch (Exception e) {
             System.out.println("Dashboard deleteUserList Error: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -110,12 +89,12 @@ public class GroceryListController {
             @RequestParam("description") String description
     ) {
         try {
-            boolean somethingWrong = ListService.updateList(listID, name, description);
-            if (somethingWrong) {
-                System.out.println("somethingWrong");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
+            UpdateListCommand updateListCommand = new UpdateListCommand(listService);
+            HashMap<String, Object> requestParams = new HashMap<>();
+            requestParams.put("listID", listID);
+            requestParams.put("name", name);
+            requestParams.put("description", description);
+            return updateListCommand.execute(requestParams);
         } catch (Exception e) {
             System.out.println("Dashboard updateList Error: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,5 +1,11 @@
 package com.example.springbootWithPostgresql.pattern.command;
 
+import org.springframework.http.ResponseEntity;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public interface GroceryListCommand {
-    void execute(Long userID, Long listID) throws Exception;
+    ResponseEntity<Map<String, Object>> execute(HashMap<String, Object> requestParams) throws Exception;
+
 }

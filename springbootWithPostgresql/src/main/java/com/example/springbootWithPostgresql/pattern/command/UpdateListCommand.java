@@ -8,19 +8,16 @@ import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeleteListCommand implements GroceryListCommand{
-    private final GroceryListService groceryListService;
+public class UpdateListCommand implements GroceryListCommand{
     private final ListService listService;
 
-    public DeleteListCommand(GroceryListService groceryListService, ListService listService) {
-        this.groceryListService = groceryListService;
+    public UpdateListCommand(ListService listService) {
         this.listService = listService;
     }
 
     @Override
     public ResponseEntity<Map<String, Object>> execute(HashMap<String, Object> requestParams) throws Exception {
-        groceryListService.deleteUserList((Long) requestParams.get("userID"), (Long) requestParams.get("listID"));
-        listService.deleteList((Long) requestParams.get("listID"));
+        listService.updateList((Long) requestParams.get("listID"), (String) requestParams.get("name"), (String) requestParams.get("description"));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
